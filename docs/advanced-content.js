@@ -9,6 +9,10 @@
   const s = (n, ja, en, ...body) => `<section><h2><span class="step-no">${String(n).padStart(2, '0')}</span>${t(ja, en)}</h2>${body.join('')}</section>`;
   const note = (ja, en) => `<aside class="callout">${t(ja, en)}</aside>`;
   const sources = {
+    szReview: ['Carlstrom, Holder & Reese (2002) · Cosmology with the SZ effect', 'https://arxiv.org/abs/astro-ph/0208192'],
+    szSpectrum: ['Birkinshaw · The Kompaneets approximation', 'https://ned.ipac.caltech.edu/level5/Birkinshaw/Birk3_4.html'],
+    szPressure: ['Planck (2011) · SZ scaling relations', 'https://doi.org/10.1051/0004-6361/201116458'],
+    szIllustration: ['UCLA · Sunyaev–Zeldovich spectrum', 'https://www.astro.ucla.edu/~wright/SZ-spectrum.html'],
     interfaces: ['Maryland · Hydrodynamics: interface instabilities', 'https://pages.astro.umd.edu/~diemer/erebos/teaching/astr670/notes_hydro.pdf'],
     mitInterface: ['MIT · Interfacial phenomena', 'https://ocw.mit.edu/courses/18-357-interfacial-phenomena-fall-2010/04759cfc15c79928ca9f72a18b3864dd_MIT18_357F10_lec_all.pdf'],
     acceleration: ['Maryland · Particle acceleration', 'https://www.astro.umd.edu/~miller/teaching/astr688m/lecture04.pdf'],
@@ -75,6 +79,15 @@
       question: ['同じ磁場で電子のγを2倍にすると、代表周波数・放射パワー・冷却時間はどう変わるか。冷却前の電子分布の指数s＝2なら、光学的に薄い放射の指数αはいくつか。', 'At fixed magnetic field, double the electron Lorentz factor. How do characteristic frequency, power, and cooling time change? For an uncooled electron index s = 2, what is the optically thin spectral index α?'],
       answer: ['超相対論的な極限でν_c∝γ²、P∝γ²、t_syn∝γ⁻¹なので、それぞれ4倍・4倍・1/2倍。α＝(s−1)/2＝1/2、すなわちj_ν∝ν⁻¹ᐟ²。自己吸収や冷却が重要な周波数には、そのまま当てはめない。', 'In the ultrarelativistic limit, ν_c ∝ γ², P ∝ γ², and t_syn ∝ γ^(−1): frequency and power quadruple, while cooling time halves. α = (s−1)/2 = 1/2, giving j_ν ∝ ν^(−1/2), away from self-absorption, cooling breaks, and cutoffs.'],
       refs: ['synchrotron', 'radiation'], bridge: 'scattering'
+    },
+    {
+      id: 'sunyaev-zeldovich', title: ['逆コンプトン散乱とSZ効果', 'Inverse Compton scattering and the SZ effect'],
+      desc: ['銀河団の熱い電子が、宇宙背景放射に残す圧力のしるし。', 'The pressure imprint of hot galaxy-cluster electrons on the cosmic microwave background.'],
+      minutes: 35, prereq: ['トムソン散乱、プランク分布、指数関数の微分、視線積分', 'Thomson scattering, the Planck spectrum, exponential derivatives, and line-of-sight integrals'],
+      goal: ['散乱の確率と電子温度からCompton yを求め、熱的SZの周波数依存性を読み、銀河団の電子圧力を測る意味と限界を説明する。', 'Compute Compton y from scattering probability and electron temperature, derive the thermal SZ frequency dependence, and explain what the signal measures about cluster electron pressure.'],
+      question: ['一様なガスで電子温度を2倍、密度を半分、視線方向の厚みを同じにすると、τとyはどう変わるか。非相対論的な一次近似で熱的SZのスペクトルは区別できるか。運動学的SZは？', 'In a uniform slab, double the electron temperature, halve its density, and keep its depth fixed. How do τ and y change? Can the first-order nonrelativistic thermal SZ spectra distinguish these cases? What about kinetic SZ?'],
+      answer: ['τ＝n_eσ_TLは半分、y＝τk_BT_e/(m_ec²)は同じ。ここで使う熱的SZの一次近似では同じスペクトルになるため、温度と密度を別々には決められない。視線速度も同じなら運動学的SZはτに比例して半分になる。高精度では相対論的補正などに温度の情報があり、この縮退は近似に依存する。', 'τ = n_eσ_TL halves, while y = τk_BT_e/(m_ec²) stays fixed. The first-order thermal spectra used here are identical, so temperature and density cannot be separated. At fixed line-of-sight speed, kinetic SZ halves because it is proportional to τ. Relativistic corrections can carry extra temperature information; this degeneracy belongs to the stated approximation.'],
+      refs: ['szReview', 'szSpectrum', 'szPressure', 'szIllustration'], bridge: 'scattering'
     }
   ];
   const bodies = {
@@ -237,6 +250,46 @@
         p('χ＝4かつκ₁＝κ₂＝κならt_acc＝20κ/w₁²。κがエネルギーに依存する場合、E₀からEまでの総時間は∫t_acc(E′)dE′/E′であり、常にこの一つの値と等しいわけではない。', 'For χ = 4 and κ₁ = κ₂ = κ, t_acc = 20κ/w₁². If κ depends on energy, the time from E₀ to E is ∫t_acc(E′)dE′/E′, not generally a single value of this local timescale.'),
         eq(`r<sub>L</sub> = ${f('p','|q|B')} ≲ L　⇒　E ≈ pc ≲ |q|BLc`, 'SI単位。Lは加速領域の大きさ。', 'SI units; L is the size of the acceleration region.'),
         note('閉じ込め、天体の年齢、下流への移流、上流への逃走、放射冷却を同時に考える。注入される粒子の割合や磁場の乱れの強さは、上の指数の導出からは決まらない。銀河内を伝わって地球へ届く宇宙線の指数も、源でのsと同じとは限らない。', 'Confinement, source age, downstream advection, upstream escape, and radiative cooling all matter. The slope derivation does not determine injection efficiency or magnetic turbulence. Propagation also means the cosmic-ray slope measured at Earth need not equal the source slope.'))
+    ].join(''),
+    'sunyaev-zeldovich': () => [
+      s(1, '銀河団を、背景の光で測る', 'Use background light to measure a galaxy cluster',
+        p('宇宙背景放射（CMB）は、ほぼ2.7255 Kの黒体スペクトルを持つ。銀河団の銀河の間には熱い希薄なガスがあり、その自由電子が通過するCMB光子を散乱する。光子が平均として電子からエネルギーを受け取る逆コンプトン散乱により、銀河団の方向のCMBスペクトルが少し変わる。これが熱的Sunyaev–Zel’dovich（スニヤエフ–ゼルドビッチ、SZ）効果である。', 'The cosmic microwave background (CMB) has a nearly blackbody spectrum at 2.7255 K. Hot, diffuse gas fills the space between galaxies in a cluster. Its free electrons scatter passing CMB photons, which on average gain energy through inverse Compton scattering. The resulting small spectral distortion in the cluster direction is the thermal Sunyaev–Zel’dovich (SZ) effect.'),
+        p('電子の熱運動を使うのが熱的SZ。銀河団全体の視線方向の運動による運動学的SZは、最後の発展欄で区別する。この章では銀河団のガスと観測のつながりに集中し、散乱の衝突積分そのものは導かない。', 'Thermal SZ is driven by random electron motion. Kinetic SZ, due to the cluster’s bulk line-of-sight motion, is introduced separately in the final extension. This chapter focuses on the connection between cluster gas and observables, taking the scattering collision operator as a physical input.')),
+      s(2, '一回の増幅と、散乱される割合', 'Gain per scattering and scattering probability',
+        p('光子のエネルギーをε、電子温度をT_eとする。電子は非相対論的、光子は電子の静止系で十分低エネルギーというトムソン極限を使う。等方的な光子と電子について、速度の二乗まで平均したエネルギー増加率は(4/3)⟨v²/c²⟩となる。', 'Let ε be photon energy and T_e electron temperature. Use nonrelativistic electrons and the Thomson limit: photon energy in the electron rest frame is much smaller than m_ec². For isotropic photons and electrons, averaging to second order in electron speed gives fractional energy gain (4/3)⟨v²/c²⟩.'),
+        eq(`⟨v²⟩ = ${f('3k<sub>B</sub>T<sub>e</sub>','m<sub>e</sub>')}<br>⟨${f('Δε','ε')}⟩ ≈ ${f('4','3')}${f('⟨v²⟩','c²')} = 4θ<sub>e</sub>,　θ<sub>e</sub> ≡ ${f('k<sub>B</sub>T<sub>e</sub>','m<sub>e</sub>c²')}`),
+        note('4/3は散乱角とドップラー変化の平均からの入力である。光子の反跳による−ε/(m_ec²)の項は、CMB光子と銀河団の熱い電子では小さいため省いた。この4θ_eは一回あたりの平均増幅であり、SZスペクトル全体の形ではない。', 'The factor 4/3 comes from averaging scattering geometry and Doppler shifts. The recoil term −ε/(m_ec²) is negligible for CMB photons scattering on hot cluster electrons. The result 4θ_e is a mean gain per scattering, not the complete SZ spectral shape.'),
+        p('一様なガスの電子数密度をn_e、視線方向の厚みをLとすると、散乱光学的厚さはτ＝n_eσ_TL。少なくとも一回散乱する確率は1−e^(−τ)で、τ≪1なら約τとなる。', 'For a uniform electron density n_e and line-of-sight depth L, the scattering optical depth is τ = n_eσ_TL. The probability of at least one scattering is 1 − e^(−τ), approximately τ when τ ≪ 1.'),
+        eq(`τ = n<sub>e</sub>σ<sub>T</sub>L,　y ≡ τθ<sub>e</sub><br>${f(t('平均の光子エネルギー増加', 'Mean photon energy gain'),t('元のエネルギー', 'Initial energy'))} ≈ 4y`, '最下段は集団全体の平均エネルギーの一次の見積もり。各周波数の明るさの変化率ではない。', 'The final line estimates the ensemble mean energy gain to first order, not the brightness change at every frequency.')),
+      s(3, 'yは、視線に沿った電子圧力を足した量', 'y adds electron pressure along the line of sight',
+        p('密度や温度が途中で変わる場合には、小さな区間ごとの寄与dy＝θ_e n_eσ_T dlを足す。電子の理想気体圧力P_e＝n_ek_BT_eを使うと、何を測っているかが見える。', 'If density and temperature vary along the path, add contributions dy = θ_e n_eσ_T dl. Introducing ideal-gas electron pressure P_e = n_ek_BT_e makes the observable explicit.'),
+        eq(`y = ∫ ${f('k<sub>B</sub>T<sub>e</sub>','m<sub>e</sub>c²')}n<sub>e</sub>σ<sub>T</sub>dl = ${f('σ<sub>T</sub>','m<sub>e</sub>c²')}∫ P<sub>e</sub>dl`),
+        p('σ_Tの単位は面積、P_e dlの単位はエネルギー/面積なのでyは無次元。ここでの圧力は電子の圧力であり、イオンも含む全ガス圧力とは区別する。温度が一定ならy/τがθ_eを与えるが、SZだけでτとT_eを別々に測れるわけではない。', 'σ_T is an area and P_e dl has units of energy per area, so y is dimensionless. P_e is electron pressure, distinct from total gas pressure including ions. At constant temperature y/τ gives θ_e, but a thermal SZ signal alone does not separately determine τ and T_e.'),
+        eq(`k<sub>B</sub>T<sub>e</sub> = 8 keV,　n<sub>e</sub> = 10<sup>−3</sup> cm<sup>−3</sup>,　L = 1 Mpc<br>τ ≈ 2.05×10<sup>−3</sup>,　θ<sub>e</sub> ≈ ${f('8','511')},　y ≈ 3.21×10<sup>−5</sup>`),
+        p('温度をkeVで書くのはk_BT_eという熱エネルギーを示す慣習である。8 keVは約9.3×10⁷ K。単位変換では1 cm⁻³＝10⁶ m⁻³、1 Mpc≈3.086×10²² mを使う。', 'A temperature quoted in keV denotes the thermal energy k_BT_e. Eight keV corresponds to about 9.3×10⁷ K. Use 1 cm⁻³ = 10⁶ m⁻³ and 1 Mpc ≈ 3.086×10²² m.')),
+      s(4, 'プランク分布の変形を計算する', 'Calculate a distortion of the Planck spectrum',
+        p('CMBの温度をT₀、周波数をνとし、x＝hν/(k_BT₀)と置く。入門編のプランク分布を、光子の占有数N₀と強度の尺度I₀で書き直す。ここでN₀は電子数密度n_eとは別の量である。', 'Write CMB temperature as T₀ and frequency as ν, and define x = hν/(k_BT₀). Express the Planck spectrum using photon occupation N₀ and intensity scale I₀. N₀ is distinct from electron number density n_e.'),
+        eq(`N₀(x) = ${f('1','e<sup>x</sup>−1')},　B<sub>ν</sub> = I₀x³N₀(x)<br>I₀ = ${f('2(k<sub>B</sub>T₀)³','h²c²')}`),
+        p('熱い非相対論的電子、τ≪1、y≪1の極限で、Kompaneetsの散乱方程式から得られる一次の変化を出発点として使う。小さいエネルギー変化を繰り返す散乱を、周波数空間の拡散として表した式である。', 'For hot nonrelativistic electrons, τ ≪ 1, and y ≪ 1, take the following first-order consequence of the Kompaneets scattering equation as input. It represents repeated small energy changes as diffusion in frequency space.'),
+        eq(`ΔN ≈ ${f('y','x²')}${f('d','dx')}(x⁴${f('dN₀','dx')})`),
+        p('dN₀/dx＝−eˣ/(eˣ−1)²を代入する。積の微分でx⁴の項と指数関数の項を分け、ΔI_ν＝I₀x³ΔNへ戻して整理すると、符号を決める括弧が現れる。', 'Insert dN₀/dx = −eˣ/(eˣ−1)². Apply the product rule to x⁴ and the exponential term, then use ΔI_ν = I₀x³ΔN. Collecting terms exposes the bracket that controls the sign.'),
+        eq(`ΔI<sub>ν</sub> = I₀y ${f('x⁴e<sup>x</sup>','(e<sup>x</sup>−1)²')} f(x)<br>f(x) ≡ x${f('e<sup>x</sup>+1','e<sup>x</sup>−1')}−4`),
+        note('この式は、完全な相対論的散乱を解いたものではない。図には小さな差ΔI_νを表示する。小さいyの式で巨大な歪みを作り、変形後のCMB全体を誇張した曲線として描くことは避ける。', 'This is a leading nonrelativistic result, not a full relativistic scattering solution. The panel displays the small difference ΔI_ν. A small-y expansion should not be used to manufacture an exaggerated, highly distorted full CMB spectrum.')),
+      s(5, '低周波で暗くなる理由と、約217 GHzの零点', 'The low-frequency deficit and the approximately 217 GHz null',
+        p('x≪1ならeˣ≈1+xなので、x(eˣ+1)/(eˣ−1)→2。よってf(x)→−2となり、低周波側は暗くなる。光子がエネルギーを失ったのではなく、より高い周波数へ再分配されたためである。', 'For x ≪ 1, eˣ ≈ 1+x and x(eˣ+1)/(eˣ−1) tends to two. Thus f(x) tends to −2: a low-frequency deficit. Photons have gained energy and been redistributed toward higher frequencies.'),
+        p('周波数ごとの強度差を、黒体の温度変化なら何Kに相当するかで表すことも多い。ΔI_ν＝(∂B_ν/∂T)ΔTの一次換算で、プランク分布を微分すると、', 'Brightness differences are often expressed as the temperature change that would produce them in a blackbody. Linearize ΔI_ν = (∂B_ν/∂T)ΔT and differentiate the Planck function:'),
+        eq(`${f('∂B<sub>ν</sub>','∂T')} = ${f('I₀','T₀')}${f('x⁴e<sup>x</sup>','(e<sup>x</sup>−1)²')}<br>${f('ΔT<sub>th</sub>','T₀')} = yf(x)　→　−2y　(x ≪ 1)`),
+        p('これは周波数ごとの「CMB熱力学温度への換算」である。CMB全体が一つの別の温度の黒体に変わるわけではない。f(x)＝0の数値解はx≈3.830で、T₀＝2.7255 Kならν≈217.5 GHz。その前後で熱的信号の符号が変わる。', 'This is a frequency-dependent conversion to CMB thermodynamic temperature, not a claim that the distorted spectrum is a blackbody at a different single temperature. Solving f(x) = 0 gives x ≈ 3.830, or ν ≈ 217.5 GHz at T₀ = 2.7255 K. The thermal signal changes sign across this null.'),
+        '<div data-lab="sunyaev-zeldovich"></div>',
+        note('パネルは非相対論的・一次の式を使い、電子温度を変えても熱的信号の零点は動かない。実際には相対論的補正で形や零点が変わる。温度が高い銀河団の精密な測定には、このパネルの近似をそのまま使わない。', 'The panel uses the leading nonrelativistic formula, so changing electron temperature does not move its thermal null. Relativistic corrections change the spectral shape and null in reality. Precision analysis of hot clusters requires more than this approximation.')),
+      s(6, '銀河団について、何が分かるか', 'What does this tell us about a cluster?',
+        p('空の各位置でyを測れば、電子の圧力を視線に沿って足した地図になる。温度や密度の別の観測と組み合わせ、銀河団の熱いガスの構造を調べる。ここで「圧力柱が測れた」ことと「全質量が直接決まった」ことは区別する。', 'Measuring y across the sky gives a map of line-of-sight electron pressure. Combine it with other temperature and density measurements to study hot intracluster gas. A pressure-column measurement is not by itself a direct measurement of total cluster mass.'),
+        p('同じyでも、薄く熱いガスと、濃く低温のガスをこの一次の熱的SZだけで区別できない。多周波の観測は特徴的な符号の変化を調べる助けになるが、塵の放射、電波源、CMB本来の揺らぎなども同じ空に重なる。', 'The first-order thermal spectrum cannot distinguish hotter, lower-density gas from cooler, denser gas with the same y. Multiple frequencies help isolate its sign-changing spectrum, while dust emission, radio sources, and primary CMB fluctuations must also be considered.')),
+      s(7, '発展：運動学的SZを分ける', 'Extension: distinguish kinetic SZ',
+        p('銀河団のガスがCMBに対してまとまって動くと、電子のランダムな熱運動とは別に、ドップラー効果による変化が生まれる。視線速度v_∥を観測者から遠ざかる向きに正とし、光学的に薄く|v_∥|≪cとする。', 'Bulk motion of cluster gas relative to the CMB creates a Doppler signal distinct from random thermal motion. Take v_∥ positive away from the observer, with small optical depth and |v_∥| ≪ c.'),
+        eq(`${f('ΔT<sub>kin</sub>','T₀')} ≈ −τ${f('v<sub>∥</sub>','c')}`),
+        p('遠ざかる場合は負、近づく場合は正。この次数では熱力学温度への換算値が周波数によらず、熱的SZのような約217 GHzでの符号反転を持たない。ただし強度差ΔI_νは∂B_ν/∂Tを掛けるので周波数に依存する。', 'Receding gas gives a negative signal and approaching gas a positive one. At this order the thermodynamic-temperature shift is independent of frequency and has no thermal-style sign reversal near 217 GHz. The intensity difference still depends on frequency through ∂B_ν/∂T.'),
+        p('上のパネルで速度を選ぶと、熱的成分に運動学的成分を重ねた差を表示する。例えばτ≈0.00205、v_∥＝300 km/sならΔT_kin≈−5.60 μK。熱的成分の零点でも運動学的成分や他の放射は残りうるので、「217 GHzなら背景だけ」とは解釈しない。', 'Selecting a velocity in the panel adds kinetic SZ to the thermal intensity difference. For example, τ ≈ 0.00205 and v_∥ = 300 km/s give ΔT_kin ≈ −5.60 μK. Kinetic SZ and other emission can remain at the thermal null, so 217 GHz does not isolate the unmodified background.'))
     ].join(''),
     synchrotron: () => [
       s(1, '磁場が軌道を曲げ、電子が光る', 'A magnetic field bends the electron trajectory',

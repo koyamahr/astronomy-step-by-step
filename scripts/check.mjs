@@ -72,9 +72,9 @@ for (const group of series.groups) {
     assert(topic.reference[0] && topic.reference[1].startsWith('https://'), `${topic.id}: missing reference`);
   }
 }
-assert.equal(topicIds.size, 24, 'Expected the expanded 24-topic advanced syllabus');
+assert.equal(topicIds.size, 25, 'Expected the expanded 25-topic advanced syllabus');
 const advanced = context.window.AstroAdvanced;
-assert.equal(advanced.chapters.length, 6, 'Expected six worked advanced chapters');
+assert.equal(advanced.chapters.length, 7, 'Expected seven worked advanced chapters');
 assert.equal(new Set(advanced.chapters.map(c => c.id)).size, advanced.chapters.length);
 for (const c of advanced.chapters) {
   assert(topicIds.has(c.id), `${c.id}: missing syllabus entry`);
@@ -87,6 +87,7 @@ for (const c of advanced.chapters) {
     assert((body.match(/<section>/g) || []).length >= 4);
     assert(body.includes('data-lab='), `${c.id}: missing experiment`);
     checkMarkup(body, `${c.id}/${locale}`);
+    for (const link of body.matchAll(/href="#\/advanced\/([a-z-]+)"/g)) assert(advanced.chapters.some(item => item.id === link[1]), `${c.id}: broken advanced link ${link[1]}`);
     if (locale === 'en') assert(!/[\u3040-\u30ff\u3400-\u9fff]/.test(body), `${c.id}: untranslated English body`);
   }
 }
@@ -136,8 +137,39 @@ assert(blast.points.every(p => [p.v, p.g, p.z].every(Number.isFinite) && p.g > 0
 close(blast.points.at(-1).g, 4, 1e-12, 'shock density jump');
 close(blast.points.at(-1).v, .75, 1e-12, 'shock velocity jump');
 close(blast.points.at(-1).z, .75, 1e-12, 'shock pressure jump');
+const { szModel, szSpectrum } = context.window.AstroAdvancedMath;
+const cluster = szModel(8, .001, 1, 300);
+close(cluster.tau, .00205273427, 1e-10, 'SZ cm^-3 and Mpc conversion');
+close(cluster.y, 3.2136806e-5, 1e-11, 'SZ thermal energy units');
+close(szModel(16, .0005, 1).y, cluster.y, 1e-15, 'SZ equal-pressure degeneracy');
+close(szModel(8, .002, 1).y, 2 * cluster.y, 1e-15, 'SZ density scaling');
+close(szSpectrum(.001, cluster.y).temperatureShape, -2, 1e-9, 'SZ Rayleigh–Jeans limit');
+assert(szSpectrum(150, cluster.y).thermalIntensity < 0 && szSpectrum(350, cluster.y).thermalIntensity > 0, 'SZ sign reversal');
+let lowNull = 200, highNull = 230;
+for (let i = 0; i < 50; i++) {
+  const mid = (lowNull + highNull) / 2;
+  if (szSpectrum(mid, 1).temperatureShape > 0) highNull = mid; else lowNull = mid;
+}
+const nullFrequency = (lowNull + highNull) / 2;
+close(nullFrequency, 217.5074, .0001, 'nonrelativistic SZ null in GHz');
+close(szSpectrum(nullFrequency, cluster.y).thermalMuK, 0, 1e-9, 'zero thermal signal at null');
+close(szSpectrum(150, cluster.y, cluster.tau, 300).kineticMuK, -5.5986004, 1e-6, 'kinetic SZ receding sign and units');
+close(szSpectrum(350, cluster.y, cluster.tau, 300).kineticMuK, cluster.kineticMuK, 1e-12, 'kinetic SZ thermodynamic temperature independent of frequency');
+assert(szSpectrum(nullFrequency, cluster.y, cluster.tau, 300).kineticIntensity < 0, 'kinetic signal remains at thermal null');
+close(szSpectrum(150, 0).thermalIntensity, 0, 1e-15, 'zero y gives zero distortion');
+// Integrate independently: scattering conserves photon number and increases energy by 4y.
+let photons = 0, originalPhotons = 0, energy = 0, originalEnergy = 0;
+const count = 10000, minX = 1e-5, dx = (50 - minX) / count;
+for (let i = 0; i <= count; i++) {
+  const x = minX + i * dx, nu = x * 1.380649e-23 * 2.7255 / 6.62607015e-34 / 1e9;
+  const data = szSpectrum(nu, 1e-4), weight = i === 0 || i === count ? 1 : i % 2 ? 4 : 2;
+  photons += weight * data.thermalIntensity / x; originalPhotons += weight * data.backgroundIntensity / x;
+  energy += weight * data.thermalIntensity; originalEnergy += weight * data.backgroundIntensity;
+}
+close(photons / originalPhotons, 0, 1e-11, 'SZ photon-number conservation');
+close(energy / originalEnergy, 4e-4, 1e-10, 'SZ mean energy gain');
 const index = readFileSync(resolve(root, 'docs/index.html'), 'utf8');
 for (const asset of index.matchAll(/(?:src|href)="\.\/([^"#]+)"/g)) {
   assert(existsSync(resolve(root, 'docs', asset[1].split('?')[0])), `Missing local asset ${asset[1]}`);
 }
-console.log(`OK: ${chapters.length} foundation + ${advanced.chapters.length} advanced chapters × 2 languages; ${topicIds.size} syllabus topics; HTML, references, assets, syntax, Lane–Emden analytic limits, Chandrasekhar mass, Sedov conservation, convergence, and RT/KH stability limits.`);
+console.log(`OK: ${chapters.length} foundation + ${advanced.chapters.length} advanced chapters × 2 languages; ${topicIds.size} syllabus topics; HTML, references, assets, syntax, stellar/blast/interface checks, SZ limits, photon conservation, and energy gain.`);

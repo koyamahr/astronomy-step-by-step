@@ -1,8 +1,8 @@
 # 理論天文学の道具箱 / Theoretical Astrophysics, Step by Step
 
-高校数学の式変形から、微分方程式を使う標準問題へ進む、日本語・英語の静的Web教材シリーズです。入門編16章と発展編6章を公開し、発展編全24題材の学習ガイドを整理しています。
+高校数学の式変形から、微分方程式を使う標準問題へ進む、日本語・英語の静的Web教材シリーズです。入門編16章と発展編7章を公開し、発展編全25題材の学習ガイドを整理しています。
 
-A bilingual Japanese–English series: Foundations explores the universe through school algebra; Advanced covers equilibrium, instability, transport, and similarity solutions. All 16 foundation lessons are available. Six advanced worked chapters are also available within a 24-topic learning guide; the remaining 18 topics are planned.
+A bilingual Japanese–English series: Foundations explores the universe through school algebra; Advanced covers equilibrium, instability, transport, and similarity solutions. All 16 foundation lessons are available. Seven advanced worked chapters are also available within a 25-topic learning guide; the remaining 18 topics are planned.
 
 ## ローカルで読む / Read locally
 
@@ -43,7 +43,7 @@ Each chapter includes learning goals, assumptions, worked algebra, a question wi
 
 **平衡・不安定性・輸送・相似解 / Equilibrium, instability, transport, and similarity solutions**
 
-[発展編](https://koyamahr.github.io/astronomy-step-by-step/#/advanced)は9分野・24題材。以下の6章は、導出・確認問題・操作パネル・参考資料を日英で公開しています。他の18題材は構成案です。
+[発展編](https://koyamahr.github.io/astronomy-step-by-step/#/advanced)は9分野・25題材。以下の7章は、導出・確認問題・操作パネル・参考資料を日英で公開しています。他の18題材は構成案です。
 
 1. [Lane–Emden方程式](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/lane-emden)：静水圧平衡、無次元化、中心級数、数値積分、チャンドラセカール質量の係数。
 2. [Rayleigh–Taylor不安定性](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/rayleigh-taylor)：ポテンシャル流、境界条件、Atwood数、成長時間と線形近似。
@@ -51,6 +51,7 @@ Each chapter includes learning goals, assumptions, worked algebra, a question wi
 4. [Sedov–Taylor爆風解](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/sedov)：Rankine–Hugoniot条件、次元解析、相似方程式、内部構造、エネルギー規格化。
 5. [衝撃波と粒子加速](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/shock-acceleration)：一次Fermi加速、逃走確率、べき乗指数、加速時間と限界。
 6. [シンクロトロン放射](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/synchrotron)：臨界周波数、放射パワー、電子と光の指数、冷却方程式と継続注入。
+7. [逆コンプトン散乱とSZ効果](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/sunyaev-zeldovich)：Compton y、電子圧力、CMBスペクトルの変化、約217 GHzの零点、運動学的SZ。
 
 - 球対称の平衡と恒星：Lane–Emden、Bonnor–Ebert球、林限界と林トラック
 - 回転と非球対称：楕円体ポテンシャル、テンソルビリアルとMaclaurin／Jacobi系列
@@ -59,10 +60,10 @@ Each chapter includes learning goals, assumptions, worked algebra, a question wi
 - 流体・高エネルギー放射：Bondi降着、Parker風、Sedov–Taylor、Rankine–Hugoniot条件、Larson–Penston／Shu、粒子加速、シンクロトロン放射
 - 星団の統計力学：2体緩和、Fokker–Planck、グラボサーマル・カタストロフィー
 - 円盤：αモデル、MRI（Balbus–Hawley）、Lynden–Bell–Pringle相似解、Toomre Qと冷却・分裂
-- 電離と放射：Strömgren球、電離・再結合の釣り合い
+- 電離・散乱とガスの観測：Strömgren球、電離・再結合の釣り合い、逆コンプトン散乱とSZ効果
 - 中性子星：Goldreich–Julian密度と共回転
 
-The advanced volume covers 24 topics in nine areas. Six worked chapters are published: Lane–Emden, Rayleigh–Taylor, Kelvin–Helmholtz, Sedov–Taylor with Rankine–Hugoniot jumps, shock particle acceleration, and synchrotron radiation. Each follows physical intuition, equations, and checks. The Lane–Emden and Sedov panels solve ODEs in the browser and allow step refinement; the other panels explore interface stability, compression, spectra, and cooling. Bondi accretion, Parker wind, Strömgren spheres, MRI, Goldreich–Julian density, and Hayashi tracks are included as referenced planned topics.
+The advanced volume covers 25 topics in nine areas. Seven worked chapters are published: Lane–Emden, Rayleigh–Taylor, Kelvin–Helmholtz, Sedov–Taylor with Rankine–Hugoniot jumps, shock particle acceleration, synchrotron radiation, and inverse Compton scattering with the SZ effect. Each follows physical intuition, equations, and checks. The Lane–Emden and Sedov panels solve ODEs in the browser and allow step refinement; the other panels explore interface stability, compression, spectra, cooling, and thermal/kinetic SZ. Bondi accretion, Parker wind, Strömgren spheres, MRI, Goldreich–Julian density, and Hayashi tracks are included as referenced planned topics.
 
 ## 教え方の方針 / Teaching scope
 
@@ -98,7 +99,7 @@ The included workflow validates and deploys `docs/` to [GitHub Pages](https://ko
 - `docs/index.html`: HTML shell and language controls
 - `docs/content.js`: all 16 bilingual lessons, formula markup, questions, and references
 - `docs/series.js`: bilingual series titles, volume descriptions, and the advanced syllabus
-- `docs/advanced-content.js`: six bilingual advanced worked chapters
+- `docs/advanced-content.js`: seven bilingual advanced worked chapters
 - `docs/advanced-math.js`: dimensionless Lane–Emden and Sedov ODE solvers
 - `docs/advanced-labs.js`: advanced numerical and scaling panels
 - `docs/app.js`: navigation, language switching, search, separate completion records for each volume, foundation panels
@@ -121,6 +122,6 @@ node scripts/check.mjs
 
 ## 数値解の検算 / Numerical checks
 
-`node scripts/check.mjs` validates all 22 worked chapters in both languages, plus the 24-topic syllabus. Numerical checks compare Lane–Emden n = 1 with sin(ξ)/ξ and ξ₁ = π; n = 3 with standard structure constants and the ideal Chandrasekhar mass; and Sedov profiles with shock jumps, swept-up mass conservation, β ≈ 1.15167, and half-step convergence. RT/KH checks cover analytic growth rates, wavenumber scaling, stable density ordering, and gravity versus shear.
+`node scripts/check.mjs` validates all 23 worked chapters in both languages, plus the 25-topic syllabus. Numerical checks compare Lane–Emden n = 1 with sin(ξ)/ξ and ξ₁ = π; n = 3 with standard structure constants and the ideal Chandrasekhar mass; and Sedov profiles with shock jumps, swept-up mass conservation, β ≈ 1.15167, and half-step convergence. RT/KH checks cover analytic growth rates, wavenumber scaling, stable density ordering, and gravity versus shear. SZ checks cover the Rayleigh–Jeans limit, thermal null, optical-depth units, pressure degeneracy, kinetic signs, photon conservation, and mean energy gain.
 
 数値パネルは教育用の理想模型です。仮定、規格化、中心付近の処理、近似の範囲は各章に記載しています。言語と読了記録はブラウザ内に保存し、入門編・発展編で別々に管理します。

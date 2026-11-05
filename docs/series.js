@@ -194,8 +194,8 @@
       ]
     },
     {
-      title: ['電離と放射で広がるガス', 'Ionization and radiation-shaped gas'],
-      intro: ['光子を数え、星の周りの電離領域とその時間発展を考える。', 'Count photons to understand ionized regions around stars and their evolution.'],
+      title: ['電離・散乱と天体ガスの観測', 'Ionization, scattering, and observing cosmic gas'],
+      intro: ['光とガスの相互作用から、電離領域の大きさと銀河団の圧力を測る。', 'Use light–gas interactions to measure ionized regions and galaxy-cluster pressure.'],
       bridge: 'atom',
       topics: [
         {
@@ -203,6 +203,12 @@
           question: ['星の周りの水素ガスは、どこまで電離されて光るか。', 'How large an ionized hydrogen region can a star maintain?'],
           method: ['一様密度・純水素・電離光子を閉じ込める静的模型で、Q_H＝(4π/3)R_S³α_B n_e n_pから電離半径を導く。再結合時間、case Bと局所再吸収、光子の逃走・塵吸収の仮定を確認し、初期の電離前線と後の圧力駆動膨張を静的平衡から区別する。', 'For uniform, pure-hydrogen, ionization-bounded gas, derive the equilibrium radius from Q_H = (4π/3)R_S³α_B n_e n_p. Examine recombination time, case B and local reabsorption, photon escape, and dust absorption. Distinguish static balance from the initial ionization front and later pressure-driven expansion.'],
           reference: ['Strömgren (1939)', 'https://articles.adsabs.harvard.edu/pdf/1939ApJ....89..526S']
+        },
+        {
+          id: 'sunyaev-zeldovich', title: ['逆コンプトン散乱とSunyaev–Zel’dovich効果', 'Inverse Compton scattering and the Sunyaev–Zel’dovich effect'],
+          question: ['銀河団の熱いガスは、宇宙背景放射をどう変え、何を教えてくれるか。', 'How does hot cluster gas change the CMB, and what can that tell us?'],
+          method: ['散乱光学的厚さと電子温度からyを求め、視線積分で電子圧力へ結ぶ。Kompaneets近似から熱的SZスペクトルと低周波の減光・約217 GHzの零点を求め、運動学的SZと相対論的補正の限界を区別する。', 'Build y from scattering optical depth and electron temperature, then connect it to integrated electron pressure. Derive the thermal spectrum, low-frequency deficit, and approximately 217 GHz null from the Kompaneets limit. Distinguish kinetic SZ and limitations from relativistic corrections.'],
+          reference: ['Carlstrom, Holder & Reese (2002)', 'https://arxiv.org/abs/astro-ph/0208192']
         }
       ]
     },

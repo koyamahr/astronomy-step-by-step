@@ -1,4 +1,4 @@
-/* Dimensionless ODE solvers, shared by the reader panels and numerical checks. */
+/* Numerical models shared by the reader panels and physical checks. */
 (() => {
   'use strict';
   function rk4(rhs, x, y, h) {
@@ -65,5 +65,26 @@
     const omegaSquared = -atwood * g * k - ratio / (ratio + 1) ** 2 * (k * shear) ** 2;
     return { atwood, omegaSquared, growth: Math.sqrt(Math.max(0, -omegaSquared)), frequency: Math.sqrt(Math.max(0, omegaSquared)), drift: .5 * shear * atwood };
   }
-  window.AstroAdvancedMath = { laneEmden, sedov, interfaceMode };
+  const szConstants = { h: 6.62607015e-34, k: 1.380649e-23, c: 299792458, me: 9.1093837139e-31, sigmaT: 6.6524587051e-29, eV: 1.602176634e-19, mpc: 3.085677581491367e22, tcmb: 2.7255 };
+  function szSpectrum(frequencyGHz, y, tau = 0, velocityKmS = 0) {
+    if (!(frequencyGHz > 0 && frequencyGHz <= 10000 && y >= 0 && tau >= 0 && Number.isFinite(velocityKmS))) throw new RangeError('Invalid SZ parameters.');
+    const { h, k, c, tcmb } = szConstants;
+    const x = h * frequencyGHz * 1e9 / (k * tcmb);
+    const q = Math.exp(-x), denominator = -Math.expm1(-x);
+    const temperatureShape = x / Math.tanh(x / 2) - 4;
+    const conversion = x ** 4 * q / denominator ** 2;
+    const thermalTemperature = y * temperatureShape;
+    const kineticTemperature = -tau * velocityKmS * 1000 / c;
+    const i0 = 2 * (k * tcmb) ** 3 / (h * h * c * c) / 1e-20; // MJy/sr
+    return { x, temperatureShape, thermalMuK: tcmb * thermalTemperature * 1e6, kineticMuK: tcmb * kineticTemperature * 1e6, thermalIntensity: i0 * conversion * thermalTemperature, kineticIntensity: i0 * conversion * kineticTemperature, backgroundIntensity: i0 * x ** 3 * q / denominator };
+  }
+  function szModel(temperatureKeV, densityCm3, lengthMpc, velocityKmS = 0) {
+    if (!(temperatureKeV > 0 && densityCm3 > 0 && lengthMpc > 0 && Number.isFinite(velocityKmS))) throw new RangeError('Invalid cluster parameters.');
+    const { me, c, sigmaT, eV, mpc, tcmb } = szConstants;
+    const theta = temperatureKeV * 1000 * eV / (me * c * c);
+    const tau = densityCm3 * 1e6 * sigmaT * lengthMpc * mpc;
+    const y = tau * theta;
+    return { theta, tau, y, rayleighJeansMuK: -2 * y * tcmb * 1e6, kineticMuK: -tcmb * tau * velocityKmS * 1000 / c * 1e6 };
+  }
+  window.AstroAdvancedMath = { laneEmden, sedov, interfaceMode, szSpectrum, szModel };
 })();
