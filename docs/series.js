@@ -1,4 +1,4 @@
-/* The advanced volume currently publishes a syllabus, not completed lessons. */
+/* The advanced volume combines worked chapters with a clearly marked syllabus. */
 (() => {
   const name = ['理論天文学の道具箱', 'Theoretical Astrophysics, Step by Step'];
   const volumes = {
@@ -28,6 +28,12 @@
           question: ['同じ温度のガス雲を外から圧縮すると、どこで平衡が不安定になるか。', 'When does an externally compressed isothermal gas cloud become unstable?'],
           method: ['等温球の方程式を外圧で区切り、平衡系列をたどる。温度・外圧など、何を固定した安定性なのかを明示する。', 'Truncate an isothermal sphere at a specified external pressure and follow equilibrium sequences. State the quantities held fixed when assessing stability.'],
           reference: ['Bonnor (1956)', 'https://articles.adsabs.harvard.edu/pdf/1956MNRAS.116..351B']
+        },
+        {
+          id: 'hayashi', title: ['林限界と林トラック', 'Hayashi limit and Hayashi tracks'],
+          question: ['重力収縮する前主系列星は、なぜほぼ一定の有効温度で暗くなるのか。', 'Why can a contracting pre-main-sequence star fade at nearly constant effective temperature?'],
+          method: ['n＝3/2のポリトロープから完全対流の近似へ進み、光球の境界条件とH⁻の不透明度を結ぶ。L＝4πR²σT_eff⁴で収縮するトラックを読み、林限界の位置を決める大気物理と、進化の時間を決めるエネルギー収支を分ける。放射核ができる場合のHenyeyトラックとの違いも扱う。', 'Connect an n = 3/2 polytrope to approximate full convection, photospheric boundary conditions, and H⁻ opacity. Use L = 4πR²σT_eff⁴ to read the contracting track, separating the atmospheric physics setting the Hayashi limit from the energy budget setting its timescale. Distinguish Henyey tracks when a radiative core develops.'],
+          reference: ['Princeton · Hayashi limit', 'https://www.astro.princeton.edu/~gk/A403/hayashi.pdf']
         }
       ]
     },
@@ -70,14 +76,45 @@
       ]
     },
     {
-      title: ['流体の時間発展と相似解', 'Fluid evolution and similarity solutions'],
-      intro: ['時間と空間を組み替え、変化する現象を同じ形で読む。', 'Combine space and time into variables that reveal a recurring profile.'],
+      title: ['流体境界の不安定性', 'Instabilities of fluid interfaces'],
+      intro: ['境界の小さな揺れから、浮力・速度差による成長と混合の入口へ。', 'Use small interface disturbances to study buoyancy, shear-driven growth, and the onset of mixing.'],
+      bridge: 'matter',
+      topics: [
+        {
+          id: 'rayleigh-taylor', title: ['Rayleigh–Taylor不安定性', 'Rayleigh–Taylor instability'],
+          question: ['重い流体が軽い流体の上にあると、境界はどの速さで変形するか。', 'How quickly does an interface deform when denser fluid is above lighter fluid?'],
+          method: ['ポテンシャル流と境界の運動・圧力条件からω²＝−Agkへ。Atwood数、成長時間、短波長極限、非線形混合との違いを調べる。', 'Derive ω² = −Agk from potential flow and kinematic/pressure conditions. Examine Atwood number, growth time, short wavelengths, and the distinction from nonlinear mixing.'],
+          reference: ['Maryland · Hydrodynamics', 'https://pages.astro.umd.edu/~diemer/erebos/teaching/astr670/notes_hydro.pdf']
+        },
+        {
+          id: 'kelvin-helmholtz', title: ['Kelvin–Helmholtz不安定性', 'Kelvin–Helmholtz instability'],
+          question: ['境界に沿う速度差は、どうして波を育てるのか。', 'Why does a velocity difference along an interface amplify waves?'],
+          method: ['移流を含む境界条件から分散関係を導き、波の移動と成長を分ける。密度差・重力・有限の速度層の影響を比較する。', 'Include advection in interface conditions, derive the dispersion relation, and separate wave drift from growth. Compare density contrast, gravity, and finite shear thickness.'],
+          reference: ['MIT · Interfacial phenomena', 'https://ocw.mit.edu/courses/18-357-interfacial-phenomena-fall-2010/04759cfc15c79928ca9f72a18b3864dd_MIT18_357F10_lec_all.pdf']
+        }
+      ]
+    },
+    {
+      title: ['流体・相似解と高エネルギー放射', 'Fluids, similarity solutions, and high-energy radiation'],
+      intro: ['爆風と重力崩壊を相似解で読み、衝撃波から粒子加速・放射へつなぐ。', 'Study blast waves and collapse with similarity solutions, then connect shocks to particle acceleration and radiation.'],
       bridge: 'structure',
       topics: [
         {
-          id: 'sedov', title: ['Sedov–Taylor爆風解', 'Sedov–Taylor blast waves'],
+          id: 'bondi', title: ['Bondi降着と音速点', 'Bondi accretion and the sonic point'],
+          question: ['静かな周囲のガスは、どんな流れで中心の天体へ落ちるか。', 'How does gas from a quiet surrounding medium flow toward a central object?'],
+          method: ['定常・球対称の質量保存と運動方程式から、重力半径r_B＝GM/c_s,∞²と音速点を導く。等温模型をParker風と対にして読み、断熱模型では外側の密度・音速・比熱比から降着率が選ばれることを調べる。単なる自由落下の見積もりと臨界点を通る解を区別する。', 'Use steady spherical mass and momentum conservation to derive r_B = GM/c_s,∞² and the sonic point. Pair the isothermal model with Parker wind, then examine how outer density, sound speed, and heat-capacity ratio select adiabatic accretion. Distinguish free-fall estimates from a transonic critical solution.'],
+          reference: ['Bondi (1952)', 'https://articles.adsabs.harvard.edu/pdf/1952MNRAS.112..195B']
+        },
+        {
+          id: 'parker-wind', title: ['Parker風と超音速流出', 'Parker wind and transonic outflow'],
+          question: ['熱い恒星大気は、どうやって重力に逆らい超音速で吹き出すか。', 'How does a hot stellar atmosphere escape gravity and become a supersonic wind?'],
+          method: ['等温・球対称・定常流の風方程式(u−c_s²/u)du/dr＝2c_s²/r−GM/r²を導き、r_s＝GM/(2c_s²)で正則に音速を通る枝を選ぶ。Bondi降着との接続、境界条件、等温を保つ加熱が必要なこと、実際の太陽風の磁場との違いを扱う。', 'Derive the steady spherical isothermal wind equation (u−c_s²/u)du/dr = 2c_s²/r−GM/r² and select a regular transonic branch at r_s = GM/(2c_s²). Connect to Bondi accretion, boundary conditions, the heating needed to maintain isothermality, and magnetic effects in the real solar wind.'],
+          reference: ['Parker (1958)', 'https://articles.adsabs.harvard.edu/pdf/1958ApJ...128..664P']
+        },
+        {
+          id: 'sedov', title: ['Sedov–Taylor解とRankine–Hugoniot条件', 'Sedov–Taylor and Rankine–Hugoniot conditions'],
           question: ['放出エネルギーと周囲の密度から、爆風の半径はどう成長するか。', 'How does a blast radius grow given an explosion energy and ambient density?'],
-          method: ['次元解析で膨張則を求め、相似変数で内部の速度・密度・圧力を解く。強い衝撃波、エネルギー保存などの条件を確認する。', 'Obtain the expansion law by dimensional analysis, then use a similarity variable to solve the internal profiles. State strong-shock and energy-conservation assumptions.'],
+          method: ['保存則から衝撃波の跳躍条件を導き、次元解析と相似変数で内部の速度・密度・圧力を解く。強い衝撃波、エネルギー保存などの条件を確認する。', 'Derive shock jump conditions from conservation, then use dimensional analysis and similarity variables to solve the internal profiles. State strong-shock and energy-conservation assumptions.'],
           reference: ['Taylor (1950)', 'https://homepage.physics.uiowa.edu/~ghowes/teach/2023phys7729/docs/Taylor50a.pdf']
         },
         {
@@ -85,6 +122,18 @@
           question: ['同じ等温ガスの方程式から、なぜ異なる崩壊解が選ばれるか。', 'Why do the same isothermal gas equations admit different collapse solutions?'],
           method: ['球対称の流体方程式を相似変換し、音速点と初期・境界条件を調べる。両者を自動的な前後の進化段階として扱わない。', 'Apply similarity transformations to spherical gas dynamics and examine sonic points and initial/boundary conditions. Do not identify the two solutions as automatically successive stages.'],
           reference: ['Shu (1977)', 'https://articles.adsabs.harvard.edu/pdf/1977ApJ...214..488S']
+        },
+        {
+          id: 'shock-acceleration', title: ['衝撃波と粒子加速', 'Shocks and particle acceleration'],
+          question: ['衝撃波を往復する粒子は、なぜべき乗のエネルギー分布になるか。', 'Why do particles cycling across a shock acquire a power-law energy distribution?'],
+          method: ['Rankine–Hugoniot条件の圧縮比から、一次Fermi加速の増幅率と逃走確率を求める。加速時間と閉じ込め・冷却の限界を区別する。', 'Connect shock compression to first-order Fermi gains and escape probability. Distinguish acceleration time, confinement, and cooling limits.'],
+          reference: ['Maryland · Particle acceleration', 'https://www.astro.umd.edu/~miller/teaching/astr688m/lecture04.pdf']
+        },
+        {
+          id: 'synchrotron', title: ['シンクロトロン放射と電子の冷却', 'Synchrotron radiation and electron cooling'],
+          question: ['加速電子の分布と磁場は、電波・X線のスペクトルにどう現れるか。', 'How do accelerated electrons and magnetic fields shape radio and X-ray spectra?'],
+          method: ['代表周波数・放射パワー・冷却時間を求め、電子のべき乗分布を光のスペクトルへ変換する。継続注入での冷却折れ曲がりを導く。', 'Compute characteristic frequency, power, and cooling time, translate electron power laws into light spectra, and derive a continuous-injection cooling break.'],
+          reference: ['NRAO · Synchrotron radiation', 'https://www.cv.nrao.edu/~sransom/web/Ch5.html']
         }
       ]
     },
@@ -125,6 +174,12 @@
           reference: ['Chambers (2009) · Viscous disk model', 'https://doi.org/10.1088/0004-637x/705/2/1206']
         },
         {
+          id: 'mri', title: ['Balbus–Hawley不安定性：MRI', 'Balbus–Hawley instability: MRI'],
+          question: ['流体力学的には安定な差動回転円盤が、弱い磁場で不安定になるのはなぜか。', 'Why can a weak magnetic field destabilize a differentially rotating disk that is hydrodynamically stable?'],
+          method: ['磁力線の張力による角運動量交換から磁気回転不安定性を理解する。局所・軸対称・理想MHDの鉛直磁場で、Ωが外向きに減少する場合の分散関係と成長率を扱う。ケプラー回転の最大成長率3Ω/4を調べ、α輸送との接続、原始惑星系円盤の低電離での非理想MHDの必要性を明示する。', 'Use magnetic tension and angular-momentum exchange to introduce magnetorotational instability. In local axisymmetric ideal MHD with vertical field, derive the dispersion relation and growth when Ω decreases outward. Examine the Keplerian maximum growth rate 3Ω/4, the link to alpha transport, and nonideal effects in poorly ionized protoplanetary disks.'],
+          reference: ['Balbus & Hawley (1991)', 'https://articles.adsabs.harvard.edu/pdf/1991ApJ...376..214B']
+        },
+        {
           id: 'viscous-disk', title: ['Lynden–Bell–Pringleの粘性円盤相似解', 'Lynden–Bell–Pringle viscous-disk similarity solutions'],
           question: ['物質は中心へ降着するのに、円盤の外側はなぜ広がるのか。', 'Why can a disk spread outward while mass accretes toward the centre?'],
           method: ['質量と角運動量の保存から面密度の進化方程式へ。粘性の半径依存性を指定して相似解を求め、降着と外向きの角運動量輸送を追う。', 'Derive surface-density evolution from mass and angular-momentum conservation. Prescribe radial viscosity to obtain similarity solutions and track accretion and outward angular-momentum transport.'],
@@ -135,6 +190,32 @@
           question: ['圧力と回転は自己重力に勝てるか。不安定な円盤は必ず分裂するか。', 'Can pressure and rotation resist self-gravity, and must an unstable disk fragment?'],
           method: ['薄いガス円盤の局所分散関係からQを導く。軸対称の線形安定条件と、冷却を含む非線形の分裂条件を区別する。', 'Derive Q from a local dispersion relation for a thin gas disk. Distinguish axisymmetric linear stability from nonlinear fragmentation with cooling.'],
           reference: ['Gammie (2001)', 'https://arxiv.org/abs/astro-ph/0101501']
+        }
+      ]
+    },
+    {
+      title: ['電離と放射で広がるガス', 'Ionization and radiation-shaped gas'],
+      intro: ['光子を数え、星の周りの電離領域とその時間発展を考える。', 'Count photons to understand ionized regions around stars and their evolution.'],
+      bridge: 'atom',
+      topics: [
+        {
+          id: 'stromgren', title: ['Strömgren球と電離・再結合', 'Strömgren spheres, ionization, and recombination'],
+          question: ['星の周りの水素ガスは、どこまで電離されて光るか。', 'How large an ionized hydrogen region can a star maintain?'],
+          method: ['一様密度・純水素・電離光子を閉じ込める静的模型で、Q_H＝(4π/3)R_S³α_B n_e n_pから電離半径を導く。再結合時間、case Bと局所再吸収、光子の逃走・塵吸収の仮定を確認し、初期の電離前線と後の圧力駆動膨張を静的平衡から区別する。', 'For uniform, pure-hydrogen, ionization-bounded gas, derive the equilibrium radius from Q_H = (4π/3)R_S³α_B n_e n_p. Examine recombination time, case B and local reabsorption, photon escape, and dust absorption. Distinguish static balance from the initial ionization front and later pressure-driven expansion.'],
+          reference: ['Strömgren (1939)', 'https://articles.adsabs.harvard.edu/pdf/1939ApJ....89..526S']
+        }
+      ]
+    },
+    {
+      title: ['中性子星とパルサー磁気圏', 'Neutron stars and pulsar magnetospheres'],
+      intro: ['回転と磁場から必要な電荷を数え、粒子加速と放射へつなぐ。', 'Count the charge required by rotation and magnetic fields, then connect to acceleration and radiation.'],
+      bridge: 'scattering',
+      topics: [
+        {
+          id: 'goldreich-julian', title: ['Goldreich–Julian密度と共回転', 'Goldreich–Julian density and corotation'],
+          question: ['回転する中性子星の磁気圏には、どんな電荷密度が必要か。', 'What charge density is needed in the magnetosphere of a rotating neutron star?'],
+          method: ['共回転の電場E＝−(Ω×r)×Bとガウスの法則から、平坦時空・準静的で電流の項を省く近似のρ_GJ≈−2ε₀Ω·B（SI）を導く。n_GJ＝|ρ_GJ|/eは電荷数密度の尺度であり、電子・陽電子の総数密度とは区別する。光円柱、電荷不足と加速ギャップへの接続を扱い、この近似を磁気圏全体に適用しない。', 'Use corotation E = −(Ω×r)×B and Gauss’s law to derive ρ_GJ ≈ −2ε₀Ω·B in SI, in a flat-spacetime quasistatic approximation neglecting the current term. Distinguish n_GJ = |ρ_GJ|/e from the total electron–positron density. Connect to the light cylinder and charge-starved acceleration gaps without extending the approximation throughout the magnetosphere.'],
+          reference: ['Goldreich & Julian (1969)', 'https://articles.adsabs.harvard.edu/pdf/1969ApJ...157..869G']
         }
       ]
     }
