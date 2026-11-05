@@ -72,9 +72,9 @@ for (const group of series.groups) {
     assert(topic.reference[0] && topic.reference[1].startsWith('https://'), `${topic.id}: missing reference`);
   }
 }
-assert.equal(topicIds.size, 25, 'Expected the expanded 25-topic advanced syllabus');
+assert.equal(topicIds.size, 26, 'Expected the expanded 26-topic advanced syllabus');
 const advanced = context.window.AstroAdvanced;
-assert.equal(advanced.chapters.length, 7, 'Expected seven worked advanced chapters');
+assert.equal(advanced.chapters.length, 8, 'Expected eight worked advanced chapters');
 assert.equal(new Set(advanced.chapters.map(c => c.id)).size, advanced.chapters.length);
 for (const c of advanced.chapters) {
   assert(topicIds.has(c.id), `${c.id}: missing syllabus entry`);
@@ -168,8 +168,29 @@ for (let i = 0; i <= count; i++) {
 }
 close(photons / originalPhotons, 0, 1e-11, 'SZ photon-number conservation');
 close(energy / originalEnergy, 4e-4, 1e-10, 'SZ mean energy gain');
+const { ringExchange } = context.window.AstroAdvancedMath;
+const zeroExchange = ringExchange(0);
+close(zeroExchange.innerRadius, 1, 1e-14, 'initial inner ring radius');
+close(zeroExchange.outerRadius, 4, 1e-14, 'initial outer ring radius');
+close(zeroExchange.releasedEnergy, 0, 1e-14, 'zero exchange releases no energy');
+let lastRingEnergy = 0;
+for (let i = 0; i <= 300; i++) {
+  const transfer = i / 1000, data = ringExchange(transfer);
+  close(data.totalJ, 3, 1e-14, 'ring angular-momentum conservation');
+  close(data.energy + data.releasedEnergy, -.625, 1e-14, 'ring total energy budget');
+  assert(data.innerRadius <= 1 && data.outerRadius >= 4, 'inner contraction and outer expansion');
+  assert(data.releasedEnergy >= lastRingEnergy, 'outward transfer releases energy');
+  lastRingEnergy = data.releasedEnergy;
+}
+const rings = ringExchange(.2);
+close(rings.innerRadius, .64, 1e-14, 'inner radius after 0.2 J0 transfer');
+close(rings.outerRadius, 4.84, 1e-14, 'outer radius after 0.2 J0 transfer');
+close(rings.releasedEnergy, .259555785123967, 1e-13, 'released orbital energy');
+const ringStep = 1e-6;
+close((ringExchange(.2 + ringStep).releasedEnergy - ringExchange(.2 - ringStep).releasedEnergy) / (2 * ringStep), rings.innerOmega - rings.outerOmega, 1e-8, 'orbital energy derivative equals angular-velocity difference');
+assert.throws(() => ringExchange(.31), 'reject unmodelled ring exchanges');
 const index = readFileSync(resolve(root, 'docs/index.html'), 'utf8');
 for (const asset of index.matchAll(/(?:src|href)="\.\/([^"#]+)"/g)) {
   assert(existsSync(resolve(root, 'docs', asset[1].split('?')[0])), `Missing local asset ${asset[1]}`);
 }
-console.log(`OK: ${chapters.length} foundation + ${advanced.chapters.length} advanced chapters × 2 languages; ${topicIds.size} syllabus topics; HTML, references, assets, syntax, stellar/blast/interface checks, SZ limits, photon conservation, and energy gain.`);
+console.log(`OK: ${chapters.length} foundation + ${advanced.chapters.length} advanced chapters × 2 languages; ${topicIds.size} syllabus topics; HTML, references, assets, syntax, stellar/blast/interface checks, SZ limits, photon conservation, energy gain, and ring conservation.`);

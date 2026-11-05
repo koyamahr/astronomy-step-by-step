@@ -164,9 +164,15 @@
     },
     {
       title: ['円盤の輸送と重力不安定性', 'Disk transport and gravitational instability'],
-      intro: ['原始惑星系円盤を入口に、αとQを二本柱として学ぶ。', 'Use protoplanetary disks to connect angular-momentum transport and Toomre Q.'],
+      intro: ['角運動量輸送を入口に、降着・円盤風・α・MRI・自己重力をつなぐ。', 'Start with angular-momentum transport, then connect accretion, winds, alpha, MRI, and self-gravity.'],
       bridge: 'matter',
       topics: [
+        {
+          id: 'angular-momentum', title: ['角運動量輸送と降着', 'Angular-momentum transport and accretion'],
+          question: ['ガスが中心へ降着するには、角運動量をどこへ渡せばよいか。', 'Where must gas transfer angular momentum in order to accrete?'],
+          method: ['円軌道のj＝√(GMr)から降着の条件を導き、二つの環で全角運動量と軌道エネルギーを確かめる。応力による半径方向の輸送と円盤風による持ち出し、定常円盤のトルク収支を区別してα・MRIへ接続する。', 'Use circular-orbit j = √(GMr) to establish the requirement for accretion. Check total angular momentum and orbital energy with two rings, distinguish radial stress transport from wind removal, and build the steady torque budget leading to alpha and MRI.'],
+          reference: ['Princeton · Accretion disks', 'https://www.astro.princeton.edu/~gk/A403/disk.pdf']
+        },
         {
           id: 'alpha-disk', title: ['薄い円盤とShakura–Sunyaevのαモデル', 'Thin disks and the Shakura–Sunyaev alpha model'],
           question: ['回転するガスが中心へ落ちるには、角運動量をどう運べばよいか。', 'How must a rotating gas redistribute angular momentum to accrete?'],

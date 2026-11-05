@@ -9,6 +9,9 @@
   const s = (n, ja, en, ...body) => `<section><h2><span class="step-no">${String(n).padStart(2, '0')}</span>${t(ja, en)}</h2>${body.join('')}</section>`;
   const note = (ja, en) => `<aside class="callout">${t(ja, en)}</aside>`;
   const sources = {
+    accretionDisk: ['Princeton · Accretion disks', 'https://www.astro.princeton.edu/~gk/A403/disk.pdf'],
+    diskTransport: ['Goodman · Topics in high-energy astrophysics, §5.3', 'https://www.astro.princeton.edu/~jeremy/heap.pdf'],
+    diskWind: ['Lesur (2021) · Wind-driven protoplanetary discs', 'https://arxiv.org/abs/2101.10349'],
     szReview: ['Carlstrom, Holder & Reese (2002) · Cosmology with the SZ effect', 'https://arxiv.org/abs/astro-ph/0208192'],
     szSpectrum: ['Birkinshaw · The Kompaneets approximation', 'https://ned.ipac.caltech.edu/level5/Birkinshaw/Birk3_4.html'],
     szPressure: ['Planck (2011) · SZ scaling relations', 'https://doi.org/10.1051/0004-6361/201116458'],
@@ -88,9 +91,60 @@
       question: ['一様なガスで電子温度を2倍、密度を半分、視線方向の厚みを同じにすると、τとyはどう変わるか。非相対論的な一次近似で熱的SZのスペクトルは区別できるか。運動学的SZは？', 'In a uniform slab, double the electron temperature, halve its density, and keep its depth fixed. How do τ and y change? Can the first-order nonrelativistic thermal SZ spectra distinguish these cases? What about kinetic SZ?'],
       answer: ['τ＝n_eσ_TLは半分、y＝τk_BT_e/(m_ec²)は同じ。ここで使う熱的SZの一次近似では同じスペクトルになるため、温度と密度を別々には決められない。視線速度も同じなら運動学的SZはτに比例して半分になる。高精度では相対論的補正などに温度の情報があり、この縮退は近似に依存する。', 'τ = n_eσ_TL halves, while y = τk_BT_e/(m_ec²) stays fixed. The first-order thermal spectra used here are identical, so temperature and density cannot be separated. At fixed line-of-sight speed, kinetic SZ halves because it is proportional to τ. Relativistic corrections can carry extra temperature information; this degeneracy belongs to the stated approximation.'],
       refs: ['szReview', 'szSpectrum', 'szPressure', 'szIllustration'], bridge: 'scattering'
+    },
+    {
+      id: 'angular-momentum', title: ['角運動量輸送と降着', 'Angular-momentum transport and accretion'],
+      desc: ['回るガスが中心へ落ちるには、何をどこへ渡せばよいか。', 'What must orbiting gas transfer, and where, in order to accrete?'],
+      minutes: 30, prereq: ['円運動、エネルギー・角運動量保存、微分の初歩', 'Circular motion, energy and angular-momentum conservation, basic derivatives'],
+      goal: ['比角運動量と円軌道半径の関係を導き、環の間の交換と円盤風による持ち出しを区別し、トルク・降着率・αモデルの役割を説明する。', 'Derive the relation between specific angular momentum and circular radius, distinguish radial exchange from wind removal, and explain torque, accretion rate, and the role of alpha.'],
+      question: ['中心質量が同じで、ほぼ円軌道のガスが半径rからr/4へ移る。回転速度と比角運動量はそれぞれ何倍になるか。エネルギーを放射することだけで、比角運動量も必要な値へ変わるだろうか。', 'Gas around a fixed central mass moves between nearly circular orbits at r and r/4. How do orbital speed and specific angular momentum change? Does radiating energy alone ensure the required angular-momentum change?'],
+      answer: ['vφ∝r⁻¹ᐟ²なので2倍、j∝r¹ᐟ²なので1/2倍。角運動量を外側のガスや風などへ渡すトルクが必要で、エネルギーの損失だけではその条件を保証しない。外へ渡した角運動量は系全体では保存される。放射が角運動量を運ぶ場合もあるが、この円盤模型ではその効果を省いている。', 'vφ ∝ r^(−1/2) doubles, while j ∝ r^(1/2) halves. A torque must transfer angular momentum to other gas or a wind; energy loss alone does not ensure this. The transferred angular momentum remains part of the total budget. Radiation can carry angular momentum in other settings, but that effect is omitted here.'],
+      refs: ['accretionDisk', 'diskTransport', 'diskWind'], bridge: 'virial'
     }
   ];
   const bodies = {
+    'angular-momentum': () => [
+      s(1, '速く回ることと、角運動量が大きいこと', 'Fast rotation and large angular momentum are different',
+        p('中心の星やブラックホールの重力を感じるガスが、薄い円盤を作ってほぼ円運動しているとする。中心質量Mは一定、ガス自身の重力と半径方向の圧力の補正は小さいとし、ニュートン重力を使う。ブラックホールのすぐ近くでは相対論が必要なので、ここでは離れた円盤を考える。', 'Consider gas in a thin disk on nearly circular orbits around a fixed central mass M. Neglect disk self-gravity and radial pressure corrections and use Newtonian gravity. The model describes radii away from the immediate relativistic vicinity of a black hole.'),
+        p('円運動の向心加速度と重力をつり合わせる。回転速度vφ、角速度Ω、単位質量あたりの角運動量jは、それぞれ次のようになる。', 'Balance centripetal acceleration against gravity. The orbital speed vφ, angular velocity Ω, and angular momentum per unit mass j then follow:'),
+        eq(`${f('v<sub>φ</sub>²','r')} = ${f('GM','r²')}<br>v<sub>φ</sub> = √(${f('GM','r')}),　Ω = ${f('v<sub>φ</sub>','r')} = √(${f('GM','r³')})<br>j ≡ rv<sub>φ</sub> = √(GMr)`),
+        p('半径を1/4にすると、速さは2倍になるがjは1/2倍になる。つまり円軌道をたどりながら内へ降着するガスは、角運動量を他へ渡す必要がある。jを保ったガスがエネルギーを失い円軌道へ落ち着くとき、その円軌道半径はr_c＝j²/(GM)で決まる。', 'At one-quarter the radius, orbital speed doubles but j halves. Gas accreting through nearly circular orbits must therefore transfer angular momentum elsewhere. Gas that loses energy while retaining j circularizes at r_c = j²/(GM).'),
+        note('この議論は円軌道の系列についてである。角運動量が一定の楕円軌道でも、半径は一周の間に変わる。「どんな内向き運動にも角運動量の損失が必要」と一般化しない。', 'This argument concerns a sequence of circular orbits. An eccentric orbit can change radius during a revolution at fixed angular momentum. Do not generalize the result to every inward motion.')),
+      s(2, '角運動量を外へ渡すと、エネルギーが解放される', 'Outward exchange can release orbital energy',
+        p('円軌道の単位質量あたりの力学的エネルギーeは、運動エネルギーと重力ポテンシャルの和である。rをjで書き換えると、エネルギーと角運動量の関係が一つの式になる。', 'Specific orbital energy e is kinetic plus gravitational potential energy. Replacing r by j connects energy directly to angular momentum.'),
+        eq(`e = ${f('v<sub>φ</sub>²','2')}−${f('GM','r')} = −${f('GM','2r')} = −${f('(GM)²','2j²')}<br>${f('de','dj')} = ${f('(GM)²','j³')} = Ω`),
+        p('同じ関係は、質量を固定した一つの環についてdE/dJ＝Ωとなる。内側の環が外側へ小さな角運動量δJ>0を渡すと、内側の変化は−Ω_inδJ、外側の変化は+Ω_outδJ。ケプラー円盤ではΩ_in>Ω_outだから、合計の軌道エネルギーは減る。', 'For a ring of fixed mass, the same relation gives dE/dJ = Ω. If an inner ring transfers a small positive δJ to an outer ring, their orbital energy changes are −Ω_inδJ and +Ω_outδJ. Since Ω_in > Ω_out in a Keplerian disk, the total orbital energy decreases.'),
+        eq(`δE<sub>orb</sub> = (Ω<sub>out</sub>−Ω<sub>in</sub>)δJ &lt; 0<br>δE<sub>released</sub> = (Ω<sub>in</sub>−Ω<sub>out</sub>)δJ > 0`),
+        p('減った軌道エネルギーは消えるのではなく、乱れや磁場のエネルギー、熱、放射などへ移る。どこでどれだけ熱になるかは輸送の仕組みによる。角運動量とエネルギーの両方の収支を考えることが、降着円盤の明るさを理解する出発点になる。', 'The lost orbital energy goes into fluctuations, magnetic fields, heat, radiation, or other channels. The transport mechanism determines where and how much becomes heat. Tracking both angular momentum and energy is the starting point for understanding luminous accretion disks.')),
+      s(3, '二つの環で、保存と変化を確かめる', 'Check conservation with two rings',
+        p('模型では二つの環を同じ質量mとし、最初の半径をr₀と4r₀にする。角運動量の単位をJ₀＝m√(GMr₀)、エネルギーの単位をE₀＝GMm/r₀とする。内から外へδJ＝δJ₀を渡した後、両方が再び円軌道へ落ち着く場合を比較する。', 'Take equal ring masses m with initial radii r₀ and 4r₀. Use J₀ = m√(GMr₀) and E₀ = GMm/r₀ as angular-momentum and energy units. Transfer δJ = δJ₀ outward and compare circular end states.'),
+        eq(`${f('J<sub>in</sub>','J₀')} = 1−δ,　${f('J<sub>out</sub>','J₀')} = 2+δ<br>${f('r<sub>in</sub>','r₀')} = (1−δ)²,　${f('r<sub>out</sub>','r₀')} = (2+δ)²`),
+        '<div data-lab="angular-momentum"></div>',
+        note('スライダーは交換する角運動量の量で、時間ではない。環の質量と中心質量を固定し、円軌道の終状態を比較する模型である。交換を起こす力や途中の軌道、円盤の密度分布を計算する流体シミュレーションではない。', 'The slider controls exchanged angular momentum, not time. Ring masses and central mass remain fixed; the panel compares circular end states. It does not simulate the forces, intermediate trajectories, or disk density evolution.')),
+      s(4, '輸送する力：トルクと応力', 'Torques and stresses carry angular momentum',
+        p('角運動量の変化率はトルクである。ガスの隣り合う領域が力を及ぼし合うと、一方の角運動量が増え、もう一方が減る。円盤内部での交換は系全体の角運動量を勝手に消さない。', 'Torque is the rate of change of angular momentum. Forces between disk regions increase the angular momentum of one and decrease that of the other. Internal exchange does not destroy total angular momentum.'),
+        eq(`𝒢 = ${f('dJ','dt')},　[𝒢] = kg m² s<sup>−2</sup>`),
+        p('乱流では、半径方向の速度の揺らぎと回転方向の揺らぎの相関が角運動量を運ぶ（Reynolds応力）。磁場では、磁力線に沿う張力が離れた領域を結び、角運動量を交換する（Maxwell応力）。自己重力の強い円盤では、渦状構造などの重力トルクも働く。', 'Correlated radial and azimuthal velocity fluctuations transport angular momentum through Reynolds stress. Magnetic tension links regions and exchanges angular momentum through Maxwell stress. In sufficiently self-gravitating disks, spiral structure can exert gravitational torques.'),
+        note('分子が衝突する粘性だけに限定せず、天体スケールの力と運動の相関を考える。乱れがあるだけで輸送量や向きが決まるわけではなく、どの相関やトルクが働くかを確かめる必要がある。', 'Transport includes correlations and forces on astrophysical scales, beyond molecular collisional viscosity. The presence of fluctuations alone does not determine the magnitude or direction of transport; the relevant stresses and torques must be identified.')),
+      s(5, '定常円盤の角運動量収支を作る', 'Build the steady-disk angular-momentum budget',
+        p('円盤の面密度をΣ、半径方向速度をv_r（外向き正）とする。風も質量の追加もない定常円盤では、内向きの質量流量を正に定義した降着率dot Mは半径によらない。', 'Let Σ be surface density and v_r radial velocity, positive outward. In a steady disk with no wind or mass sources, the accretion rate dot M, defined positive for inward mass flow, is independent of radius.'),
+        eq(`Ṁ = −2πrΣv<sub>r</sub> > 0`),
+        p('半径rを横切る、外向き正の角運動量流束F_Jには、応力が外へ運ぶ𝒢と、降着するガスが内へ運ぶ−dot M jがある。定常状態では各環に蓄積しないので、F_Jはどの半径でも同じである。', 'The outward-positive angular-momentum flux F_J across radius r combines stress transport 𝒢 and inward advection −dot M j. With no accumulation in a steady annulus, F_J is constant with radius.'),
+        eq(`F<sub>J</sub> = 𝒢−Ṁj = constant`),
+        p('内縁r_inで𝒢＝0という境界条件を採れば、定数は−dot M j_inとなる。整理すると、内向きの質量流量と外向きのトルクが結びつく。', 'With the boundary condition 𝒢 = 0 at an inner edge r_in, the constant is −dot M j_in. Rearranging relates inward accretion to the outward stress torque.'),
+        eq(`𝒢 = Ṁ(j−j<sub>in</sub>)`),
+        note('内縁のトルク0は仮定である。星の磁場や境界層、ブラックホール近傍の応力などで条件は変わりうる。風が質量と角運動量を運び去る円盤には、この半径一定のdot MとF_Jの式をそのまま適用しない。', 'Zero inner torque is a boundary assumption. Stellar magnetic fields, boundary layers, and stresses near a black hole can change it. A wind removes both mass and angular momentum, so constant dot M and F_J cannot simply be imposed on a wind-driven disk.')),
+      s(6, '角運動量は円盤風にも渡せる', 'A disk wind provides another route',
+        p('円盤の表裏から出る風へ角運動量を渡すと、残るガスは内へ降着できる。特に磁場を介して円盤の回転と結びついた風は、鉛直方向へ角運動量を持ち出す。円盤内の半径方向への交換と、円盤の外へ出る流束を分けて数えよう。', 'Transferring angular momentum to a wind leaving the disk surfaces can allow the remaining gas to accrete. A magnetically coupled wind can carry rotational angular momentum vertically out of the disk. Distinguish radial exchange within the disk from flux through its surfaces.'),
+        eq(`Ĵ<sub>wind</sub> = Ṁ<sub>wind</sub>j<sub>wind</sub>`),
+        p('ここでj_windは、風の単位質量流量あたりに持ち出される角運動量で、磁場を介した寄与も含めた量である。風の質量が少ないことだけで角運動量輸送も小さいとは決まらない。風を含めれば全体の保存則は保たれるが、円盤だけの角運動量は減る。', 'Here j_wind is angular momentum removed per unit wind mass flux, including the magnetic contribution. A small wind mass flux alone does not imply small angular-momentum removal. Conservation applies to the combined disk and wind, while the disk’s own angular momentum can decrease.'),
+        note('原始惑星系円盤でどの経路が主になるかは条件に依存する。磁化円盤風と、Parker型の熱い球対称風は区別する。どちらも「風」でも、駆動と角運動量の収支は同じとは限らない。', 'Which route dominates a protoplanetary disk depends on its conditions. A magnetized disk wind is distinct from a spherical, thermally driven Parker wind; their driving and angular-momentum budgets need not be the same.')),
+      s(7, 'α・MRI・相似解へつなぐ', 'Connect to alpha, MRI, and disk spreading',
+        p('αモデルは輸送の強さを有効な動粘性係数νで表す方法で、ν＝αc_sHを使う。c_sは音速、Hは円盤の厚みの尺度。この定義だけでは、磁場・乱流・重力のどれが輸送を担うかやαの値までは決まらない。', 'The alpha model parametrizes transport through an effective kinematic viscosity ν = αc_sH, where c_s is sound speed and H a vertical scale height. This definition alone does not select the mechanism or determine alpha.'),
+        eq(`ν = αc<sub>s</sub>H,　t<sub>ν</sub> ∼ ${f('r²','ν')}<br>H ≈ ${f('c<sub>s</sub>','Ω')}　⇒　t<sub>ν</sub> ∼ ${f('1','α')}(${f('r','H')})²Ω<sup>−1</sup>`, '薄いケプラー円盤の鉛直平衡と、粘性型の半径方向輸送を仮定した時間尺度。', 'A timescale assuming vertical balance in a thin Keplerian disk and viscous-type radial transport.'),
+        p('MRIは磁場と差動回転から輸送を生みうる機構で、自己重力の作用や風とは条件が異なる。Lynden–Bell–Pringleの相似解では、内向きの降着と外側への広がりを、保存則と指定したνの下で追う。Toomre Qは自己重力の不安定性を考える入口になる。', 'MRI is a mechanism involving magnetic fields and differential rotation; its requirements differ from self-gravity or winds. Lynden–Bell–Pringle similarity solutions follow accretion and outward spreading with conservation laws and a prescribed ν. Toomre Q introduces gravitational instability.'),
+        p('<a href="#/advanced">円盤編の学習ガイド</a>で、αモデル・MRI・粘性円盤相似解・Toomre Qへ進む道すじを確認できる。これらの詳細な本文は準備中で、本章では共通する角運動量の問いを押さえた。', 'The <a href="#/advanced">advanced learning guide</a> connects to alpha disks, MRI, viscous-disk similarity, and Toomre Q. Those detailed chapters remain planned; this chapter establishes their common angular-momentum question.'))
+    ].join(''),
     'lane-emden': () => [
       s(1, '全体のつり合いから、薄い殻のつり合いへ', 'From global balance to a thin shell',
         p('入門編ではP∼GM²/R⁴で星を丸ごと見積もった。今度は、中心から半径rまでに含まれる質量m(r)と、その場所の圧力P(r)、密度ρ(r)を分ける。球対称・静止・非回転、ニュートン重力を仮定する。', 'A global estimate P ∼ GM²/R⁴ treats a star as a whole. Now distinguish the enclosed mass m(r), local pressure P(r), and density ρ(r). Assume a static, spherical, nonrotating object with Newtonian gravity.'),

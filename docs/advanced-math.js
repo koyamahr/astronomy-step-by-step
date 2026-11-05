@@ -86,5 +86,14 @@
     const y = tau * theta;
     return { theta, tau, y, rayleighJeansMuK: -2 * y * tcmb * 1e6, kineticMuK: -tcmb * tau * velocityKmS * 1000 / c * 1e6 };
   }
-  window.AstroAdvancedMath = { laneEmden, sedov, interfaceMode, szSpectrum, szModel };
+  function ringExchange(transfer) {
+    if (!(Number.isFinite(transfer) && transfer >= 0 && transfer <= .3)) throw new RangeError('Ring exchange requires 0 <= transfer <= 0.3.');
+    // GM = 1, equal unit ring masses, initial radii 1 and 4. End states are circular.
+    const innerJ = 1 - transfer, outerJ = 2 + transfer;
+    const innerRadius = innerJ ** 2, outerRadius = outerJ ** 2;
+    const initialEnergy = -.5 - .125;
+    const energy = -.5 / innerRadius - .5 / outerRadius;
+    return { innerJ, outerJ, innerRadius, outerRadius, totalJ: innerJ + outerJ, energy, releasedEnergy: initialEnergy - energy, innerOmega: innerJ ** -3, outerOmega: outerJ ** -3 };
+  }
+  window.AstroAdvancedMath = { laneEmden, sedov, interfaceMode, szSpectrum, szModel, ringExchange };
 })();
