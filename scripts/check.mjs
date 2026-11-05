@@ -6,7 +6,7 @@ import { runInNewContext } from 'node:vm';
 import { execFileSync } from 'node:child_process';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js']) {
+for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'numbers.js']) {
   execFileSync(process.execPath, ['--check', resolve(root, 'docs', name)]);
 }
 const context = { window: {} };
@@ -14,6 +14,7 @@ runInNewContext(readFileSync(resolve(root, 'docs/content.js'), 'utf8'), context)
 runInNewContext(readFileSync(resolve(root, 'docs/series.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-content.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-math.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/numbers.js'), 'utf8'), context);
 const { chapters, sources, renderBody } = context.window.AstroContent;
 assert.equal(chapters.length, 16, 'Expected the complete 16-chapter curriculum.');
 assert.equal(new Set(chapters.map(c => c.id)).size, chapters.length, 'Duplicate chapter route.');
@@ -189,8 +190,47 @@ close(rings.releasedEnergy, .259555785123967, 1e-13, 'released orbital energy');
 const ringStep = 1e-6;
 close((ringExchange(.2 + ringStep).releasedEnergy - ringExchange(.2 - ringStep).releasedEnergy) / (2 * ringStep), rings.innerOmega - rings.outerOmega, 1e-8, 'orbital energy derivative equals angular-velocity difference');
 assert.throws(() => ringExchange(.31), 'reject unmodelled ring exchanges');
+const numbers = context.window.AstroNumbers;
+bilingual(numbers.title, 'Supplement title');
+bilingual(numbers.desc, 'Supplement description');
+assert.equal(numbers.entries.length, 12, 'Expected all twelve numerical reference cards');
+for (const entry of numbers.entries) {
+  bilingual(entry.name, `${entry.symbol} name`);
+  bilingual(entry.kind, `${entry.symbol} status`);
+}
+for (const lang of ['ja', 'en']) {
+  const body = numbers.renderBody(lang);
+  checkMarkup(body, `numbers/${lang}`);
+  assert.equal((body.match(/<section>/g) || []).length, 7);
+  assert(body.includes('hubble-units') && body.includes('number-converter'));
+  if (lang === 'en') assert(!/[\u3040-\u30ff\u3400-\u9fff]/.test(body), 'Untranslated supplement body');
+}
+for (const [,url] of numbers.refs) assert(url.startsWith('https://'));
+const numeric = numbers.constants;
+close(numbers.convert('pc', 1).cm / 1e18, 3.085677581491367, 1e-14, 'parsec definition in centimetres');
+close(numbers.convert('pc', 1).ly, 3.261563777, 1e-8, 'parsec to Julian light-years');
+close(numbers.convert('solar', 1).kg / 1e30, 1.9884098707, 1e-10, 'nominal solar GM divided by measured G');
+close(numbers.hbar * 2 * Math.PI / numeric.h, 1, 1e-14, 'h and hbar');
+close(numeric.me * numeric.c ** 2 / numeric.e / 1e6, .51099895069, 1e-10, 'electron rest energy in MeV');
+close(numeric.G * 100 ** 3 / 1000 / 6.67430e-8, 1, 1e-14, 'G SI to CGS dimensions');
+close(numbers.eGaussian ** 2 / (numbers.hbar * 1e7 * numeric.c * 100) / numeric.alpha, 1, 1e-14, 'dimensionless alpha in Gaussian conventions');
+close(numbers.eGaussian / 1e-10, 4.80320471, 1e-8, 'Gaussian elementary charge');
+close(numbers.convert('energy', 1).erg / 1e-12, 1.602176634, 1e-14, 'eV to erg');
+close(numbers.convert('energy', 1).kelvin, 11604.51812155, 1e-6, 'equivalent temperature E/kB');
+for (const field of [0, 1e-6, 1, 1e12]) {
+  const converted = numbers.convert('field', field);
+  close(converted.tesla, field * 1e-4, Math.max(1e-20, field * 1e-15), 'gauss to tesla');
+  if (field) close(converted.siEnergyDensity / (converted.cgsEnergyDensity * .1), 1, 1e-8, 'SI and Gaussian magnetic energy density');
+}
+const hubble70 = numbers.hubble(70);
+close(hubble70.perSecond / 1e-18, 2.2685455026, 1e-9, 'H0 inverse-second conversion');
+close(hubble70.timeGyr, 13.96846, 1e-5, 'Hubble time in Gyr');
+close(numbers.hubble(70).timeSeconds / numbers.hubble(140).timeSeconds, 2, 1e-14, 'inverse Hubble scaling');
+assert.throws(() => numbers.hubble(0));
+assert.throws(() => numbers.convert('pc', -1));
+assert.throws(() => numbers.convert('pc', NaN));
 const index = readFileSync(resolve(root, 'docs/index.html'), 'utf8');
 for (const asset of index.matchAll(/(?:src|href)="\.\/([^"#]+)"/g)) {
   assert(existsSync(resolve(root, 'docs', asset[1].split('?')[0])), `Missing local asset ${asset[1]}`);
 }
-console.log(`OK: ${chapters.length} foundation + ${advanced.chapters.length} advanced chapters × 2 languages; ${topicIds.size} syllabus topics; HTML, references, assets, syntax, stellar/blast/interface checks, SZ limits, photon conservation, energy gain, and ring conservation.`);
+console.log(`OK: ${chapters.length} foundation + ${advanced.chapters.length} advanced chapters and numerical supplement × 2 languages; ${topicIds.size} syllabus topics; markup, references, assets, physics models, constants, and SI/CGS conversions.`);

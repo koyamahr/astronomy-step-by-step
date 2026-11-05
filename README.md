@@ -66,6 +66,12 @@ Each chapter includes learning goals, assumptions, worked algebra, a question wi
 
 The advanced volume covers 26 topics in nine areas. Eight worked chapters are published: Lane–Emden, Rayleigh–Taylor, Kelvin–Helmholtz, Sedov–Taylor with Rankine–Hugoniot jumps, shock particle acceleration, synchrotron radiation, inverse Compton scattering with the SZ effect, and angular-momentum transport. Each follows physical intuition, equations, and checks. The Lane–Emden and Sedov panels solve ODEs in the browser and allow step refinement; the other panels explore interface stability, compression, spectra, cooling, thermal/kinetic SZ, and a two-ring exchange model. Bondi accretion, Parker wind, Strömgren spheres, MRI, Goldreich–Julian density, and Hayashi tracks are included as referenced planned topics.
 
+## 番外編 / Numerical supplement
+
+[宇宙物理の数字と単位](https://koyamahr.github.io/astronomy-step-by-step/?lang=ja#/appendix/numbers)を日英で公開。光速c、重力定数G、pc、h・ℏ、電子の静止質量とエネルギー、太陽質量、H₀、微細構造定数などの参照値を収録します。SIから機械的CGSへの次元による換算と、CGS–Gauss系で電磁気の式も変わる理由を説明します。
+
+The bilingual supplement provides 12 reference cards, dimensional conversions, SI/Gaussian electromagnetic formulas, a Hubble-time slider, and converters for distance, mass, energy, and magnetic field. CODATA 2022 values, exact definitions, nominal solar scales, and illustrative H₀ values are distinguished. The supplement does not affect chapter-completion counts.
+
 ## 教え方の方針 / Teaching scope
 
 天体現象を主役にし、物性そのものへは広げません。状態方程式、不透明度、再結合係数などは意味と適用条件を添えて入力として使います。微視的な物性や輸送係数の詳しい導出を独立の主題にはしません。
@@ -103,6 +109,7 @@ The included workflow validates and deploys `docs/` to [GitHub Pages](https://ko
 - `docs/advanced-content.js`: eight bilingual advanced worked chapters
 - `docs/advanced-math.js`: dimensionless Lane–Emden and Sedov ODE solvers
 - `docs/advanced-labs.js`: advanced numerical and scaling panels
+- `docs/numbers.js`: bilingual constants reference, SI/Gaussian conventions, and unit-conversion panels
 - `docs/app.js`: navigation, language switching, search, separate completion records for each volume, foundation panels
 - `docs/style.css`: lesson layout, print styles, and reduced-motion support
 - `docs/series.css`: volume cards, syllabus layout, and responsive series navigation
@@ -115,7 +122,7 @@ The included workflow validates and deploys `docs/` to [GitHub Pages](https://ko
 node scripts/check.mjs
 ```
 
-言語設定と読了状態は `localStorage` の `astro.language` と `astro.completed` にのみ保存します。解析・追跡用サービスは使いません。言語はURLの `?lang=en` / `?lang=ja` でも指定できます。
+言語設定と読了状態は `localStorage` の `astro.language`、`astro.completed`、`astro.advanced.completed` に保存します。解析・追跡用サービスは使いません。言語はURLの `?lang=en` / `?lang=ja` でも指定できます。
 
 ## 初版の検証 / Initial validation
 
@@ -128,3 +135,5 @@ node scripts/check.mjs
 数値パネルは教育用の理想模型です。仮定、規格化、中心付近の処理、近似の範囲は各章に記載しています。言語と読了記録はブラウザ内に保存し、入門編・発展編で別々に管理します。
 
 The angular-momentum chapter opens the disk area. It distinguishes specific angular momentum from orbital speed, derives the circular-orbit energy relation dE/dJ = Ω, and compares radial stress transport with wind removal. The ring panel compares circular end states rather than integrating fluid evolution; its total angular momentum and orbital-energy budget are checked automatically. Detailed alpha, MRI, and disk-similarity lessons remain planned.
+
+Supplement checks cover parsec and nominal solar-mass conversions, electron rest energy, the Gaussian charge relation to α, dimensional factors for G, eV-to-K scales, Hubble units and inverse scaling, invalid inputs, and SI/Gaussian magnetic energy-density agreement.
