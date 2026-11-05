@@ -21,6 +21,9 @@
     wd: ['Princeton · White dwarfs', 'https://www.astro.princeton.edu/~gk/A403/wd.pdf'],
     gr: ['JILA / University of Colorado · Schwarzschild geometry', 'https://jila.colorado.edu/~ajsh/bh/schwp.html'],
     distance: ['NASA LAMBDA · Hubble constant and distance ladder', 'https://lambda.gsfc.nasa.gov/education/graphic_history/hubb_const.html'],
+    virial: ['Princeton · Astrophysics in a Nutshell: Stellar physics', 'https://assets.press.princeton.edu/chapters/s3-10772.pdf'],
+    expansion: ['NASA JPL · Math of the expanding universe', 'https://www.jpl.nasa.gov/edu/resources/lesson-plan/math-of-the-expanding-universe/'],
+    cosmology: ['UCLA / Ned Wright · Cosmology tutorial: Distances and scale factor', 'https://astro.ucla.edu/~wright/cosmo_02.htm'],
     helium: ['INPE · Abundance of light elements', 'https://www.gov.br/inpe/pt-br/area-conhecimento/engenharia-e-ciencias-espaciais/cgce/ciencia-espacial/astrofisica/linhas-de-pesquisa/cosmologia-cosmo/para-saber-mais-1/intro-cosmo/a-abundancia-de-elementos-leves'],
     constants: ['Particle Data Group · Astrophysical constants (2025)', 'https://pdg.lbl.gov/2025/reviews/rpp2025-rev-astrophysical-constants.pdf']
   };
@@ -71,7 +74,8 @@
         s(4, '距離のはしごは「校正の連鎖」', 'A ladder of calibrations',
           p('太陽系の測距 → 年周視差 → セファイドなどの周期–光度関係 → Ia型超新星。この順に、近くでわかった距離を使って、次の方法の本来の明るさを校正します。Ia型超新星は、光度曲線の形や色を補正して標準化します。全てが同じ明るさの爆発ではありません。', 'Solar-system ranging → stellar parallax → period–luminosity relations such as Cepheids → Type Ia supernovae. Nearby distances calibrate the intrinsic brightness used at the next stage. Type Ia supernovae must be standardized using their light-curve shapes and colours; their luminosities are not identical.'),
           eq(`v ≈ H<sub>0</sub>d,　z ≈ ${f('v', 'c')}`, '近い宇宙・小さな赤方偏移での近似。H₀は他の距離測定などで校正する必要があります。', 'Approximations for the nearby universe at small redshift. H₀ must be calibrated using other distance measurements or a cosmological model.'),
-          note('遠い宇宙では単純なd＝cz/H₀は使えません。膨張の歴史を含む宇宙論モデルが必要で、距離の定義も一つではありません。', 'At large redshift, d = cz/H₀ is insufficient. You need the expansion history, a cosmological model, and a specified definition of distance.', true))
+          note('遠い宇宙では単純なd＝cz/H₀は使えません。膨張の歴史を含む宇宙論モデルが必要で、距離の定義も一つではありません。', 'At large redshift, d = cz/H₀ is insufficient. You need the expansion history, a cosmological model, and a specified definition of distance.', true),
+          p('<a href="#/chapter/expansion">宇宙膨張とハッブルの法則の章へ →</a>　距離が同じ割合で伸びると、なぜvが距離に比例するのかを式変形で確かめます。', '<a href="#/chapter/expansion">Continue to cosmic expansion and Hubble’s law →</a> See why uniform fractional growth makes recession speed proportional to distance.'))
     },
     {
       id: 'matter', part: 0, minutes: 9,
@@ -218,6 +222,36 @@
           `<div data-lab="blackbody"></div>`)
     },
     {
+      id: 'virial', part: 2, minutes: 18,
+      title: ['ビリアル定理 — 星は縮むと熱くなる', 'The virial theorem: why shrinking stars heat up'],
+      desc: ['重力のエネルギーと熱運動を結び、負の熱容量を読む。', 'Connect gravitational energy to thermal motion and explore negative heat capacity.'],
+      goal: ['2K＋U＝0から温度の尺度と、収縮で放出されるエネルギーの配分を説明できる。', 'Use 2K + U = 0 to estimate temperature and track the energy released in contraction.'],
+      prereq: ['円運動・運動エネルギー・理想気体', 'Circular motion, kinetic energy, and ideal gases'], refs: ['virial', 'sun'],
+      question: ['核融合のない星がゆっくり収縮し、光としてQ＝10³⁰ Jを失いました。この章のモデルでKとUはどう変化する？', 'A star without nuclear burning contracts slowly and radiates Q = 10³⁰ J. In this model, how do K and U change?'],
+      answer: ['全エネルギーはΔE＝−Q。E＝−KなのでΔK＝＋10³⁰ J、U＝−2KなのでΔU＝−2×10³⁰ J。重力の位置エネルギーの減少の半分が内部の熱運動、半分が放射になります。', 'ΔE = −Q. Since E = −K, ΔK = +10³⁰ J; since U = −2K, ΔU = −2 × 10³⁰ J. Half the decrease in gravitational energy heats the gas and half is radiated.'],
+      body: () => s(1, 'まず、円を回る一つの天体で確かめる', 'Begin with one body in a circular orbit',
+        p('質量Mの天体の周りを、軽い天体mが半径r、速さvで円運動しているとします。重力が向心力なので、mv²/r＝GMm/r²。両辺にrを掛けるとmv²＝GMm/rになります。', 'Let a small mass m orbit a dominant mass M in a circle of radius r at speed v. Gravity supplies the centripetal force: mv²/r = GMm/r². Multiply by r to obtain mv² = GMm/r.'),
+        eq(`K = ${f('mv<sup>2</sup>', '2')} = ${f('GMm', '2r')},　U = −${f('GMm', 'r')}　⇒　2K + U = 0`, 'Kは運動エネルギー、Uは重力の位置エネルギー。U＝0の基準は無限遠です。', 'K is kinetic energy and U is gravitational potential energy, with zero at infinite separation.'),
+        p('円軌道ではその瞬間ごとに成り立ちます。楕円軌道や多数の粒子へ広げるときには、平均と適用条件が必要になります。', 'For a circular orbit this holds at each instant. Extending it to elliptical orbits and many particles requires averaging and conditions.')) +
+        s(2, '星全体への一般化は、定理として借りる', 'Use the general theorem as a physical input',
+          eq(`2⟨K⟩ + ⟨U⟩ = 0`),
+          p('重力で束縛され、全体の大きさが長期的に増え続けたり減り続けたりしない系では、適切な時間平均でこの関係が得られます。⟨ ⟩は時間平均です。一般的な証明はここでは扱わず、円運動の例を手がかりに結果を使います。', 'For a gravitationally bound system whose overall extent does not keep growing or shrinking, this relation holds under suitable time averaging. Angle brackets denote time averages. We use the general result as an input, with the circular-orbit example providing intuition.'),
+          note('以下では、ゆっくり進化する準静的な星を、非相対論的な単原子理想気体で支えられた自己重力系として近似します。表面での外圧、回転、磁場、放射圧を無視し、Kを粒子の熱運動エネルギーとします。激しい崩壊中や縮退・放射圧が重要な星へ、この簡単な形をそのまま使うことはできません。', 'Below we approximate a slowly evolving, quasi-static star by a self-gravitating nonrelativistic monatomic ideal gas. External surface pressure, rotation, magnetic fields, and radiation pressure are neglected, and K is the gas thermal energy. Rapid collapse, degeneracy, or dominant radiation pressure requires a different treatment.', true)) +
+        s(3, '重力から、内部の温度の尺度を求める', 'Estimate an internal temperature from gravity',
+          p('重力の位置エネルギーをU≈−αGM²/Rと書きます。αは密度分布に依存する無次元の構造係数です。粒子数をN＝M/(μmᵤ)、粒子1個あたりの平均運動エネルギーを3k_BT̄/2とします。T̄は粒子数で重みづけした平均温度です。', 'Write the gravitational energy as U ≈ −αGM²/R, with a dimensionless structure coefficient α depending on the density profile. Let N = M/(μmᵤ), and use a mean kinetic energy 3k_BT̄/2 per particle. T̄ is a particle-number-weighted mean temperature.'),
+          eq(`2K = 3Nk<sub>B</sub>T̄ ≈ ${f('αGM<sup>2</sup>', 'R')}`),
+          eq(`3${f('M', 'μm<sub>u</sub>')}k<sub>B</sub>T̄ ≈ ${f('αGM<sup>2</sup>', 'R')}　⇒　T̄ ≈ ${f('αμm<sub>u</sub>GM', '3k<sub>B</sub>R')}`),
+          p('組成と構造係数を固定すればT̄ ∝ M/R。半径が半分なら平均温度は約2倍になります。太陽のMとR、μ≈0.6、例としてα＝1を使うと約460万K。これは内部の温度の尺度で、中心温度そのものや表面の5772 Kとは別です。', 'At fixed composition and structure coefficient, T̄ ∝ M/R: halving the radius approximately doubles the mean temperature. Using the Sun’s M and R, μ ≈ 0.6, and an illustrative α = 1 gives about 4.6 million K. This is an internal temperature scale, not the central temperature or the 5,772 K surface effective temperature.')) +
+        s(4, '全エネルギーは、熱運動エネルギーのマイナス', 'Total energy is minus the thermal energy',
+          eq(`U = −2K　⇒　E = K+U = −K = ${f('U', '2')}`),
+          p('符号に注目しましょう。星が重力で束縛されているので全エネルギーは負です。同じ質量・組成でこのつり合いを保つ星が光を失ってEを小さくすると、Kは逆に大きくなります。', 'Watch the signs. A bound star has negative total energy. If it radiates while maintaining this balance at fixed mass and composition, E decreases while K increases.')) +
+        s(5, '光を失うのに熱くなる：負の熱容量', 'Radiating while heating up: negative heat capacity',
+          eq(`ΔE = −Q　⇒　ΔK = Q,　ΔU = −2Q　(Q &gt; 0)`),
+          p('核融合などのエネルギー供給がなく、準静的に収縮する場合です。重力の位置エネルギーが2Q下がり、Qが熱運動を増やし、Qが光として外へ出ます。「半分を放射し、半分が加熱する」という関係が、式の符号だけでわかります。', 'This describes quasi-static contraction without an energy source such as nuclear burning. Gravitational energy decreases by 2Q: Q raises the thermal energy, and Q escapes as radiation. The half-and-half split follows from the signs in the energy balance.'),
+          note('負の熱容量は、星全体が重力による構造変化を含めて示す性質です。小さな気体の塊を体積一定で加熱したときの比熱が負になる、という意味ではありません。また、現在の太陽の主な光源は重力収縮ではなく核融合です。', 'Negative heat capacity here describes the whole self-gravitating system, including structural change. It does not mean a small gas sample has negative heat capacity at fixed volume. The present Sun is powered mainly by nuclear fusion, not contraction.'),
+          p('<a href="#/chapter/structure">星の構造と質量–光度関係へ →</a>　次は重力が決める温度と、光が内部を運ばれる速さをつなぎます。', '<a href="#/chapter/structure">Continue to stellar structure and mass–luminosity scaling →</a> Connect the gravitational temperature scale to the transport of light.'))
+    },
+    {
       id: 'structure', part: 2, minutes: 17,
       title: ['星の構造と、質量–光度関係', 'Stellar structure and the mass–luminosity relation'],
       desc: ['重力・圧力・光のランダムウォークを結ぶ。', 'Connect gravity, pressure, and the random walk of radiation.'],
@@ -231,7 +265,8 @@
         p('中心に向かうほど圧力が高い構造が必要です。これは恒星内部の詳しい分布を解いた式ではなく、代表値の桁をつなぐ式です。', 'The star needs higher pressure toward its centre. These are representative scale estimates, not a solution for the internal profiles.')) +
         s(2, '理想気体なら、中心温度はM/Rに比例', 'For gas-pressure support, central temperature scales as M/R',
           eq(`P<sub>c</sub> ∼ ${f('ρk<sub>B</sub>T<sub>c</sub>', 'μm<sub>u</sub>')}　⇒　T<sub>c</sub> ∼ ${f('μm<sub>u</sub>GM', 'k<sub>B</sub>R')}`),
-          p('μは粒子1個あたりの平均質量を原子質量定数mᵤで割った値です。右辺はKの単位になります。組成を固定するとT_c ∝ M/R。表面の有効温度T_effとは別の量です。', 'μ is the mean mass per gas particle in units of the atomic mass constant mᵤ. The right-hand side has units of kelvin. At fixed composition, T_c ∝ M/R. This central temperature is different from the surface effective temperature T_eff.')) +
+          p('μは粒子1個あたりの平均質量を原子質量定数mᵤで割った値です。右辺はKの単位になります。組成を固定するとT_c ∝ M/R。表面の有効温度T_effとは別の量です。', 'μ is the mean mass per gas particle in units of the atomic mass constant mᵤ. The right-hand side has units of kelvin. At fixed composition, T_c ∝ M/R. This central temperature is different from the surface effective temperature T_eff.'),
+          p('<a href="#/chapter/virial">ビリアル定理の章</a>では、星全体のエネルギーから同じM/Rの尺度を求めます。', 'The <a href="#/chapter/virial">virial theorem chapter</a> obtains the same M/R scaling from the star’s global energy.')) +
         s(3, '光が拡散して出るときの光度', 'Luminosity from radiative diffusion',
           p('熱平衡に近い内部の放射エネルギー密度をaT_c⁴とすると、蓄えられた放射エネルギーの尺度はaT_c⁴R³。拡散時間t_diff∼R²/(cℓ)で割り、ℓ＝1/(κρ)を代入します。aは放射定数です。', 'In a nearly thermal interior, radiation energy density scales as aT_c⁴, giving stored radiation energy of order aT_c⁴R³. Divide by t_diff ∼ R²/(cℓ) and insert ℓ = 1/(κρ). Here a is the radiation constant.'),
           eq(`L ∼ acT<sub>c</sub><sup>4</sup>Rℓ ∼ ${f('acRT<sub>c</sub><sup>4</sup>', 'κρ')} ∼ ${f('acR<sup>4</sup>T<sub>c</sub><sup>4</sup>', 'κM')}`)) +
@@ -362,6 +397,42 @@
           p('鉄より重い元素にも複数の起源があります。進化した星の中性子捕獲や、中性子星合体などの激しい環境での速い中性子捕獲が重要です。全ての重元素を一種類の超新星だけで説明することはできません。', 'Elements heavier than iron have several origins, including slow neutron capture in evolved stars and rapid neutron capture in extreme environments such as neutron-star mergers. One kind of supernova does not explain every heavy element.')) +
         s(4, '光を読むと、物質の歴史が見える', 'Reading light reveals the history of matter',
           p('原子の準位がスペクトル線を作り、線の比や幅が温度・組成・運動を伝えます。光度と距離を組み合わせると星のエネルギーがわかり、重力と量子の法則が、その星が生きられる範囲を決めます。別々に見えた式は、同じ宇宙の違う面を結んでいます。', 'Atomic levels produce lines; line ratios and widths reveal temperature, composition, and motion. Luminosity and distance reveal energy output. Gravity and quantum physics set the conditions under which a star can exist. The equations connect different aspects of the same universe.'))
+    },
+    {
+      id: 'expansion', part: 3, minutes: 20,
+      title: ['宇宙膨張とハッブル–ルメートルの法則', 'Cosmic expansion and the Hubble–Lemaître law'],
+      desc: ['距離の伸び率からv＝HD、赤方偏移、ハッブル時間へ。', 'From fractional distance growth to v = HD, redshift, and the Hubble time.'],
+      goal: ['スケール因子からv＝HDを導き、赤方偏移と宇宙年齢を混同しない。', 'Obtain v = HD from a scale factor and distinguish redshift, Hubble time, and cosmic age.'],
+      prereq: ['比例・速さ＝距離の変化÷時間', 'Proportions and speed as change in distance per time'], refs: ['expansion', 'cosmology', 'distance'],
+      question: ['Lyαの静止波長は約121.6 nm。z＝3の銀河から届くと何nm？ 放出時のスケール因子は現在の何倍？', 'Lyα has a rest wavelength near 121.6 nm. At z = 3, what wavelength do we observe, and how large was the emission-era scale factor relative to today?'],
+      answer: ['λ_obs＝(1＋3)×121.6＝486.4 nm。a_now＝1とすればa_emit＝1/(1＋3)＝0.25。「宇宙の年齢が現在の1/4だった」とは、この式だけからは言えません。', 'λ_obs = (1 + 3) × 121.6 = 486.4 nm. With a_now = 1, a_emit = 1/(1 + 3) = 0.25. This alone does not imply an age one quarter of today’s.'],
+      body: () => s(1, '銀河どうしの距離に、共通の倍率をかける', 'Multiply galaxy separations by a common factor',
+        p('十分大きな尺度で宇宙がほぼ一様・等方的だとする標準的なモデルを考えます。宇宙の流れに乗る点の目盛りをχ、その時刻での距離の尺度をスケール因子a(t)とすると、適切な共動距離χを使ってD(t)＝a(t)χと書けます。aは無次元で、現在をa_now＝1にそろえます。', 'In the standard large-scale model, the universe is approximately homogeneous and isotropic. For points following the cosmic flow, write their same-time proper separation as D(t) = a(t)χ, using an appropriate fixed comoving separation χ. The dimensionless scale factor a(t) is conventionally one today.'),
+        eq(`D = aχ,　D' = a'χ　⇒　${f('D\u2032', 'D')} = ${f('a\u2032', 'a')}`, 'ダッシュは別の時刻の値を表します。この行では微分の記号ではありません。', 'Primes label values at a different time; they do not denote derivatives here.'),
+        p('aが1から1.1になれば、宇宙膨張に従う点どうしの距離はどこでも1.1倍です。銀河や太陽系や原子の大きさまで、同じ倍率で伸びるという意味ではありません。重力や電磁気力で束縛された系の内部では、その力が構造を決めます。', 'If a grows from 1 to 1.1, separations of points following the cosmic flow grow by 1.1. This does not make galaxies, solar systems, or atoms expand by the same factor: binding forces determine their internal structures.')) +
+        s(2, '短い時間での変化を割り算すると、ハッブルの法則', 'Divide the change by time to obtain Hubble’s law',
+          p('短い時間ΔtでaがΔaだけ増えるとします。χは固定なので、ΔD＝χΔa＝DΔa/a。これをΔtで割れば、距離の増える速さが得られます。', 'During a short interval Δt, let the scale factor increase by Δa. Since χ stays fixed, ΔD = χΔa = DΔa/a. Divide by Δt to find the rate of separation.'),
+          eq(`${f('ΔD', 'Δt')} = (${f('Δa', 'aΔt')})D`, '右辺のaとDは時間区間の初めの値。この有限の時間区間に対する式は、χ一定なら等式です。', 'Here a and D are evaluated at the start of the interval. For fixed χ this finite-interval equation is an equality.'),
+          eq(`H<sub>Δt</sub> ≡ ${f('Δa', 'aΔt')},　v<sub>Δt</sub> ≡ ${f('ΔD', 'Δt')}　⇒　v<sub>Δt</sub> = H<sub>Δt</sub>D`),
+          p('十分短い時間に対応する瞬間の量をH(t)、v_recと書くと、v_rec＝H(t)D。これが一様な膨張でのハッブル–ルメートルの関係です。H(t)は単位時間あたりの割合で、現在の値がH₀。「ハッブル定数」という名前でも、宇宙の歴史を通じて一定とは限りません。', 'For instantaneous rates the relation is v_rec = H(t)D. This is the Hubble–Lemaître relation for uniform expansion. H(t) is a fractional growth rate per unit time; H₀ is its present value. The name “Hubble constant” does not make it constant throughout cosmic history.')) +
+        s(3, 'どこから見ても、遠い点ほど速く離れる', 'Every observer sees more distant points separate faster',
+          p('一直線にA、B、Cが並び、短い時間に各間隔が1%伸びるとします。Aから見たCはBの2倍遠ければ、距離の増加も2倍。Bから見ても、両側の点が同じ規則で離れます。地球だけが特別な膨張の中心だという結論は出ません。', 'Imagine A, B, and C on a line with every gap growing by 1% in a short time. If C is twice as far from A as B is, its separation increases twice as much. From B, both sides follow the same rule. This does not identify Earth as a special centre of expansion.'),
+          `<div data-lab="expansion"></div>`,
+          note('v_recは同じ宇宙時刻で定義した遠くの点との距離の変化率です。宇宙論的な遠距離ではHDがcを超えても、近くの観測者の横を物体が光より速く通ることを意味しません。この距離変化率に、局所的な速度上限cをそのまま当てはめることはできません。', 'v_rec is the change of a same-cosmic-time separation to a distant point. At cosmological distances HD can exceed c without an object locally passing an observer faster than light. The local speed limit and this distant-separation rate are different quantities.')) +
+        s(4, '伸びる波長が、宇宙論的赤方偏移になる', 'Stretched wavelengths give cosmological redshift',
+          eq(`z ≡ ${f('λ<sub>obs</sub>−λ<sub>emit</sub>', 'λ<sub>emit</sub>')}　⇒　1+z = ${f('λ<sub>obs</sub>', 'λ<sub>emit</sub>')}`),
+          p('一様・等方な宇宙で、光の放出者と観測者が共に宇宙の流れに乗っているとき、一般相対論から次の関係が与えられます。波長の定義だけから導いたのではなく、膨張する時空を光が伝わるという追加の結果を使います。', 'For emission and observation by comoving observers in a homogeneous, isotropic universe, general relativity supplies the following relation. It is an additional result about light propagating through expanding spacetime, not an algebraic consequence of the definition of z alone.'),
+          eq(`1+z = ${f('a<sub>now</sub>', 'a<sub>emit</sub>')}　⇒　a<sub>emit</sub> = ${f('1', '1+z')}　(a<sub>now</sub>=1)`),
+          p('z＝1なら光を出したときのaは0.5。zが大きいとき、これを特殊相対論のドップラー式にそのまま置き換えて距離を求めることはできません。実際の観測には、銀河の固有運動や重力による赤方偏移も加わりえます。', 'At z = 1, the emission-era scale factor was 0.5. At high redshift, inserting z into a special-relativistic Doppler formula is not a general way to infer cosmic distance. Observations can also include peculiar velocities and gravitational redshifts.')) +
+        s(5, '近い宇宙でなら、観測から距離を見積もれる', 'Infer distances in the nearby-universe approximation',
+          eq(`z ≈ ${f('v', 'c')},　v ≈ H<sub>0</sub>D　⇒　D ≈ ${f('cz', 'H<sub>0</sub>')}`),
+          p('計算例としてH₀＝70 km s⁻¹ Mpc⁻¹を使います。これは練習用の丸い値で、最新の測定値を一つに確定する意味ではありません。1 Mpc（メガパーセク）≈326万光年です。D＝10 Mpcならv≈700 km/s、D＝100 Mpcなら約7000 km/sとなります。', 'Use H₀ = 70 km s⁻¹ Mpc⁻¹ as a round teaching example, not a claim that current measurements have settled on a unique value. One megaparsec is about 3.26 million light-years. At 10 Mpc the example gives 700 km/s; at 100 Mpc, 7,000 km/s.'),
+          p('z＝0.005ならv≈1500 km/s、D≈21.4 Mpc。ただし近い銀河の固有運動は、この推定に大きく影響することがあります。遠い銀河では膨張史と距離の定義も必要で、この近似式だけでは足りません。', 'For z = 0.005, v ≈ 1,500 km/s and D ≈ 21.4 Mpc. Peculiar motion can substantially affect nearby-galaxy estimates. At large distances the expansion history and the definition of distance matter, so this approximation is insufficient.')) +
+        s(6, '1/H₀は時間。でも宇宙年齢そのものではない', '1/H₀ is a timescale, not automatically the age',
+          eq(`H<sub>0</sub> ≈ ${f('70 km/s', '3.086×10<sup>19</sup> km')} ≈ 2.27×10<sup>−18</sup> s<sup>−1</sup>`),
+          eq(`t<sub>H</sub> ≡ ${f('1', 'H<sub>0</sub>')} ≈ 4.41×10<sup>17</sup> s ≈ ${t('140億年', '14 billion years')}`, 'H₀＝70 km s⁻¹ Mpc⁻¹の例でのハッブル時間です。', 'The Hubble time for the example H₀ = 70 km s⁻¹ Mpc⁻¹.'),
+          p('現在の距離Dを、現在の後退速度H₀Dで割ると1/H₀になります。しかし過去の速さがずっと今と同じだったとは限りません。宇宙年齢を得るには、過去の膨張をたどる必要があります。', 'Dividing the present separation D by the present recession rate H₀D gives 1/H₀. But that separation need not have grown at its present rate throughout the past. Determining the cosmic age requires the expansion history.'),
+          note('「膨張が加速する」と「Hが増える」は同じではありません。Hは距離の絶対的な増加率ではなく、距離で割った割合です。ハッブルの法則自体は膨張の仕方を表す関係で、物質・放射・暗黒エネルギーが膨張史をどう決めるかを単独で解く法則ではありません。', 'Accelerated expansion does not necessarily mean an increasing H: H is a fractional rate, not the absolute rate of growth. Hubble’s law describes the expansion pattern; by itself it does not determine how matter, radiation, and dark energy govern the expansion history.', true))
     }
   ];
   window.AstroContent = { chapters, sources, renderBody(id, locale) { language = locale; return chapters.find(c => c.id === id).body(); } };

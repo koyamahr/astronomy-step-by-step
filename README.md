@@ -26,16 +26,18 @@ No installation or build is needed. Serve `docs/` with any static HTTP server. A
 05. 古典的電子半径とトムソン散乱 / Classical electron radius and Thomson scattering
 06. 平均自由行程、熱平衡、ボルツマン分布 / Mean free paths, equilibrium, Boltzmann factors
 07. アインシュタインA・B係数とプランク分布 / Einstein coefficients and Planck’s law
-08. 星の構造、質量–光度関係 / Stellar structure and mass–luminosity scaling
-09. 太陽の表面温度 / Solar effective temperature
-10. エディントン限界 / Eddington limit
-11. チャンドラセカール質量 / Chandrasekhar mass
-12. 特殊・一般相対論への入口 / An entry to special and general relativity
-13. 元素合成とヘリウムの量 / Nucleosynthesis and helium abundance
+08. ビリアル定理、収縮と加熱 / Virial theorem, contraction, and heating
+09. 星の構造、質量–光度関係 / Stellar structure and mass–luminosity scaling
+10. 太陽の表面温度 / Solar effective temperature
+11. エディントン限界 / Eddington limit
+12. チャンドラセカール質量 / Chandrasekhar mass
+13. 特殊・一般相対論への入口 / An entry to special and general relativity
+14. 元素合成とヘリウムの量 / Nucleosynthesis and helium abundance
+15. 宇宙膨張とハッブル–ルメートルの法則 / Cosmic expansion and the Hubble–Lemaître law
 
-各章に学習目標、仮定、途中式、確認問題、参考資料を収録。黒体スペクトル、エディントン比、縮退圧の比例則を試す操作パネルもあります。
+各章に学習目標、仮定、途中式、確認問題、参考資料を収録。黒体スペクトル、エディントン比、縮退圧の比例則、宇宙膨張と後退速度を試す操作パネルもあります。
 
-Each chapter includes learning goals, assumptions, worked algebra, a question with an expandable answer, and references. Three interactive panels explore blackbody spectra, Eddington ratios, and pressure scaling.
+Each chapter includes learning goals, assumptions, worked algebra, a question with an expandable answer, and references. Four interactive panels explore blackbody spectra, Eddington ratios, pressure scaling, and cosmic expansion.
 
 ## 教え方の方針 / Teaching scope
 
@@ -65,13 +67,13 @@ The included workflow validates and deploys `docs/` to [GitHub Pages](https://ko
 ## 構成と編集 / Files and editing
 
 - `docs/index.html`: HTML shell and language controls
-- `docs/content.js`: all 14 bilingual lessons, formula markup, questions, and references
+- `docs/content.js`: all 16 bilingual lessons, formula markup, questions, and references
 - `docs/app.js`: navigation, language switching, search, completion state, interactive panels
 - `docs/style.css`: responsive layout, print styles, and reduced-motion support
 - `scripts/check.mjs`: dependency-free content integrity checks
 - `.github/workflows/pages.yml`: GitHub Pages deployment
 
-章の本文は `content.js` の `body()` にあります。`p(日本語, English)` などのヘルパーで両言語を対応させ、数式は共有します。翻訳時には記号の定義や近似条件も対応させてください。新しい章を増やす場合は、目次の章数表示と検査スクリプトの期待数も更新します。
+章の本文は `content.js` の `body()` にあります。`p(日本語, English)` などのヘルパーで両言語を対応させ、数式は共有します。翻訳時には記号の定義や近似条件も対応させてください。目次の章数表示は章データから自動更新されます。章を増やす場合は検査スクリプトの期待数も更新します。
 
 ```sh
 node scripts/check.mjs

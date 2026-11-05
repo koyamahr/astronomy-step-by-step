@@ -18,7 +18,8 @@
   const parts = [
     ['観測と道具 — 宇宙を測る', 'OBSERVATIONS & TOOLS — Measuring the universe'],
     ['原子と放射 — 光の仕組み', 'ATOMS & RADIATION — Understanding light'],
-    ['星とその限界 — ミクロからマクロへ', 'STARS & THEIR LIMITS — From micro to macro']
+    ['星とその限界 — ミクロからマクロへ', 'STARS & THEIR LIMITS — From micro to macro'],
+    ['宇宙論への入口 — 宇宙の広がりを読む', 'COSMOLOGY — Reading the expanding universe']
   ];
 
   function cosmicFigure() {
@@ -51,7 +52,7 @@
   }
 
   function contentsBlock() {
-    return `<section id="contents"><div class="section-heading"><div><div class="eyebrow">THE LEARNING PATH</div><h2>${t('小さな式から、大きな宇宙へ。', 'Small equations. A vast universe.')}</h2><p>${t('順番に読んでも、気になる問いから始めても。', 'Read in order, or start with the question that draws you in.')}</p></div><span class="section-index">14</span></div><div class="chapter-tools"><label class="search"><span class="visually-hidden">${t('章を検索', 'Search chapters')}</span><input type="search" id="chapter-search" placeholder="${t('章を探す：光、電子、重力…', 'Find a chapter: light, electrons, gravity…')}" autocomplete="off"></label><span class="progress-caption">${completed.size} / ${chapters.length} ${t('章 読了', 'chapters complete')}</span></div><div class="chapter-list" id="chapter-results">${chapterRows()}</div></section>`;
+    return `<section id="contents"><div class="section-heading"><div><div class="eyebrow">THE LEARNING PATH</div><h2>${t('小さな式から、大きな宇宙へ。', 'Small equations. A vast universe.')}</h2><p>${t('順番に読んでも、気になる問いから始めても。', 'Read in order, or start with the question that draws you in.')}</p></div><span class="section-index">${chapters.length}</span></div><div class="chapter-tools"><label class="search"><span class="visually-hidden">${t('章を検索', 'Search chapters')}</span><input type="search" id="chapter-search" placeholder="${t('章を探す：光、電子、重力…', 'Find a chapter: light, electrons, gravity…')}" autocomplete="off"></label><span class="progress-caption">${completed.size} / ${chapters.length} ${t('章 読了', 'chapters complete')}</span></div><div class="chapter-list" id="chapter-results">${chapterRows()}</div></section>`;
   }
 
   function home(onlyContents = false) {
@@ -118,6 +119,7 @@
       if (el.dataset.lab === 'blackbody') mountBlackbody(el);
       if (el.dataset.lab === 'eddington') mountEddington(el);
       if (el.dataset.lab === 'compression') mountCompression(el);
+      if (el.dataset.lab === 'expansion') mountExpansion(el);
     });
   }
 
@@ -176,6 +178,47 @@
       el.querySelector('#compression-note').textContent = t(`重力の圧力尺度は${(radius ** -4).toFixed(1)}倍。超相対論的な縮退圧も同じ倍率で増えるので、その比は変わりません。`, `The gravitational pressure scale grows by ${(radius ** -4).toFixed(1)}. Ultrarelativistic degeneracy pressure grows by the same factor, so their ratio stays fixed.`);
     };
     slider.addEventListener('input', update); update();
+  }
+
+  function mountExpansion(el) {
+    el.className = 'lab';
+    el.innerHTML = `<h3>${t('動かして確かめる：どの銀河から見てもv＝HD', 'Explore: v = HD from any galaxy')}</h3>
+      <label for="exp-scale">${t('距離の倍率', 'Distance scale factor')} a = <output id="exp-scale-value" for="exp-scale"></output></label>
+      <input id="exp-scale" type="range" min="0.5" max="2" step="0.01" value="1">
+      <label for="exp-rate">H = <output id="exp-rate-value" for="exp-rate"></output> km s⁻¹ Mpc⁻¹</label>
+      <input id="exp-rate" type="range" min="50" max="90" step="1" value="70">
+      <label for="exp-observer">${t('観測者を置く点', 'Observer location')}</label>
+      <select id="exp-observer"><option value="0">A</option><option value="1">B</option><option value="2" selected>C</option><option value="3">D</option><option value="4">E</option></select>
+      <svg viewBox="0 0 600 330" role="img" aria-labelledby="exp-chart-title"><title id="exp-chart-title">${t('上：一様に間隔が変わる5点。下：観測者からの距離と後退速度の比例関係。', 'Top: five points with uniformly scaled gaps. Bottom: recession rate versus distance from the chosen observer.')}</title>
+        <text x="25" y="25">${t('隣り合う点の間隔：10a Mpc', 'Adjacent separation: 10a Mpc')}</text><line x1="35" y1="65" x2="565" y2="65" stroke="#c5d1c5"/><g id="exp-galaxies"></g>
+        <path d="M65 115V280H565" stroke="#9faea4" fill="none"/><text x="72" y="113">${t('後退速度 [km/s]', 'Recession rate [km/s]')}</text><text x="272" y="317">${t('距離 D [Mpc]', 'Distance D [Mpc]')}</text><text x="47" y="284">0</text><text x="35" y="131">7200</text><text x="62" y="298">0</text><text x="550" y="298">80</text>
+        <path id="exp-law" stroke="#aabeb0" stroke-dasharray="5 4" fill="none"/><g id="exp-points"></g>
+      </svg><p id="exp-reading" class="lab-note" role="status"></p>
+      <p class="lab-note">${t('点は宇宙膨張に乗る銀河群の代表点です。色のついた点が観測者。横軸はその点からの距離、縦軸はHD。左右の点が同じ距離にあると、グラフでは重なります。', 'Points represent galaxy groups following the cosmic flow. The coloured point is the observer. The graph uses distance from that point and HD; equal-distance points on opposite sides overlap.')}</p>
+      <p class="lab-note">${t('aとHを独立に変え、異なる配置を比較するモデルです。スライダーの動き自体は時間発展の計算ではありません。銀河内部の大きさや固有運動は扱いません。', 'The controls independently vary a and H to compare configurations. Moving a slider is not a calculation of cosmic time evolution. Internal galaxy sizes and peculiar motions are omitted.')}</p>`;
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+    const update = () => {
+      const scale = Number(el.querySelector('#exp-scale').value);
+      const rate = Number(el.querySelector('#exp-rate').value);
+      const observer = Number(el.querySelector('#exp-observer').value);
+      el.querySelector('#exp-scale-value').textContent = scale.toFixed(2);
+      el.querySelector('#exp-rate-value').textContent = rate;
+      el.querySelector('#exp-galaxies').innerHTML = letters.map((letter, i) => {
+        const x = 300 + (i - 2) * 60 * scale;
+        return `<circle cx="${x}" cy="65" r="${i === observer ? 8 : 6}" fill="${i === observer ? '#bb592f' : '#345c70'}"/><text x="${x}" y="90" text-anchor="middle">${letter}</text>`;
+      }).join('');
+      const points = letters.map((letter, i) => ({ letter, distance: Math.abs(i - observer) * 10 * scale, i })).filter(point => point.i !== observer);
+      el.querySelector('#exp-law').setAttribute('d', `M65 280L565 ${280 - rate * 80 / 7200 * 150}`);
+      el.querySelector('#exp-points').innerHTML = points.map(point => {
+        const x = 65 + point.distance / 80 * 500;
+        const y = 280 - rate * point.distance / 7200 * 150;
+        return `<circle cx="${x}" cy="${y}" r="5" fill="#bb592f"/>`;
+      }).join('');
+      const distances = points.map(point => `${point.letter}: ${point.distance.toFixed(1)} Mpc → ${Math.round(rate * point.distance)} km/s`).join('; ');
+      el.querySelector('#exp-reading').textContent = `${t('観測者', 'Observer')} ${letters[observer]}. ${distances}`;
+    };
+    el.querySelectorAll('input,select').forEach(input => input.addEventListener('input', update));
+    update();
   }
 
   document.addEventListener('click', event => {
