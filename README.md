@@ -1,8 +1,8 @@
-# 高校生が知りたい天文学 / Astronomy, step by step
+# 理論天文学の道具箱 / Theoretical Astrophysics, Step by Step
 
-高校数学の式変形を中心に、光の観測から星の限界までたどる、日本語・英語の静的Web教材です。
+高校数学の式変形から、微分方程式を使う標準問題へ進む、日本語・英語の静的Web教材シリーズです。入門編の16章を公開し、姉妹編となる発展編の構成案を整理しています。
 
-A bilingual Japanese–English astrophysics guide, connecting observations to stellar limits through accessible algebra.
+A bilingual Japanese–English series: Foundations explores the universe through school algebra; Advanced covers equilibrium, instability, transport, and similarity solutions. All 16 foundation lessons are available. The advanced volume currently publishes a syllabus, not completed worked chapters.
 
 ## ローカルで読む / Read locally
 
@@ -16,7 +16,7 @@ python3 -m http.server 4173 --bind 127.0.0.1 --directory docs
 
 No installation or build is needed. Serve `docs/` with any static HTTP server. All fonts, equations, illustrations, and application assets work without a CDN. Reference links require internet access.
 
-## 内容 / Curriculum
+## 入門編 / Foundations
 
 00. 数式の道具箱 / Mathematical toolkit
 01. 光と距離、宇宙の距離のはしご / Light, distance, and the cosmic distance ladder
@@ -39,16 +39,31 @@ No installation or build is needed. Serve `docs/` with any static HTTP server. A
 
 Each chapter includes learning goals, assumptions, worked algebra, a question with an expandable answer, and references. Four interactive panels explore blackbody spectra, Eddington ratios, pressure scaling, and cosmic expansion.
 
+## 発展編 / Advanced
+
+**平衡・不安定性・輸送・相似解 / Equilibrium, instability, transport, and similarity solutions**
+
+[発展編の構成案](https://koyamahr.github.io/astronomy-step-by-step/#/advanced)には、6分野・14題材を収録しています。各項目で物理の問い、数学の道すじ、参考文献、入門編との接続を読めます。詳細な導出・数値解を含む章本文は今後執筆します。
+
+- 球対称の平衡：Lane–Emden、Bonnor–Ebert球
+- 回転と非球対称：楕円体ポテンシャル、テンソルビリアルとMaclaurin／Jacobi系列
+- 重力不安定性と宇宙構造：Jeans不安定性・Jeans swindle、Zel’dovichパンケーキ
+- 流体の相似解：Sedov–Taylor、Larson–Penston／Shu
+- 星団の統計力学：2体緩和、Fokker–Planck、グラボサーマル・カタストロフィー
+- 円盤：αモデル、Lynden–Bell–Pringle相似解、Toomre Qと冷却・分裂
+
+The advanced syllabus provides questions, mathematical approaches, references, and foundation links for 14 topics in six areas. Future worked chapters follow three stages: understand the phenomenon, formulate the equations, and solve and check.
+
 ## 教え方の方針 / Teaching scope
 
-- 微分方程式を解かず、式変形と桁の見積もりを中心にする。
+- 入門編は微分方程式を解かず、式変形と桁の見積もりを中心にする。発展編では微分方程式を扱う。
 - エントロピー極大化と未定乗数法だけは、微分を使う任意の発展欄に置く。
 - 量子の準位、ラーモアの公式、アインシュタイン関係式、相対論の結果など、出発点として借りる法則を明示する。
 - チャンドラセカール質量は半径が消える理由と組成依存性まで追い、精密な係数は恒星構造計算の標準結果として区別する。
 - 温度のK/℃、光度と流束、線幅のFWHM、放射密度の周波数/波長の定義を区別する。
 - 掲載値や理想モデルは、観測・適用範囲・組成などの条件とともに説明する。
 
-No differential equations are solved. The optional entropy-maximization section uses derivatives. Supplied laws, algebraic deductions, estimates, and detailed-model coefficients are explicitly distinguished.
+No differential equations are solved in Foundations. Its optional entropy-maximization section uses derivatives. Advanced is planned to use differential equations. Supplied laws, algebraic deductions, estimates, and detailed-model coefficients are explicitly distinguished.
 
 ## GitHub Pagesで公開 / Deploy to GitHub Pages
 
@@ -68,8 +83,10 @@ The included workflow validates and deploys `docs/` to [GitHub Pages](https://ko
 
 - `docs/index.html`: HTML shell and language controls
 - `docs/content.js`: all 16 bilingual lessons, formula markup, questions, and references
+- `docs/series.js`: bilingual series titles, volume descriptions, and the advanced syllabus
 - `docs/app.js`: navigation, language switching, search, completion state, interactive panels
-- `docs/style.css`: responsive layout, print styles, and reduced-motion support
+- `docs/style.css`: lesson layout, print styles, and reduced-motion support
+- `docs/series.css`: volume cards, syllabus layout, and responsive series navigation
 - `scripts/check.mjs`: dependency-free content integrity checks
 - `.github/workflows/pages.yml`: GitHub Pages deployment
 
