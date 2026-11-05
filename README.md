@@ -50,7 +50,7 @@ No differential equations are solved. The optional entropy-maximization section 
 
 ## GitHub Pagesで公開 / Deploy to GitHub Pages
 
-現在、この作業フォルダにはGitHubリモートが設定されていません。公開はまだ行っていません。
+公開先：[教材サイト](https://koyamahr.github.io/astronomy-step-by-step/) · [GitHubリポジトリ](https://github.com/koyamahr/astronomy-step-by-step)
 
 1. このフォルダの内容をGitHubリポジトリの `main` ブランチへpushします。
 2. GitHubの **Settings → Pages → Build and deployment → Source** を **GitHub Actions** に設定します。
@@ -58,7 +58,7 @@ No differential equations are solved. The optional entropy-maximization section 
 
 ワークフローは `docs/` のみを公開します。ルート配下・リポジトリ名配下のどちらでも動く相対パスとハッシュルーティングを使っています。公開URLはGitHubのPages画面とデプロイ結果で確認できます。
 
-The included workflow validates and deploys `docs/`. Enable **GitHub Actions** as the Pages source, then push to `main` or run the workflow manually. No GitHub remote or live deployment has been created by this initial setup.
+The included workflow validates and deploys `docs/` to [GitHub Pages](https://koyamahr.github.io/astronomy-step-by-step/). The source is maintained in [koyamahr/astronomy-step-by-step](https://github.com/koyamahr/astronomy-step-by-step). Further pushes to `main` update the site automatically.
 
 設定の詳細は[GitHub公式のPagesワークフロー案内](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)も参照できます。
 
@@ -81,4 +81,4 @@ node scripts/check.mjs
 
 ## 初版の検証 / Initial validation
 
-両言語の本文・メタデータ、HTMLの対応、参考資料キー、ローカル資産、JavaScript構文を `scripts/check.mjs` で検査します。ブラウザでの表示・切り替え・操作の検証結果は `VALIDATION.md` に記録します。GitHub Actions実行と実際の公開は、リモート接続後に別途確認が必要です。
+両言語の本文・メタデータ、HTMLの対応、参考資料キー、ローカル資産、JavaScript構文を `scripts/check.mjs` で検査します。ブラウザでの表示・切り替え・操作の検証結果は `VALIDATION.md` に記録します。各更新の公開結果はGitHubのActions画面でも確認できます。
