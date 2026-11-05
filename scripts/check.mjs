@@ -6,10 +6,11 @@ import { runInNewContext } from 'node:vm';
 import { execFileSync } from 'node:child_process';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'numbers.js']) {
+for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'numbers.js', 'illustrations.js']) {
   execFileSync(process.execPath, ['--check', resolve(root, 'docs', name)]);
 }
 const context = { window: {} };
+runInNewContext(readFileSync(resolve(root, 'docs/illustrations.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/content.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/series.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-content.js'), 'utf8'), context);
@@ -50,6 +51,29 @@ for (const chapter of chapters) {
   }
 }
 for (const [, url] of Object.values(sources)) assert(url.startsWith('https://'));
+const illustrations = context.window.AstroIllustrations;
+assert.equal(illustrations.figures.length, 10);
+assert.equal(new Set(illustrations.figures.map(f => f.id)).size, 10);
+for (const figure of illustrations.figures) {
+  assert(chapters.some(c => c.id === figure.chapter), 'Illustration chapter must exist');
+  for (const field of ['title', 'alt', 'caption']) {
+    assert.equal(figure[field].length, 2);
+    assert(figure[field].every(value => typeof value === 'string' && value.trim()));
+    assert(!/[\u3040-\u30ff\u3400-\u9fff]/.test(figure[field][1]), 'English illustration metadata must be translated');
+  }
+  for (const lang of ['ja', 'en']) {
+    const svg = readFileSync(resolve(root, `docs/illustrations/${figure.id}-${lang}.svg`), 'utf8');
+    assert(svg.includes('viewBox="0 0 1200 700"'));
+    assert(!/<script\b|<foreignObject\b|(?:href|src)="https?:/i.test(svg), 'Illustrations must be self-contained');
+    if (lang === 'en') assert(!/[\u3040-\u30ff\u3400-\u9fff]/.test(svg), 'English SVG labels must be translated');
+    const body = renderBody(figure.chapter, lang);
+    assert.equal((body.match(new RegExp(`data-illustration="${figure.id}"`, 'g')) || []).length, 1);
+    assert(body.includes(`${figure.id}-${lang}.svg`));
+    assert(!body.includes(`${figure.id}-${lang === 'ja' ? 'en' : 'ja'}.svg`));
+    checkMarkup(illustrations.render(figure.id, lang), `${figure.id}/${lang}`);
+  }
+}
+assert.throws(() => illustrations.render('missing', 'ja'));
 const series = context.window.AstroSeries;
 const topicIds = new Set();
 const bilingual = (value, label) => {
@@ -233,4 +257,4 @@ const index = readFileSync(resolve(root, 'docs/index.html'), 'utf8');
 for (const asset of index.matchAll(/(?:src|href)="\.\/([^"#]+)"/g)) {
   assert(existsSync(resolve(root, 'docs', asset[1].split('?')[0])), `Missing local asset ${asset[1]}`);
 }
-console.log(`OK: ${chapters.length} foundation + ${advanced.chapters.length} advanced chapters and numerical supplement × 2 languages; ${topicIds.size} syllabus topics; markup, references, assets, physics models, constants, and SI/CGS conversions.`);
+console.log(`OK: ${chapters.length} foundation + ${advanced.chapters.length} advanced chapters, numerical supplement, and 10 illustrations × 2 languages; ${topicIds.size} syllabus topics; markup, references, assets, physics models, constants, and SI/CGS conversions.`);

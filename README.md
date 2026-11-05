@@ -39,6 +39,10 @@ No installation or build is needed. Serve `docs/` with any static HTTP server. A
 
 Each chapter includes learning goals, assumptions, worked algebra, a question with an expandable answer, and references. Four interactive panels explore blackbody spectra, Eddington ratios, pressure scaling, and cosmic expansion.
 
+現象の姿を思い浮かべる説明図10点を、関連する本文に収録しています。逆二乗則、年周視差、原子の遷移、トムソン散乱、ランダムウォーク、星の収縮と内部構造、白色矮星、光時計、宇宙膨張を図解。図中のラベル・代替テキスト・説明文は日英対応で、各図から拡大表示できます。
+
+Ten original explanatory SVG diagrams accompany the relevant foundation lessons. Labels, alternative text, and captions switch with the language; each figure links to a larger view. Assets are local and print in black and white.
+
 ## 発展編 / Advanced
 
 **平衡・不安定性・輸送・相似解 / Equilibrium, instability, transport, and similarity solutions**
@@ -105,6 +109,8 @@ The included workflow validates and deploys `docs/` to [GitHub Pages](https://ko
 
 - `docs/index.html`: HTML shell and language controls
 - `docs/content.js`: all 16 bilingual lessons, formula markup, questions, and references
+- `docs/illustrations.js`: generated bilingual figure metadata and markup
+- `docs/illustrations/`: ten original diagrams in Japanese and English SVG
 - `docs/series.js`: bilingual series titles, volume descriptions, and the advanced syllabus
 - `docs/advanced-content.js`: eight bilingual advanced worked chapters
 - `docs/advanced-math.js`: dimensionless Lane–Emden and Sedov ODE solvers
@@ -114,6 +120,7 @@ The included workflow validates and deploys `docs/` to [GitHub Pages](https://ko
 - `docs/style.css`: lesson layout, print styles, and reduced-motion support
 - `docs/series.css`: volume cards, syllabus layout, and responsive series navigation
 - `scripts/check.mjs`: dependency-free content integrity checks
+- `scripts/illustrations.json` and `scripts/export-illustrations.py`: figure captions and label translations; regenerate English assets with Python 3
 - `.github/workflows/pages.yml`: GitHub Pages deployment
 
 章の本文は `content.js` の `body()` にあります。`p(日本語, English)` などのヘルパーで両言語を対応させ、数式は共有します。翻訳時には記号の定義や近似条件も対応させてください。目次の章数表示は章データから自動更新されます。章を増やす場合は検査スクリプトの期待数も更新します。

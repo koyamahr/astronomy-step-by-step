@@ -2,6 +2,7 @@
 (() => {
   let language = 'ja';
   const t = (ja, en) => language === 'ja' ? ja : en;
+  const diagram = id => window.AstroIllustrations.render(id, language);
   const p = (ja, en) => `<p>${t(ja, en)}</p>`;
   const f = (a, b) => `<span class="frac"><span>${a}</span><span>${b}</span></span>`;
   const eq = (html, ja = '', en = '') => `<div class="equation"><div class="math">${html}</div>${ja ? `<div class="caption">${t(ja, en)}</div>` : ''}</div>`;
@@ -67,9 +68,11 @@
         eq(`E[eV] ≈ ${f('1240', 'λ[nm]')}`, '500 nmの光なら約2.48 eV。短い波長ほど光子1個のエネルギーが大きい。', 'A 500 nm photon carries about 2.48 eV. Shorter wavelengths mean higher photon energies.')) +
         s(2, '光を球面に分ける', 'Spread the light over a sphere',
           p('星が1秒間に出す全エネルギーを光度Lと呼びます。距離dの球面を通る光が一様なら、1 m²に届くエネルギー流束fは、全体を面積4πd²で割った値です。', 'Luminosity L is the total energy a star emits per second. If it radiates uniformly, that energy crosses a sphere of area 4πd². The flux f is the power received per square metre.'),
+          diagram('inverse-square'),
           eq(`f = ${f('L', '4πd<sup>2</sup>')}　⇒　d = √(${f('L', '4πf')})`, '吸収や方向による偏りを無視した式です。光度の単位はW、流束はW/m²。', 'This assumes no absorption and isotropic emission. Luminosity is in W; flux in W/m².')) +
         s(3, '近い星には三角測量', 'Triangulation for nearby stars',
           p('地球が太陽の周りを動くと、近い星は遠い背景に対して位置がずれます。年周視差pは、1 auの基線に対応する角度で、半年離れた最大のずれの半分です。1秒角の視差に対応する距離を1パーセク（pc）と定めます。', 'As Earth orbits the Sun, a nearby star shifts against distant background objects. Its annual parallax p corresponds to a baseline of 1 au: half the maximum shift measured six months apart. One parsec is the distance corresponding to one arcsecond.'),
+          diagram('parallax'),
           eq(`d[pc] = ${f('1', 'p[arcsec]')}`, 'p＝0.05秒角なら20 pc、約65光年。光年は時間ではなく距離です。', 'A parallax of 0.05 arcseconds gives 20 pc, about 65 light-years. A light-year is a distance.')) +
         s(4, '距離のはしごは「校正の連鎖」', 'A ladder of calibrations',
           p('太陽系の測距 → 年周視差 → セファイドなどの周期–光度関係 → Ia型超新星。この順に、近くでわかった距離を使って、次の方法の本来の明るさを校正します。Ia型超新星は、光度曲線の形や色を補正して標準化します。全てが同じ明るさの爆発ではありません。', 'Solar-system ranging → stellar parallax → period–luminosity relations such as Cepheids → Type Ia supernovae. Nearby distances calibrate the intrinsic brightness used at the next stage. Type Ia supernovae must be standardized using their light-curve shapes and colours; their luminosities are not identical.'),
@@ -106,6 +109,7 @@
       answer: ['13.6×(1/4−1/9)≈1.89 eV。λ≈1240/1.89≈656 nmで、可視光の赤いHα線です。', '13.6 × (1/4 − 1/9) ≈ 1.89 eV. Its wavelength is about 656 nm: the red, visible Hα line.'],
       body: () => s(1, '原子には、とびとびのエネルギーがある', 'Atoms have discrete energy levels',
         p('水素原子の電子が取れるエネルギーは連続ではありません。ここでは、量子力学が与える準位の式を出発点として使います。nは1、2、3…という整数。エネルギー0は、電子が原子から離れた状態の基準です。', 'A hydrogen electron cannot have just any bound-state energy. We take the energy-level formula supplied by quantum theory as our starting point. The integer n is 1, 2, 3, …; zero energy corresponds to a separated electron and proton.'),
+        diagram('atom'),
         eq(`E<sub>n</sub> ≈ −${f('13.6 eV', 'n<sup>2</sup>')}`, '単純な水素モデル。微細構造などの小さな補正は省略します。', 'A simple hydrogen model, neglecting fine structure and other small corrections.')) +
         s(2, '2から1へ落ちると、光は何eV？', 'What does a 2 → 1 transition emit?',
           eq(`E<sub>γ</sub> = E<sub>2</sub> − E<sub>1</sub> = −3.4 − (−13.6) = 10.2 eV`),
@@ -149,6 +153,7 @@
       answer: ['rₑは1/2倍、σ_Tはrₑ²に比例するので1/4倍です。', 'rₑ would halve. Since σ_T ∝ rₑ², the cross section would become one quarter as large.'],
       body: () => s(1, '電気のエネルギーと静止エネルギーを比べる', 'Compare electric and rest-energy scales',
         p('距離rでの電気的なエネルギーの尺度e²/(4πε₀r)が、電子の静止エネルギーmₑc²と等しくなる長さをrₑと定義します。両辺にrを掛け、mₑc²で割ります。', 'Define rₑ as the length at which the electric energy scale e²/(4πε₀r) equals the electron rest energy mₑc². Multiply by r, then divide by mₑc².'),
+        diagram('scattering'),
         eq(`${f('e<sup>2</sup>', '4πε<sub>0</sub>r<sub>e</sub>')} = m<sub>e</sub>c<sup>2</sup>　⇒　r<sub>e</sub> = ${f('e<sup>2</sup>', '4πε<sub>0</sub>m<sub>e</sub>c<sup>2</sup>')} ≈ 2.82 × 10<sup>−15</sup> m`),
         note('これは<strong>電子の実際の半径ではありません</strong>。電磁気の定数から作った長さの尺度です。電子を球と仮定した自己エネルギーの係数は、電荷分布によって変わります。', 'This is <strong>not a measured physical radius of the electron</strong>. It is a length built from electromagnetic constants. A model of a charged sphere would have a self-energy coefficient depending on its charge distribution.', true)) +
         s(2, '光が電子を揺らし、電子が光を出す', 'Light shakes an electron, which radiates',
@@ -176,6 +181,7 @@
         eq(`ℓ = ${f('1', 'nσ')} = ${f('1', 'κρ')},　τ<sub>opt</sub> = ${f('R', 'ℓ')} = κρR`, '後半は一様な媒質の場合の光学的厚さ。寿命τと混同しないようτ_optと書きます。', 'The second expression is the optical depth of a uniform medium. We write τ_opt to distinguish it from a lifetime.')) +
         s(2, 'たくさん散乱すると、出口まで遠回り', 'Many scatterings make a random walk',
           p('ランダムにN回進むと、正味の距離の目安は√N ℓです。半径Rを抜けるには√N ℓ∼R、したがってN∼(R/ℓ)²。1歩にℓ/cかかるので、拡散時間の桁は次のようになります。', 'After N random steps, the net displacement is roughly √N ℓ. Escaping a region of radius R needs N ∼ (R/ℓ)² steps. Each takes ℓ/c, giving the following diffusion-time estimate.'),
+          diagram('random-walk'),
           eq(`t<sub>diff</sub> ∼ ${f('R<sup>2</sup>', 'cℓ')}　(ℓ ≪ R)`),
           note('散乱だけでは必ずしも光子数や光のエネルギー分布が黒体に整うわけではありません。黒体への熱化には、十分な吸収・放出などの過程も必要です。薄いガスでは局所的な熱平衡が成り立たないこともあります。', 'Scattering alone need not establish a blackbody photon distribution. Thermalization also needs processes such as sufficient absorption and emission. Dilute gas may not be in local thermodynamic equilibrium.', true)) +
         s(3, '大きな全体は孤立、小さな一部は熱を交換', 'An isolated whole, with a subsystem exchanging heat',
@@ -248,6 +254,7 @@
         s(5, '光を失うのに熱くなる：負の熱容量', 'Radiating while heating up: negative heat capacity',
           eq(`ΔE = −Q　⇒　ΔK = Q,　ΔU = −2Q　(Q &gt; 0)`),
           p('核融合などのエネルギー供給がなく、準静的に収縮する場合です。重力の位置エネルギーが2Q下がり、Qが熱運動を増やし、Qが光として外へ出ます。「半分を放射し、半分が加熱する」という関係が、式の符号だけでわかります。', 'This describes quasi-static contraction without an energy source such as nuclear burning. Gravitational energy decreases by 2Q: Q raises the thermal energy, and Q escapes as radiation. The half-and-half split follows from the signs in the energy balance.'),
+          diagram('contraction'),
           note('負の熱容量は、星全体が重力による構造変化を含めて示す性質です。小さな気体の塊を体積一定で加熱したときの比熱が負になる、という意味ではありません。また、現在の太陽の主な光源は重力収縮ではなく核融合です。', 'Negative heat capacity here describes the whole self-gravitating system, including structural change. It does not mean a small gas sample has negative heat capacity at fixed volume. The present Sun is powered mainly by nuclear fusion, not contraction.'),
           p('<a href="#/chapter/structure">星の構造と質量–光度関係へ →</a>　次は重力が決める温度と、光が内部を運ばれる速さをつなぎます。', '<a href="#/chapter/structure">Continue to stellar structure and mass–luminosity scaling →</a> Connect the gravitational temperature scale to the transport of light.'))
     },
@@ -261,6 +268,7 @@
       answer: ['光度は8倍。同じ燃料割合を使うなら寿命∝M/Lなので1/4倍。ただし進化や混合を省いた見積もりです。', 'Luminosity rises by 8. If the usable fuel fraction is unchanged, lifetime ∝ M/L drops to 1/4. This neglects evolution and mixing.'],
       body: () => s(1, '圧力に必要な大きさを見積もる', 'Estimate the pressure required for support',
         p('質量M、半径Rの星を、係数を省いた一つの塊として扱います。重力の力の尺度はGM²/R²。それを面積R²で割ると、支えに必要な圧力の尺度が得られます。', 'Treat a star of mass M and radius R as a single region, omitting geometric coefficients. A gravitational force scale is GM²/R². Divide by an area of order R² to estimate the supporting pressure.'),
+        diagram('stellar-structure'),
         eq(`ρ ∼ ${f('M', 'R<sup>3</sup>')},　P<sub>c</sub> ∼ ${f('GM<sup>2</sup>', 'R<sup>4</sup>')}`),
         p('中心に向かうほど圧力が高い構造が必要です。これは恒星内部の詳しい分布を解いた式ではなく、代表値の桁をつなぐ式です。', 'The star needs higher pressure toward its centre. These are representative scale estimates, not a solution for the internal profiles.')) +
         s(2, '理想気体なら、中心温度はM/Rに比例', 'For gas-pressure support, central temperature scales as M/R',
@@ -333,6 +341,7 @@
       answer: ['どちらも16倍です。ともにR⁻⁴に比例するため、縮むだけでは支える側が重力に追いつけません。', 'Both increase by 16, since both scale as R⁻⁴. Shrinking no longer improves pressure support relative to gravity.'],
       body: () => s(1, '冷えても残る、電子の縮退圧', 'Electron degeneracy pressure survives cooling',
         p('白色矮星は、主に電子の縮退圧で支えられた高密度の天体です。パウリの排他原理により、同じ量子状態を二つの電子が占めることはできません。空間状態には異なるスピンの電子が2個まで入るため、多数の電子を詰めると、高い運動量の状態まで埋まります。', 'A white dwarf is supported mainly by electron degeneracy pressure. The Pauli exclusion principle forbids two electrons from occupying the same full quantum state. A spatial state holds at most two opposite-spin electrons, so packing many electrons fills states up to high momenta.'),
+        diagram('white-dwarf'),
         p('電子数密度をnₑ、平均間隔をdとするとd∼nₑ⁻¹ᐟ³。量子状態の数え上げは代表的な運動量の尺度p_F∼ℏ/dを与えます。不確定性の考え方は直感の助けになりますが、それだけで排他原理を導けるわけではありません。', 'For number density nₑ, a spacing scale is d ∼ nₑ^(−1/3). Counting quantum states gives a characteristic momentum p_F ∼ ℏ/d. Uncertainty offers intuition, but does not by itself derive the exclusion principle.'),
         eq(`p<sub>F</sub> ∼ ℏn<sub>e</sub><sup>1/3</sup>,　n<sub>e</sub> = ${f('ρ', 'μ<sub>e</sub>m<sub>u</sub>')}`, 'μₑは電子1個あたりの質量をmᵤで割った値。炭素・酸素の完全電離ガスなら約2です。', 'μₑ is mass per electron in units of mᵤ. It is about 2 for fully ionized carbon or oxygen.')) +
         s(2, 'ゆっくりした電子なら、P ∝ ρ⁵ᐟ³', 'Nonrelativistic electrons give P ∝ ρ^(5/3)',
@@ -364,6 +373,7 @@
       answer: ['同じ距離で球対称なら、遠方の重力は同じ質量で決まります。ブラックホールの特徴は、小さな半径まで近づけることと、事象の地平面があることです。', 'At the same distant radius in spherical symmetry, the gravity depends on the same mass. What differs is the compactness and the presence of an event horizon.'],
       body: () => s(1, '特殊相対論：光時計を三平方で読む', 'Special relativity: a light clock and Pythagoras',
         p('向かい合った鏡の間を光が往復する時計を考えます。時計と一緒の人には片道の距離がℓ、時間がt₀＝ℓ/c。時計が横に速さvで動くと見る人には、光が斜めの道を通ります。光速が同じcであることを使います。', 'Imagine a clock made of light bouncing between mirrors. In its rest frame, a one-way trip covers ℓ in t₀ = ℓ/c. An observer seeing the clock move sideways at speed v sees a diagonal light path. Both measure light speed c.'),
+        diagram('light-clock'),
           eq(`(ct)<sup>2</sup> = ℓ<sup>2</sup> + (vt)<sup>2</sup>　⇒　t = ${f('t<sub>0</sub>', '√(1−v<sup>2</sup>/c<sup>2</sup>)')}`),
           p('同じ二つの時計の出来事について、動く時計の固有時間t₀より、外の慣性系の時間tのほうが長くなります。これは重力の効果とは別の、特殊相対論の時間の遅れです。', 'For these same two clock events, the inertial-frame interval t exceeds the moving clock’s proper interval t₀. This is special-relativistic time dilation, distinct from gravitational time dilation.')) +
         s(2, 'ニュートン力学で、脱出速度を見積もる', 'Estimate escape speed using Newtonian mechanics',
@@ -408,6 +418,7 @@
       answer: ['λ_obs＝(1＋3)×121.6＝486.4 nm。a_now＝1とすればa_emit＝1/(1＋3)＝0.25。「宇宙の年齢が現在の1/4だった」とは、この式だけからは言えません。', 'λ_obs = (1 + 3) × 121.6 = 486.4 nm. With a_now = 1, a_emit = 1/(1 + 3) = 0.25. This alone does not imply an age one quarter of today’s.'],
       body: () => s(1, '銀河どうしの距離に、共通の倍率をかける', 'Multiply galaxy separations by a common factor',
         p('十分大きな尺度で宇宙がほぼ一様・等方的だとする標準的なモデルを考えます。宇宙の流れに乗る点の目盛りをχ、その時刻での距離の尺度をスケール因子a(t)とすると、適切な共動距離χを使ってD(t)＝a(t)χと書けます。aは無次元で、現在をa_now＝1にそろえます。', 'In the standard large-scale model, the universe is approximately homogeneous and isotropic. For points following the cosmic flow, write their same-time proper separation as D(t) = a(t)χ, using an appropriate fixed comoving separation χ. The dimensionless scale factor a(t) is conventionally one today.'),
+        diagram('expansion-space'),
         eq(`D = aχ,　D' = a'χ　⇒　${f('D\u2032', 'D')} = ${f('a\u2032', 'a')}`, 'ダッシュは別の時刻の値を表します。この行では微分の記号ではありません。', 'Primes label values at a different time; they do not denote derivatives here.'),
         p('aが1から1.1になれば、宇宙膨張に従う点どうしの距離はどこでも1.1倍です。銀河や太陽系や原子の大きさまで、同じ倍率で伸びるという意味ではありません。重力や電磁気力で束縛された系の内部では、その力が構造を決めます。', 'If a grows from 1 to 1.1, separations of points following the cosmic flow grow by 1.1. This does not make galaxies, solar systems, or atoms expand by the same factor: binding forces determine their internal structures.')) +
         s(2, '短い時間での変化を割り算すると、ハッブルの法則', 'Divide the change by time to obtain Hubble’s law',
