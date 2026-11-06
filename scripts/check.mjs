@@ -21,6 +21,7 @@ runInNewContext(readFileSync(resolve(root, 'docs/advanced-gas-content.js'), 'utf
 runInNewContext(readFileSync(resolve(root, 'docs/press-schechter.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-dynamics-math.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-dynamics-content.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/books.js'), 'utf8'), context);
 const { chapters, sources, renderBody } = context.window.AstroContent;
 assert.equal(chapters.length, 16, 'Expected the complete 16-chapter curriculum.');
 assert.equal(new Set(chapters.map(c => c.id)).size, chapters.length, 'Duplicate chapter route.');
@@ -36,6 +37,17 @@ function checkMarkup(html, name) {
   }
   assert.equal(stack.length, 0, `${name}: unclosed tags`);
   assert(!/undefined|NaN/.test(html), `${name}: missing content or invalid number`);
+}
+
+for (const book of context.window.AstroBooks.books) {
+  assert(/^978\d{10}$/.test(book.isbn), `${book.id}: expected a print ISBN-13`);
+  assert.equal([...book.isbn].reduce((sum, digit, i) => sum + Number(digit) * (i % 2 ? 3 : 1), 0) % 10, 0, `${book.id}: invalid ISBN checksum`);
+  if (book.coverId) assert(/^\/books\/OL\d+M$/.test(book.openLibraryEdition), `${book.id}: cover needs an edition record`);
+}
+for (const lang of ['ja', 'en']) {
+  const html = context.window.AstroBooks.renderBody(lang);
+  checkMarkup(html, `books/${lang}`);
+  if (lang === 'en') assert(!/[\u3040-\u30ff\u3400-\u9fff]/.test(html), 'Books: untranslated Japanese');
 }
 
 for (const chapter of chapters) {

@@ -165,6 +165,7 @@
       main.innerHTML = `<div class="about"><h1>${t('章が見つかりませんでした。', 'Chapter not found.')}</h1><p><a href="#/chapters">${t('目次へ戻る', 'Back to chapters')} →</a></p></div>`;
     }
     document.querySelector('#footer').innerHTML = `<span>${t('理論天文学の道具箱', 'Theoretical Astrophysics, Step by Step')}<br>${t('宇宙を理解するための共通言語。', 'A shared language for understanding the universe.')}</span><span>${t('入門編・発展編 / 日本語・English', 'Foundations & advanced / Japanese & English')}<br><a href="#/books">${t('教科書・総説集ガイド', 'Textbooks & review volumes')} ↗</a> · <a href="#/about">${t('教材の方針', 'Teaching principles')} ↗</a></span>`;
+    books.mount(main);
     mountLabs();
     if (preserveScroll) window.scrollTo({ top: scrollY, behavior: 'instant' });
     else window.scrollTo({ top: 0, behavior: 'instant' });
