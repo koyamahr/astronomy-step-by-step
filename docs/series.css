@@ -16,3 +16,5 @@
 @media(max-width:700px){.plot-scroll-hint{display:block}}
 @media print{.animation-controls,.plot-scroll-hint{display:none}.gas-plot{overflow:visible}.gas-plot svg{min-width:0}}
 .animation-controls{position:sticky;top:10px;z-index:2;background:#ecf0e7;padding:8px 0;border-bottom:1px solid #b8c9bd}
+
+.collapse-legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:12px!important}.collapse-key{display:inline-flex;align-items:center;gap:7px}.collapse-key::before{content:"";display:inline-block;width:23px;border-top:3px solid}.collapse-shu::before{border-color:#345c70}.collapse-lph::before{border-color:#48715c}.collapse-front::before{border-color:#b25930;border-top-style:dashed}.collapse-lab h4{font-size:15px;margin:25px 0 0}.collapse-method{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}.collapse-method summary{font-size:13px;cursor:pointer}.collapse-method p{font-size:12px!important}.collapse-lab .readout .stat strong{font-size:22px}.collapse-lab .collapse-legend+.plot-scroll-hint{margin-top:0}

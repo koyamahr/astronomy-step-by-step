@@ -72,15 +72,7 @@
       },{input:'dyn-growth',min:0,max:.95,read:()=>value('dyn-growth')});return;
     }
     if(id==='isothermal-collapse') {
-      shell(t('比べる：二つの境界条件と漸近形','Compare: two boundaries and asymptotic profiles'),select('dyn-family',t('解の族','Solution family'),[['shu','Shu'],['lph','Larson–Penston–Hunter']])+range('dyn-sound','cₛ / (km s⁻¹)',.2,.6,.025,.2)+range('dyn-time',t('中心形成後 / kyr','After central formation / kyr'),10,100,1,30),[['col-rate','Ṁ / (M☉ yr⁻¹)'],['col-mass','Mcentral / M☉'],['col-scale','cₛt / au'],['col-coefficient','m₀']],t('緑：選択した族、灰色の破線：他方。内側x≤0.03は自由落下の漸近式、外側x≥10は遠方の漸近式。間の空白は未積分の領域で、曲線を補間していない。Shuの外側静止解はx≥1で厳密だが、比較の表示区間は共通にしている。','Green: selected family; dashed gray: the other. x≤0.03 uses inner free fall; x≥10 uses outer asymptotes. The blank intermediate region is not integrated or interpolated. Shu’s exterior is exact for x≥1, but both displayed ranges are kept identical.'));
-      bind(()=>{
-        const name=el.querySelector('#dyn-family').value,d=M.collapseScales(name,value('dyn-sound'),value('dyn-time')),other=M.collapseScales(name==='shu'?'lph':'shu',value('dyn-sound'),value('dyn-time'));
-        put('col-rate',fmt(d.rate*C.year/C.solar));put('col-mass',fmt(d.mass/C.solar));put('col-scale',fmt(d.scale/C.au));put('col-coefficient',fmt(d.m0));
-        const curves=[];
-        for(const [model,color,dash] of [[other,'#89968c',true],[d,'#48715c',false]])for(const [a,b,inner] of [[-4,Math.log10(.03),true],[1,2,false]]) curves.push({color,dash,points:samples(z=>z,a,b,100).map(p=>{const x=10**p.x,alpha=inner?model.innerAlpha(x):model.outerA/(x*x),time=value('dyn-time')*1000*C.year;return{x:Math.log10(model.scale*x/C.au),y:Math.log10(alpha/(4*Math.PI*C.G*time*time))};})});
-        plot(chart('collapse-asymptotes',t('内外の漸近密度のみを比較','Inner and outer asymptotic densities only'),'log₁₀(r / au)','log₁₀[ρ / (kg m⁻³)]',[-3,6],[-22,-6],curves));
-        status(t(`遠方ではαx²≈${fmt(d.outerA)}、u/cₛ≈${fmt(d.outerV)}。cₛtは${name==='shu'?'Shuの膨張波の位置':'相似半径の尺度で、膨張波の位置ではない'}。`,`Outer αx² ≈ ${fmt(d.outerA)} and u/cₛ ≈ ${fmt(d.outerV)}. cₛt is ${name==='shu'?'the Shu expansion-wave radius':'a similarity scale, not an expansion-wave front'}.`));
-      });return;
+      window.AstroCollapseLab.mount(el,locale);return;
     }
     if(id==='relaxation') {
       shell(t('確かめる：公転と緩和の時間の隔たり','Explore: dynamical versus relaxation times'),range('dyn-count','log₁₀ N',3,6,.05,4)+range('dyn-radius','rₕ / pc',1,10,.25,3),[['rel-dynamical','tdyn / Myr'],['rel-relaxation','trh / Myr'],['rel-ratio','trh / tdyn'],['rel-log','ln(0.4N)']],t('m＝0.5 M☉を固定し、0.138の半質量緩和時間の規約を使う。図は時間尺度の比較で、実際の星の軌道や質量分離の動画ではない。','Fixed stellar mass m = 0.5 M☉, using the 0.138 half-mass convention. The plot compares timescales, not trajectories or a mass-segregation movie.'));

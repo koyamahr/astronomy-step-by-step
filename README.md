@@ -75,7 +75,7 @@ Ten original explanatory SVG diagrams accompany the relevant foundation lessons.
 19. [楕円体の重力ポテンシャル](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/ellipsoids)：均質楕円体の係数積分、Poisson方程式、自己重力エネルギー。
 20. [テンソルビリアルとMaclaurin／Jacobi系列](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/tensor-virial)：回転系と慣性系、表面の平衡条件、分岐と安定性。
 21. [Zel’dovich近似とパンケーキ](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/zeldovich)：ラグランジュ写像、体積の行列式、軌道交差前の密度と質量保存。
-22. [Larson–Penston／Shuの等温崩壊](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/isothermal-collapse)：相似方程式、音速点、初期・境界条件、文献係数と内外の漸近式。
+22. [Larson–Penston／Shuの等温崩壊](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/isothermal-collapse)：相似方程式、音速点、初期・境界条件、数値積分した密度・速度の両対数プロファイルとガス殻のアニメーション。
 23. [2体緩和と重力散乱](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/relaxation)：弱い散乱、Coulomb対数、交差時間と半質量緩和時間。
 24. [Fokker–Planck方程式](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/fokker-planck)：ドリフト、拡散、確率流、OU解析解と星団の適用条件。
 25. [グラボサーマル・カタストロフィー](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/gravothermal)：負の熱容量、箱の等温球、熱力学的条件による32.1・709の違い。
@@ -92,11 +92,11 @@ Ten original explanatory SVG diagrams accompany the relevant foundation lessons.
 - 電離・散乱とガスの観測：Strömgren球、電離・再結合の釣り合い、逆コンプトン散乱とSZ効果
 - 中性子星：Goldreich–Julian密度と共回転
 
-The advanced volume now publishes all 27 bilingual worked chapters in nine areas. Each includes assumptions, equations, a question, references, and an interactive panel. Models are checked against analytic limits, reference tables, conservation laws and PDE residuals. LP/Shu panels explicitly compare asymptotes and literature eigenvalues; they do not claim to integrate full collapse profiles. Rotating-figure and gravothermal stability thresholds are supplied perturbation results, distinct from the computed equilibria.
+The advanced volume now publishes all 27 bilingual worked chapters in nine areas. Each includes assumptions, equations, a question, references, and an interactive panel. Models are checked against analytic limits, reference tables, conservation laws and PDE residuals. The Shu/LPH panel integrates full post-formation similarity profiles, checks Shu (1977) Table 2 and mass conservation, and animates shells at fixed enclosed mass. The rounded LPH outer coefficients are explicit inputs, not independently derived eigenvalues. Rotating-figure and gravothermal stability thresholds are supplied perturbation results, distinct from the computed equilibria.
 
-宇宙膨張、Press–Schechter、林トラック、Zel’dovich、Fokker–Planck、粘性円盤に、再生・一時停止・最初からの操作があります。自動再生はせず、手動入力・言語変更・章移動・非表示時に停止します。平衡系列を時間発展のようには再生しません。図の出典、規格化、原図や実データとの違いを明記します。
+宇宙膨張、Press–Schechter、林トラック、Zel’dovich、Fokker–Planck、粘性円盤、Shu・LPH等温崩壊に、再生・一時停止・最初からの操作があります。自動再生はせず、手動入力・言語変更・章移動・非表示時に停止します。平衡系列を時間発展のようには再生しません。図の出典、規格化、原図や実データとの違いを明記します。
 
-Six panels have finite, opt-in playback. Each states the time variable or comparison parameter used; equilibrium sequences are not animated as physical evolution. Plot provenance distinguishes recomputed theoretical models from reproductions of published figures or simulation data.
+Seven panels have finite, opt-in playback. Each states the time variable or comparison parameter used; equilibrium sequences are not animated as physical evolution. Plot provenance distinguishes recomputed theoretical models from reproductions of published figures or simulation data.
 
 ## 番外編 / Numerical supplement
 
@@ -166,7 +166,7 @@ node scripts/check.mjs
 
 ## 数値解の検算 / Numerical checks
 
-`node scripts/check.mjs` validates all 43 worked chapters in both languages, plus the 27-topic syllabus. Press–Schechter checks cover the EdS collapse threshold, Gaussian-tail values and convergence, mass normalization, the cumulative/differential relation, self-similar scaling, and distinct mass/number measures. The final ten chapters add checks of ellipsoidal Poisson sums and Jacobi table values, the Lagrangian mass Jacobian, contraction energy, relaxation scaling, OU normalization and PDE residuals, boxed-sphere turning points, viscous-disk mass/angular momentum/PDE budgets, collapse asymptotes, and SI/Gaussian pulsar-charge consistency. New gas/disk checks cover the Bonnor–Ebert critical mass and step convergence, transonic branches and Bernoulli conservation, Jeans scaling, ionization photon balance, viscous transport scaling, and MRI/Toomre analytic thresholds. Numerical checks also compare Lane–Emden n = 1 with sin(ξ)/ξ and ξ₁ = π; n = 3 with standard structure constants and the ideal Chandrasekhar mass; and Sedov profiles with shock jumps, swept-up mass conservation, β ≈ 1.15167, and half-step convergence. RT/KH checks cover analytic growth rates, wavenumber scaling, stable density ordering, and gravity versus shear. SZ checks cover the Rayleigh–Jeans limit, thermal null, optical-depth units, pressure degeneracy, kinetic signs, photon conservation, and mean energy gain.
+`node scripts/check.mjs` validates all 43 worked chapters in both languages, plus the 27-topic syllabus. Press–Schechter checks cover the EdS collapse threshold, Gaussian-tail values and convergence, mass normalization, the cumulative/differential relation, self-similar scaling, and distinct mass/number measures. The final ten chapters add checks of ellipsoidal Poisson sums and Jacobi table values, the Lagrangian mass Jacobian, contraction energy, relaxation scaling, OU normalization and PDE residuals, boxed-sphere turning points, viscous-disk mass/angular momentum/PDE budgets, collapse asymptotes and integrated ODEs, Shu’s Table 2, half-step and A → 2⁺ convergence, shell mass conservation and dr/dt = u, and SI/Gaussian pulsar-charge consistency. New gas/disk checks cover the Bonnor–Ebert critical mass and step convergence, transonic branches and Bernoulli conservation, Jeans scaling, ionization photon balance, viscous transport scaling, and MRI/Toomre analytic thresholds. Numerical checks also compare Lane–Emden n = 1 with sin(ξ)/ξ and ξ₁ = π; n = 3 with standard structure constants and the ideal Chandrasekhar mass; and Sedov profiles with shock jumps, swept-up mass conservation, β ≈ 1.15167, and half-step convergence. RT/KH checks cover analytic growth rates, wavenumber scaling, stable density ordering, and gravity versus shear. SZ checks cover the Rayleigh–Jeans limit, thermal null, optical-depth units, pressure degeneracy, kinetic signs, photon conservation, and mean energy gain.
 
 数値パネルは教育用の理想模型です。仮定、規格化、中心付近の処理、近似の範囲は各章に記載しています。言語と読了記録はブラウザ内に保存し、入門編・発展編で別々に管理します。
 

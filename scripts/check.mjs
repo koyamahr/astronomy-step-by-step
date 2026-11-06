@@ -6,7 +6,7 @@ import { runInNewContext } from 'node:vm';
 import { execFileSync } from 'node:child_process';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'advanced-gas-math.js', 'advanced-gas-content.js', 'advanced-gas-labs.js', 'numbers.js', 'books.js', 'illustrations.js', 'animation.js', 'press-schechter.js', 'advanced-dynamics-math.js', 'advanced-dynamics-content.js', 'advanced-dynamics-labs.js']) {
+for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'advanced-gas-math.js', 'advanced-gas-content.js', 'advanced-gas-labs.js', 'numbers.js', 'books.js', 'illustrations.js', 'animation.js', 'press-schechter.js', 'advanced-dynamics-math.js', 'advanced-dynamics-content.js', 'advanced-dynamics-labs.js', 'collapse-math.js', 'collapse-lab.js']) {
   execFileSync(process.execPath, ['--check', resolve(root, 'docs', name)]);
 }
 const context = { window: {} };
@@ -20,6 +20,7 @@ runInNewContext(readFileSync(resolve(root, 'docs/advanced-gas-math.js'), 'utf8')
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-gas-content.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/press-schechter.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-dynamics-math.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/collapse-math.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-dynamics-content.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/books.js'), 'utf8'), context);
 const { chapters, sources, renderBody } = context.window.AstroContent;
@@ -443,6 +444,70 @@ for(const branch of ['shu','lph']) {
   close(rhs.dv/(.5*Math.sqrt(2*collapse.m0)*x**(-1.5)),1,1e-3,'inner free-fall velocity approaches similarity ODE');
 }
 assert.throws(()=>dynamics.collapseRhs(1,0,2),'critical points need a regular branch');
+const collapseModel=context.window.AstroCollapse;
+// Shu (1977), Table 2: x, alpha, -v, m. Tolerances include printed rounding.
+const shuTable=[
+  [.05,71.5,5.44,.981],[.10,27.8,3.47,.993],[.15,16.4,2.58,1.01],
+  [.20,11.5,2.05,1.03],[.25,8.76,1.68,1.05],[.30,7.09,1.40,1.08],
+  [.35,5.95,1.18,1.12],[.40,5.14,1.01,1.16],[.45,4.52,.861,1.20],
+  [.50,4.04,.735,1.25],[.55,3.66,.625,1.30],[.60,3.35,.528,1.36],
+  [.65,3.08,.442,1.42],[.70,2.86,.363,1.49],[.75,2.67,.291,1.56],
+  [.80,2.50,.225,1.64],[.85,2.35,.163,1.72],[.90,2.22,.106,1.81],
+  [.95,2.10,.051,1.90],[1,2,0,2]
+];
+for(const [x,alpha,speed,mass] of shuTable){
+  const p=collapseModel.at(collapseModel.profile('shu'),x);
+  close(p.alpha,alpha,alpha>=10?.1:.011,'Shu Table 2 density at printed precision');
+  close(-p.v,speed,speed>=1?.006:.001,'Shu Table 2 infall speed at printed precision');
+  close(p.mass,mass,.006,'Shu Table 2 enclosed mass');
+}
+for(const branch of ['shu','lph']) {
+  const p=collapseModel.profile(branch),fine=collapseModel.profile(branch,.002),limit=collapseModel.profile(branch,.004,5e-7);
+  close(p.m0,branch==='shu'?.975:46.9,branch==='shu'?.0005:.1,'central mass coefficient agrees with rounded literature data');
+  close(fine.m0/p.m0,1,1e-7,'collapse half-step convergence');
+  close(limit.m0/p.m0,1,1e-7,'Shu A-to-2 extrapolation convergence');
+  for(let i=1;i<p.points.length-1;i++) {
+    const a=p.points[i-1],q=p.points[i],b=p.points[i+1];
+    assert(q.alpha>0&&q.v<=0&&q.mass>a.mass,'positive density, inward motion and increasing enclosed mass');
+    // Unequal-spacing three-point derivative; no division through the sonic point.
+    if(q.x>.8&&q.x<1.2)continue;
+    const h1=q.x-a.x,h2=b.x-q.x;
+    const derivative=(fa,fq,fb)=>(h1*h1*(fb-fq)+h2*h2*(fq-fa))/(h1*h2*(h1+h2));
+    const rhs=dynamics.collapseRhs(q.x,q.v,q.alpha);
+    close(derivative(a.mass,q.mass,b.mass)/(q.x*q.x*q.alpha),1,.001,'integrated collapse mass conservation');
+    close(derivative(Math.log(a.alpha),Math.log(q.alpha),Math.log(b.alpha))/(rhs.dAlpha/q.alpha),1,.001,'integrated collapse continuity ODE');
+    if(Math.abs(rhs.dv)>1e-10)close(derivative(a.v,q.v,b.v)/rhs.dv,1,.001,'integrated collapse momentum ODE');
+  }
+  for(const x of [.001,.1,.5,.9,2,100]){
+    const q=collapseModel.at(p,x),f=collapseModel.at(fine,x);
+    close(q.alpha/f.alpha,1,1e-7,'profile density step convergence');
+    close(q.v,f.v,1e-6,'profile velocity step convergence');
+  }
+  const inner=collapseModel.at(p,1e-4);
+  close(inner.alpha/(Math.sqrt(p.m0/2)*1e6),1,.002,'integrated inner density tends to free fall');
+  close(-inner.v/Math.sqrt(2*p.m0/1e-4),1,.002,'integrated inner speed tends to free fall');
+  const s=collapseModel.scales(branch,.2,30),hot=collapseModel.scales(branch,.4,30);
+  close(hot.rate/s.rate,8,1e-12,'integrated-profile cubic accretion scaling');
+  close(hot.mass/s.mass,8,1e-12,'integrated-profile central mass scaling');
+  for(const r of [2000,5000,15000]){
+    close(collapseModel.shell(branch,r,.2,10).radiusAu/r,1,1e-10,'mass shell starts at the labelled radius');
+    const later=collapseModel.shell(branch,r,.2,60);
+    if(!later.accreted)close(collapseModel.physical(collapseModel.scales(branch,.2,60),later.radiusAu).enclosedMass/later.enclosedMass,1,1e-8,'animated shell preserves enclosed total mass');
+    assert(later.radiusAu<=r*(1+1e-10),'labelled shells do not move outward');
+  }
+  const r=branch==='shu'?2000:10000,time=branch==='shu'?70:30,dt=.01;
+  const shell=collapseModel.shell(branch,r,.2,time),before=collapseModel.shell(branch,r,.2,time-dt),after=collapseModel.shell(branch,r,.2,time+dt);
+  const drdt=(after.radiusAu-before.radiusAu)/(2*dt)*dc.au/(1000*dc.year);
+  close(drdt/collapseModel.physical(collapseModel.scales(branch,.2,time),shell.radiusAu).velocity,1,.01,'animated shell velocity agrees with gas velocity');
+}
+for(const time of [10,30,100]) {
+  const s=collapseModel.scales('shu',.2,time),r=20000,point=collapseModel.physical(s,r);
+  assert.equal(point.velocity,0,'Shu exterior is exactly at rest and is omitted from log speed');
+  close(point.density/(s.sound*s.sound/(2*Math.PI*dc.G*(r*dc.au)**2)),1,1e-12,'Shu exterior density is static in physical coordinates');
+  close(collapseModel.shell('shu',r,.2,time).radiusAu,r,1e-8,'exterior Shu shell stays at rest before wave arrival');
+}
+assert(collapseModel.shell('shu',2000,.2,100).accreted,'shell crossing the central mass is accreted');
+assert.throws(()=>collapseModel.at(collapseModel.profile('shu'),0),'log-radius profile requires positive radius');
 const pulsar=dynamics.goldreichJulian(1,12),slowPulsar=dynamics.goldreichJulian(2,12);
 close(pulsar.numberCm3/1e10,6.94,.01,'GJ polar number scale in cm^-3');
 close(pulsar.lightCylinder/1000,47713.4515924,1e-6,'light cylinder in km');
