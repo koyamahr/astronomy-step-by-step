@@ -30,7 +30,7 @@
       minutes: 35, prereq: ['Lane–Emden章、常微分方程式、指数関数、無次元化', 'The Lane–Emden chapter, ODEs, exponentials, and nondimensionalization'],
       goal: ['等温球の方程式を作り、外圧を固定した質量系列の極大からBonnor–Ebert限界を読み、有限の雲と無限の等温球を区別する。', 'Formulate an isothermal sphere, locate the maximum mass at fixed external pressure, and distinguish a finite cloud from an infinite isothermal sphere.'],
       question: ['音速を同じにして外圧を4倍にすると、臨界質量と臨界半径はどうなるか。この比較で中心と表面の密度比は変わるか。', 'At fixed sound speed, quadruple the external pressure. How do critical mass, critical radius, and the central-to-edge density contrast change?'],
-      answer: ['臨界質量と半径はともにP_ext^(−1/2)に比例して1/2倍。臨界の無次元半径は同じなので密度比は約14.0のまま。中心密度と表面密度の絶対値はどちらも4倍になる。', 'Critical mass and radius both scale as P_ext^(−1/2), so both halve. The critical dimensionless radius is unchanged and the contrast stays near 14.0. Both absolute central and edge densities quadruple.'],
+      answer: ['臨界質量と半径はともにP<sub>ext</sub><sup>−1/2</sup>に比例して1/2倍。臨界の無次元半径は同じなので密度比は約14.0のまま。中心密度と表面密度の絶対値はどちらも4倍になる。', 'Critical mass and radius both scale as P<sub>ext</sub><sup>−1/2</sup>, so both halve. The critical dimensionless radius is unchanged and the contrast stays near 14.0. Both absolute central and edge densities quadruple.'],
       refs: ['be1956', 'beStability'], bridge: 'virial'
     },
     {
@@ -39,7 +39,7 @@
       minutes: 30, prereq: ['流体の保存則、偏微分、線形化、平面波', 'Fluid conservation, partial derivatives, linearization, and plane waves'],
       goal: ['連続・運動・Poisson方程式を線形化して分散関係を導き、Jeans長と成長時間を求め、背景重力を差し引く模型の限界を説明する。', 'Linearize continuity, momentum, and Poisson equations, derive the Jeans length and growth time, and explain the limits of subtracting background gravity.'],
       question: ['音速を固定し密度を4倍にすると、Jeans長、ここで定義したJeans質量、重力の時間尺度はそれぞれ何倍か。', 'At fixed sound speed, quadruple density. How do Jeans wavelength, the mass convention used here, and the gravitational timescale change?'],
-      answer: ['三つともρ₀^(−1/2)に比例するので1/2倍。波長λ_J/2を半径とする球で質量を定義している。質量をρλ_J³と定義すると係数は変わるが、この密度・音速依存性は変わらない。', 'All three scale as ρ₀^(−1/2), so all halve. The mass here is that of a sphere of radius λ_J/2. Defining it as ρλ_J³ changes a numerical coefficient, not its density and sound-speed scaling.'],
+      answer: ['三つともρ₀<sup>−1/2</sup>に比例するので1/2倍。波長λ<sub>J</sub>/2を半径とする球で質量を定義している。質量をρλ<sub>J</sub>³と定義すると係数は変わるが、この密度・音速依存性は変わらない。', 'All three scale as ρ₀<sup>−1/2</sup>, so all halve. The mass here is that of a sphere of radius λ<sub>J</sub>/2. Defining it as ρλ<sub>J</sub>³ changes a numerical coefficient, not its density and sound-speed scaling.'],
       refs: ['jeansSwindle', 'qNotes'], bridge: 'virial'
     },
     {
@@ -48,7 +48,7 @@
       minutes: 35, prereq: ['常微分方程式、対数、定常流の保存則', 'ODEs, logarithms, and steady-flow conservation'],
       goal: ['球対称の等温流の方程式を導き、音速点で正則な降着解と降着率を求め、圧力を無視した自由落下との違いを説明する。', 'Derive spherical isothermal flow, find the regular transonic accretion solution and its rate, and distinguish it from pressure-free free fall.'],
       question: ['外側の密度は同じで、中心質量と外側の音速を両方2倍にすると、Bondi半径と等温降着率はそれぞれ何倍か。', 'At fixed outer density, double both the central mass and the outer sound speed. How do Bondi radius and isothermal accretion rate change?'],
-      answer: ['r_B∝M/c_s²なので1/2倍。降着率はM²ρ∞/c_s³に比例し、4/8＝1/2倍。音速の増大は圧力の支えを強くする。等温の無次元係数λは同じである。', 'r_B ∝ M/c_s² halves. The rate scales as M²ρ∞/c_s³, giving 4/8 = 1/2. Increased sound speed strengthens pressure support; the isothermal dimensionless coefficient λ stays fixed.'],
+      answer: ['r<sub>B</sub>∝M/c<sub>s</sub>²なので1/2倍。降着率はM²ρ∞/c<sub>s</sub>³に比例し、4/8＝1/2倍。音速の増大は圧力の支えを強くする。等温の無次元係数λは同じである。', 'r<sub>B</sub> ∝ M/c<sub>s</sub>² halves. The rate scales as M²ρ∞/c<sub>s</sub>³, giving 4/8 = 1/2. Increased sound speed strengthens pressure support; the isothermal dimensionless coefficient λ stays fixed.'],
       refs: ['bondi1952', 'sphericalNotes'], bridge: 'eddington'
     },
     {
@@ -57,7 +57,7 @@
       minutes: 30, prereq: ['Bondi章、微分と対数、境界条件', 'The Bondi chapter, derivatives, logarithms, and boundary conditions'],
       goal: ['Bondi流と共通の風方程式から流出の枝を選び、音速点・加熱・外側の境界条件の役割を分ける。', 'Select the outflow branch of the equation shared with Bondi flow and separate sonic regularity, heating, and outer boundary conditions.'],
       question: ['中心質量と平均分子量を同じにし、等温温度を4倍にすると、音速と音速点半径はどう変わるか。音速点だけで質量放出率は決まるか。', 'At fixed central mass and mean molecular weight, quadruple the isothermal temperature. How do sound speed and sonic radius change? Does the sonic point alone fix mass loss?'],
-      answer: ['c_s∝√Tなので2倍、r_s∝1/c_s²なので1/4倍。質量放出率4πr²ρuには密度の規格化が残り、底の密度などの境界条件が必要。速度の臨界曲線だけでは決まらない。', 'Sound speed doubles because c_s ∝ √T; sonic radius decreases by four. The mass-loss rate 4πr²ρu still needs a density normalization, such as a base density. The critical velocity curve alone does not fix it.'],
+      answer: ['c<sub>s</sub>∝√Tなので2倍、r<sub>s</sub>∝1/c<sub>s</sub>²なので1/4倍。質量放出率4πr²ρuには密度の規格化が残り、底の密度などの境界条件が必要。速度の臨界曲線だけでは決まらない。', 'Sound speed doubles because c<sub>s</sub> ∝ √T; sonic radius decreases by four. The mass-loss rate 4πr²ρu still needs a density normalization, such as a base density. The critical velocity curve alone does not fix it.'],
       refs: ['parker1958', 'sphericalNotes'], bridge: 'sun'
     },
     {
@@ -66,16 +66,16 @@
       minutes: 30, prereq: ['体積、指数関数、一次の常微分方程式', 'Volumes, exponentials, and a first-order ODE'],
       goal: ['電離光子と再結合の釣り合いから半径を導き、体積の時間発展を解き、気体の運動を無視した範囲を説明する。', 'Derive the equilibrium radius from photon and recombination balance, solve volume growth, and explain the neglect of gas motion.'],
       question: ['光子供給率を8倍、水素原子核の密度を2倍にすると、平衡半径と再結合時間はそれぞれ何倍になるか。', 'Multiply the ionizing-photon rate by eight and hydrogen-nucleus density by two. How do equilibrium radius and recombination time change?'],
-      answer: ['R_S∝(S/n_H²)^(1/3)なので2^(1/3)≈1.26倍。t_rec＝1/(α_B n_H)は1/2倍。温度とα_Bを同じとし、全電離した純水素でn_e＝n_p＝n_Hという条件を使った。', 'R_S ∝ (S/n_H²)^(1/3) increases by 2^(1/3), about 1.26. The recombination time 1/(α_B n_H) halves. This holds at fixed temperature and α_B, for fully ionized pure hydrogen with n_e = n_p = n_H.'],
+      answer: ['R<sub>S</sub>∝(S/n<sub>H</sub>²)<sup>1/3</sup>なので2<sup>1/3</sup>≈1.26倍。t<sub>rec</sub>＝1/(α<sub>B</sub> n<sub>H</sub>)は1/2倍。温度とα<sub>B</sub>を同じとし、全電離した純水素でn<sub>e</sub>＝n<sub>p</sub>＝n<sub>H</sub>という条件を使った。', 'R<sub>S</sub> ∝ (S/n<sub>H</sub>²)<sup>1/3</sup> increases by 2<sup>1/3</sup>, about 1.26. The recombination time 1/(α<sub>B</sub> n<sub>H</sub>) halves. This holds at fixed temperature and α<sub>B</sub>, for fully ionized pure hydrogen with n<sub>e</sub> = n<sub>p</sub> = n<sub>H</sub>.'],
       refs: ['stromgren1939', 'hiiNotes'], bridge: 'atom'
     },
     {
       id: 'alpha-disk', title: ['α円盤と粘性型の降着', 'Alpha disks and viscous-type accretion'],
       desc: ['輸送を一つの係数で表し、円盤の厚み・降着率・明るさを結ぶ。', 'Parametrize transport and connect disk thickness, accretion rate, and luminosity.'],
       minutes: 35, prereq: ['角運動量輸送章、微分・積分、ケプラー回転', 'Angular-momentum transport, calculus, and Keplerian rotation'],
-      goal: ['鉛直平衡からHを導き、ν＝αc_sHの規約を明示して、定常円盤の質量・角運動量・エネルギーの収支をつなぐ。', 'Derive scale height from vertical balance, define the ν = αc_sH convention, and connect steady mass, angular-momentum, and energy budgets.'],
+      goal: ['鉛直平衡からHを導き、ν＝αc<sub>s</sub>Hの規約を明示して、定常円盤の質量・角運動量・エネルギーの収支をつなぐ。', 'Derive scale height from vertical balance, define the ν = αc<sub>s</sub>H convention, and connect steady mass, angular-momentum, and energy budgets.'],
       question: ['半径、中心質量、H/r、面密度を固定し、αを3倍にする。内縁から十分遠い定常円盤でν、降着率、粘性時間はどう変わるか。', 'At fixed radius, central mass, H/r, and surface density, triple alpha. Far from the inner edge of a steady disk, what happens to viscosity, accretion rate, and viscous time?'],
-      answer: ['νとṀ≈3πνΣは3倍、t_ν∼r²/νは1/3倍。温度やΣを同時に変えてよいとは仮定していない。この比較は輸送の規約と固定する量を指定して初めて意味を持つ。', 'Viscosity and Ṁ ≈ 3πνΣ triple; t_ν ∼ r²/ν falls to one-third. Temperature and surface density have not been allowed to change simultaneously. The comparison requires an explicit convention and fixed inputs.'],
+      answer: ['νとṀ≈3πνΣは3倍、t<sub>ν</sub>∼r²/νは1/3倍。温度やΣを同時に変えてよいとは仮定していない。この比較は輸送の規約と固定する量を指定して初めて意味を持つ。', 'Viscosity and Ṁ ≈ 3πνΣ triple; t<sub>ν</sub> ∼ r²/ν falls to one-third. Temperature and surface density have not been allowed to change simultaneously. The comparison requires an explicit convention and fixed inputs.'],
       refs: ['ss1973', 'accretionDisk', 'diskWind'], bridge: 'structure'
     },
     {
@@ -92,8 +92,8 @@
       desc: ['圧力・回転・重力の競争を、波長ごとの分散関係で読む。', 'Read the competition between pressure, rotation, and gravity at each wavelength.'],
       minutes: 35, prereq: ['Jeans章、線形化、回転座標、平方完成', 'The Jeans chapter, linearization, rotating frames, and completing the square'],
       goal: ['薄い気体円盤の分散関係を作り、平方完成からQ<1と不安定帯を導き、線形不安定と実際の分裂を区別する。', 'Construct the thin-gas-disk dispersion relation, derive Q < 1 and the unstable band by completing the square, and distinguish linear instability from fragmentation.'],
-      question: ['Q＝0.8の気体円盤で、x＝kc_s/κの不安定帯、最も速く育つx、最大成長率σ/κを求めよう。', 'For a gas disk with Q = 0.8, find the unstable interval in x = kc_s/κ, the fastest-growing x, and maximum σ/κ.'],
-      answer: ['不安定帯は0.5<x<2、最速はx＝1/Q＝1.25、σ_max/κ＝√(1/Q²−1)＝0.75。端点は中立で指数成長率0。これは局所的・軸対称・無限に薄い気体円盤の結果で、直ちに惑星や星への分裂を保証しない。', 'The unstable band is 0.5 < x < 2, fastest growth is at x = 1.25, and maximum σ/κ = 0.75. The endpoints are neutral. These results assume a local, axisymmetric, razor-thin gas disk and do not guarantee fragmentation into planets or stars.'],
+      question: ['Q＝0.8の気体円盤で、x＝kc<sub>s</sub>/κの不安定帯、最も速く育つx、最大成長率σ/κを求めよう。', 'For a gas disk with Q = 0.8, find the unstable interval in x = kc<sub>s</sub>/κ, the fastest-growing x, and maximum σ/κ.'],
+      answer: ['不安定帯は0.5<x<2、最速はx＝1/Q＝1.25、σ<sub>max</sub>/κ＝√(1/Q²−1)＝0.75。端点は中立で指数成長率0。これは局所的・軸対称・無限に薄い気体円盤の結果で、直ちに惑星や星への分裂を保証しない。', 'The unstable band is 0.5 < x < 2, fastest growth is at x = 1.25, and maximum σ/κ = 0.75. The endpoints are neutral. These results assume a local, axisymmetric, razor-thin gas disk and do not guarantee fragmentation into planets or stars.'],
       refs: ['qNotes', 'gammie2001'], bridge: 'virial'
     }
   ];
