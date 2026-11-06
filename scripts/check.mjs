@@ -6,7 +6,7 @@ import { runInNewContext } from 'node:vm';
 import { execFileSync } from 'node:child_process';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'numbers.js', 'illustrations.js']) {
+for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'advanced-gas-math.js', 'advanced-gas-content.js', 'advanced-gas-labs.js', 'numbers.js', 'illustrations.js']) {
   execFileSync(process.execPath, ['--check', resolve(root, 'docs', name)]);
 }
 const context = { window: {} };
@@ -16,6 +16,8 @@ runInNewContext(readFileSync(resolve(root, 'docs/series.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-content.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-math.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/numbers.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/advanced-gas-math.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/advanced-gas-content.js'), 'utf8'), context);
 const { chapters, sources, renderBody } = context.window.AstroContent;
 assert.equal(chapters.length, 16, 'Expected the complete 16-chapter curriculum.');
 assert.equal(new Set(chapters.map(c => c.id)).size, chapters.length, 'Duplicate chapter route.');
@@ -99,7 +101,7 @@ for (const group of series.groups) {
 }
 assert.equal(topicIds.size, 26, 'Expected the expanded 26-topic advanced syllabus');
 const advanced = context.window.AstroAdvanced;
-assert.equal(advanced.chapters.length, 8, 'Expected eight worked advanced chapters');
+assert.equal(advanced.chapters.length, 16, 'Expected sixteen worked advanced chapters');
 assert.equal(new Set(advanced.chapters.map(c => c.id)).size, advanced.chapters.length);
 for (const c of advanced.chapters) {
   assert(topicIds.has(c.id), `${c.id}: missing syllabus entry`);
@@ -214,6 +216,77 @@ close(rings.releasedEnergy, .259555785123967, 1e-13, 'released orbital energy');
 const ringStep = 1e-6;
 close((ringExchange(.2 + ringStep).releasedEnergy - ringExchange(.2 - ringStep).releasedEnergy) / (2 * ringStep), rings.innerOmega - rings.outerOmega, 1e-8, 'orbital energy derivative equals angular-velocity difference');
 assert.throws(() => ringExchange(.31), 'reject unmodelled ring exchanges');
+// New cloud, spherical-flow, ionization and disk models: analytic limits and budgets.
+const gas = context.window.AstroAdvancedMath, gc = gas.gasConstants;
+const sphere = gas.isothermalSphere(12, .005), coarseSphere = gas.isothermalSphere(12, .01);
+close(sphere.peak.x, 6.451, .005, 'Bonnor–Ebert critical dimensionless radius');
+close(sphere.peak.pressureMass, 1.182, .001, 'Bonnor–Ebert pressure-normalized limiting mass');
+close(sphere.peak.contrast, 14.04, .03, 'Bonnor–Ebert critical density contrast');
+close(sphere.edge.psi, coarseSphere.edge.psi, 1e-7, 'isothermal-sphere half-step convergence');
+close(sphere.peak.pressureMass, coarseSphere.peak.pressureMass, 1e-7, 'limiting mass half-step convergence');
+const centralSphere = sphere.points[1];
+close(centralSphere.psi / centralSphere.x ** 2, 1 / 6, 1e-6, 'regular isothermal central curvature');
+assert(sphere.points.every(p => p.density > 0), 'finite isothermal sphere stays positive');
+for (const branch of ['wind', 'bondi']) {
+  for (const x of [.02, .2, .5, .9, 1, 1.1, 2, 10, 100, 1000]) {
+    const mach = gas.sphericalMach(x, branch);
+    close(mach ** 2 - Math.log(mach ** 2), 4 * Math.log(x) + 4 / x - 3, 1e-11, `${branch}: critical integral residual at ${x}`);
+    if (x !== 1) assert.equal(mach < 1, branch === 'wind' ? x < 1 : x > 1, 'correct transonic branch');
+    if (branch === 'bondi') {
+      const relativeDensity = Math.exp(1.5) / (x * x * mach);
+      close(mach ** 2 / 2 + Math.log(relativeDensity) - 2 / x, 0, 1e-11, 'Bondi Bernoulli conservation');
+    }
+  }
+  close((gas.sphericalMach(1.0001, branch) - gas.sphericalMach(.9999, branch)) / .0002, branch === 'wind' ? 1 : -1, 1e-7, 'regular sonic slope');
+}
+const bondi = gas.bondiModel(1, 1e-18, 1), bondiScaled = gas.bondiModel(2, 1e-18, 2);
+close(bondi.lambda, 1.120422267584516, 1e-14, 'isothermal Bondi rate coefficient');
+close(bondiScaled.radius / bondi.radius, .5, 1e-14, 'Bondi radius scaling');
+close(bondiScaled.rate / bondi.rate, .5, 1e-14, 'Bondi rate scaling');
+const wind = gas.parkerModel(1e6), hotWind = gas.parkerModel(4e6);
+close(wind.sound / 1000, 117.291657, .001, 'one-million-K isothermal sound speed');
+close(wind.sonicRadius / gc.solarRadius, 6.933, .02, 'solar wind sonic radius');
+close(hotWind.sound / wind.sound, 2, 1e-14, 'wind temperature scaling');
+close(hotWind.sonicRadius / wind.sonicRadius, .25, 1e-14, 'wind critical-radius scaling');
+const jeans = gas.jeansModel(.2, 1e-17), denseJeans = gas.jeansModel(.2, 4e-17);
+for (const key of ['wavelength', 'mass', 'gravityTime']) close(denseJeans[key] / jeans[key], .5, 1e-14, `Jeans density scaling: ${key}`);
+close(gas.jeansModel(.2, 1e-17, 1).growth, 0, 1e-15, 'Jeans marginal wavelength');
+close(gas.jeansModel(.2, 1e-17, .5).growth, Math.sqrt(.75), 1e-14, 'Jeans analytic growing mode');
+const hii = gas.stromgrenModel(1e49, 100), hiiScaled = gas.stromgrenModel(8e49, 200);
+close(hii.radius / gc.pc, 3.15, .01, 'Strömgren reference radius');
+close(hii.recombinationTime / gc.year, 1218.77, .1, 'recombination time in Julian years');
+close(2.6e-19 * 1e16 * 4 * Math.PI / 3 * hii.radius ** 3 / 1e49, 1, 1e-14, 'equilibrium ionization photon balance in SI');
+close(hiiScaled.radius / hii.radius, Math.cbrt(2), 1e-14, 'Strömgren luminosity/density scaling');
+close(hiiScaled.recombinationTime / hii.recombinationTime, .5, 1e-14, 'recombination density scaling');
+for (const tau of [0, .001, 1, 5, 100]) {
+  const front = gas.stromgrenModel(1e49, 100, tau);
+  close(front.radiusFraction ** 3, front.volumeFraction, 1e-14, 'front radius/volume consistency');
+  close(front.volumeFraction + Math.exp(-tau), 1, 1e-14, 'recombinations plus new ionizations conserve photons');
+}
+const disk = gas.alphaDisk(.01, .05, 10), strongDisk = gas.alphaDisk(.03, .05, 10);
+close(disk.height / disk.radius, .05, 1e-14, 'disk Gaussian scale height');
+close(disk.viscousTime * disk.viscosity / disk.radius ** 2, 1, 1e-14, 'disk diffusion timescale');
+close(strongDisk.rate / disk.rate, 3, 1e-14, 'fixed surface-density alpha rate scaling');
+close(strongDisk.viscousTime / disk.viscousTime, 1 / 3, 1e-14, 'alpha timescale scaling');
+for (const q of [0, 1, 1.5, 1.8]) {
+  for (const b of [0, .001, .5, 1, 2]) {
+    const mode = gas.mriMode(q, b), z = mode.growthSquared;
+    close(z * z + (mode.epicycleSquared + 2 * b * b) * z + b * b * (b * b - 2 * q), 0, 1e-12, 'MRI characteristic determinant');
+    assert(mode.growth <= q / 2 + 1e-14, 'MRI growth bounded by half the shear rate');
+  }
+  close(gas.mriMode(q, gas.mriMode(q, 0).fastestB).growth, q / 2, 1e-14, 'MRI analytic maximum');
+}
+close(gas.mriMode(1.5, Math.sqrt(15 / 16)).growth, .75, 1e-14, 'Keplerian MRI fastest mode');
+close(gas.mriMode(1.5, 2 * Math.sqrt(15 / 16)).growth, 0, 1e-15, 'stronger field stabilizes fixed wavenumber');
+const toomre = gas.toomreMode(.8, 1.25);
+close(toomre.band[0], .5, 1e-14, 'Toomre lower unstable endpoint');
+close(toomre.band[1], 2, 1e-14, 'Toomre upper unstable endpoint');
+close(toomre.maximumGrowth, .75, 1e-14, 'Toomre maximum growth at Q=0.8');
+for (const x of toomre.band) close(gas.toomreMode(.8, x).omegaSquared, 0, 1e-14, 'Toomre band edge is neutral');
+for (const x of [0, .5, 1, 2, 4]) {
+  close(gas.toomreMode(1, x).omegaSquared, (x - 1) ** 2, 1e-14, 'marginal Toomre dispersion');
+  assert(gas.toomreMode(1.5, x).omegaSquared > 0, 'Q>1 gas disk axisymmetrically stable');
+}
 const numbers = context.window.AstroNumbers;
 bilingual(numbers.title, 'Supplement title');
 bilingual(numbers.desc, 'Supplement description');

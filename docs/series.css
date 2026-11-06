@@ -10,3 +10,5 @@
 .concept-figure{margin:28px 0;padding:18px;border:1px solid var(--line);background:var(--white);border-radius:3px;min-width:0}.concept-figure img{display:block;width:100%;height:auto;aspect-ratio:12/7}.concept-figure figcaption{margin-top:14px;font:12px/1.9 var(--sans);color:var(--muted);overflow-wrap:anywhere}.concept-figure figcaption strong{display:block;font-size:13px;color:var(--ink);margin-bottom:5px}.figure-enlarge{display:inline-block;margin-top:10px;font-size:11px;text-underline-offset:3px}
 @media(max-width:700px){.concept-figure{padding:10px;margin:24px 0}.concept-figure figcaption{font-size:12px}.figure-enlarge{padding:6px 0}}
 @media print{.concept-figure{break-inside:avoid;padding:10px;background:white}.figure-enlarge{display:none}}
+.gas-plot svg text{font-size:14px}.gas-plot{overflow-x:auto}
+@media(max-width:700px){.gas-plot svg{min-width:480px}.gas-plot{padding-bottom:5px}}
