@@ -6,7 +6,7 @@ import { runInNewContext } from 'node:vm';
 import { execFileSync } from 'node:child_process';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'advanced-gas-math.js', 'advanced-gas-content.js', 'advanced-gas-labs.js', 'numbers.js', 'illustrations.js', 'animation.js', 'press-schechter.js']) {
+for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'advanced-gas-math.js', 'advanced-gas-content.js', 'advanced-gas-labs.js', 'numbers.js', 'illustrations.js', 'animation.js', 'press-schechter.js', 'advanced-dynamics-math.js', 'advanced-dynamics-content.js', 'advanced-dynamics-labs.js']) {
   execFileSync(process.execPath, ['--check', resolve(root, 'docs', name)]);
 }
 const context = { window: {} };
@@ -19,6 +19,8 @@ runInNewContext(readFileSync(resolve(root, 'docs/numbers.js'), 'utf8'), context)
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-gas-math.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-gas-content.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/press-schechter.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/advanced-dynamics-math.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/advanced-dynamics-content.js'), 'utf8'), context);
 const { chapters, sources, renderBody } = context.window.AstroContent;
 assert.equal(chapters.length, 16, 'Expected the complete 16-chapter curriculum.');
 assert.equal(new Set(chapters.map(c => c.id)).size, chapters.length, 'Duplicate chapter route.');
@@ -102,7 +104,7 @@ for (const group of series.groups) {
 }
 assert.equal(topicIds.size, 27, 'Expected the expanded 27-topic advanced syllabus');
 const advanced = context.window.AstroAdvanced;
-assert.equal(advanced.chapters.length, 17, 'Expected seventeen worked advanced chapters');
+assert.equal(advanced.chapters.length, 27, 'Expected all twenty-seven worked advanced chapters');
 assert.equal(new Set(advanced.chapters.map(c => c.id)).size, advanced.chapters.length);
 for (const c of advanced.chapters) {
   assert(topicIds.has(c.id), `${c.id}: missing syllabus entry`);
@@ -330,6 +332,113 @@ close(integrate(logM => ps.massShape(Math.exp(logM), -2, 1).massPerLn, Math.log(
 assert.throws(() => ps.massShape(1, -3));
 assert.throws(() => ps.massShape(1, 1));
 assert.throws(() => ps.collapsedFraction(-1));
+const dynamics=context.window.AstroDynamics, dc=dynamics.C;
+// Ellipsoid quadratures: Poisson, scale invariance, spherical energy, and tabulated figures.
+const uniformSphere=dynamics.ellipsoid(2,2,2);
+for(const a of uniformSphere.A) close(a,2/3,1e-9,'spherical interior gravity coefficient');
+close(uniformSphere.binding,.3,1e-9,'uniform sphere binding energy 3GM²/(5R)');
+const triaxial=dynamics.ellipsoid(1,.7,.3), enlarged=dynamics.ellipsoid(3,2.1,.9);
+close(triaxial.poissonSum,2,1e-8,'ellipsoid Poisson sum without renormalization');
+for(let i=0;i<3;i++)close(triaxial.A[i],enlarged.A[i],1e-9,'ellipsoid axis-ratio scaling');
+close(triaxial.binding/enlarged.binding,3,1e-8,'gravitational binding inverse-length scaling');
+close(dynamics.maclaurin(.001).omegaSquared/(.001**2),8/15,1e-6,'Maclaurin small-eccentricity expansion');
+close(dynamics.maclaurin(.81267).energyRatio,.13753,2e-5,'Maclaurin secular threshold energy');
+close(dynamics.maclaurin(.95289).energyRatio,.2738,1e-4,'Maclaurin dynamical threshold energy');
+for(const [b,e13,omegaHat] of [[.8,.85585,.42827],[.6,.90102,.41069]]) {
+  const figure=dynamics.jacobi(b);
+  close(Math.sqrt(1-figure.c**2),e13,1e-5,'Fitzpatrick Table 2.2 Jacobi axis ratio');
+  close(Math.sqrt(figure.omegaSquared/2),omegaHat,1e-5,'Table 2.2 rotation with Ω/sqrt(2πGρ) normalization');
+  close(figure.residual,0,1e-9,'equal effective potential on three Jacobi axes');
+}
+// Lagrangian map: its numerical derivative, mass conservation and pre-crossing bounds.
+for(const D of [0,.5,.95]) {
+  let mass=0,previous;
+  for(let i=0;i<=20000;i++) {
+    const q=-Math.PI+2*Math.PI*i/20000,d=dynamics.zeldovich(q,D);
+    assert(d.jacobian>0&&d.density>0,'single-stream density stays positive');
+    if(previous)mass+=(d.x-previous.x)*(d.density+previous.density)/2;
+    previous=d;
+  }
+  close(mass,2*Math.PI,1e-5,'Eulerian integral of Zel’dovich density conserves period mass');
+  const q=.7,h=1e-5,derivative=(dynamics.zeldovich(q+h,D).x-dynamics.zeldovich(q-h,D).x)/(2*h);
+  close(derivative,dynamics.zeldovich(q,D).jacobian,1e-9,'map derivative equals volume Jacobian');
+}
+close(dynamics.zeldovich(0,.8).density,5,1e-14,'pancake chapter peak density');
+assert.throws(()=>dynamics.zeldovich(0,1),'do not extend a single stream through shell crossing');
+// Hayashi: atmospheric powers and a contraction energy budget, rather than fitted tracks.
+close(dynamics.hayashi(1,0).epsilon,1/43.8,1e-14,'H-minus atmosphere radius exponent');
+for(const tau of [0,2,20]) {
+  const star=dynamics.hayashi(.5,tau);
+  close(4*Math.PI*star.radius**2*dc.sigma*star.temperature**4/star.luminosity,1,1e-13,'surface luminosity and temperature consistency');
+}
+const ht=2,hh=1e-4,star=dynamics.hayashi(.5,ht);
+close((dynamics.hayashi(.5,ht+hh).energy-dynamics.hayashi(.5,ht-hh).energy)/(2*hh*star.time0)/(-star.luminosity),1,1e-8,'contraction luminosity is minus energy derivative');
+const smallCluster=dynamics.relaxation(1e4,3),largeCluster=dynamics.relaxation(1e5,3);
+close(largeCluster.dynamicalTime/smallCluster.dynamicalTime,1/Math.sqrt(10),1e-13,'dynamical time at fixed stellar mass');
+close(largeCluster.halfMassTime/smallCluster.halfMassTime,Math.sqrt(10)*Math.log(4000)/Math.log(40000),1e-13,'relaxation N/logN including changing cluster mass');
+close(dynamics.relaxation(1e4,6).halfMassTime/smallCluster.halfMassTime,Math.sqrt(8),1e-13,'relaxation radius scaling');
+// Drift-diffusion: moments, normalization, analytic PDE residual and zero-drift limit.
+for(const gamma of [0,1,2]) {
+  const ou=dynamics.ornsteinUhlenbeck(1.3,gamma);
+  close(integrate(ou.density,-30,30,8000),1,1e-12,'OU probability on the full line');
+  close(integrate(x=>x*ou.density(x),-30,30,8000),ou.mean,1e-12,'OU mean from density integral');
+  close(integrate(x=>(x-ou.mean)**2*ou.density(x),-30,30,8000),ou.variance,1e-12,'OU variance from density integral');
+}
+close(dynamics.ornsteinUhlenbeck(5,0).variance,5.0625,1e-14,'free diffusion variance grows as 2Dt');
+close(dynamics.ornsteinUhlenbeck(40,2).variance,.25,1e-14,'OU stationary variance D/gamma');
+for(const x of [-1,.3,2]) {
+  const dt=1e-4,dx=1e-3,gamma=.8,ou=dynamics.ornsteinUhlenbeck(1.1,gamma),density=ou.density;
+  const timeDerivative=(dynamics.ornsteinUhlenbeck(1.1+dt,gamma).density(x)-dynamics.ornsteinUhlenbeck(1.1-dt,gamma).density(x))/(2*dt);
+  const first=(density(x+dx)-density(x-dx))/(2*dx),second=(density(x+dx)-2*density(x)+density(x-dx))/(dx*dx);
+  close(timeDerivative,gamma*density(x)+gamma*x*first+.5*second,3e-6,'OU solves stated Fokker–Planck convention');
+}
+const thermo=dynamics.gravothermal(60,.01),fineThermo=dynamics.gravothermal(60,.005);
+close(thermo.canonical.x,8.99,.02,'first fixed-temperature turning point');
+close(thermo.canonical.contrast,32.1,.1,'canonical critical density contrast');
+close(thermo.canonical.eta,2.51755,1e-5,'canonical inverse-temperature maximum');
+close(thermo.microcanonical.contrast,709,2,'microcanonical critical density contrast');
+close(thermo.microcanonical.lambda,.33457,1e-5,'Antonov limiting energy');
+close(thermo.microcanonical.lambda,fineThermo.microcanonical.lambda,1e-7,'thermodynamic energy half-step convergence');
+// Similarity disk: finite-difference PDE, integrated mass/J and inner accretion budget.
+for(const gamma of [0,1,1.5]) {
+  const disk0=dynamics.viscousDisk(1,0,gamma),disk3=dynamics.viscousDisk(1,3,gamma);
+  const mass=integrate(logR=>dynamics.viscousDisk(Math.exp(logR),3,gamma).massPerLn,-60,30,12000);
+  close(mass,disk3.mass,1e-9,'viscous disk mass integral');
+  const angular=time=>integrate(logR=>dynamics.viscousDisk(Math.exp(logR),time,gamma).massPerLn*Math.exp(logR/2),-60,30,12000);
+  close(angular(3)/angular(0),1,1e-9,'viscous disk angular momentum conserved while mass accretes');
+  const h=1e-4;
+  close(-(dynamics.viscousDisk(1,3+h,gamma).mass-dynamics.viscousDisk(1,3-h,gamma).mass)/(2*h),disk3.rate,1e-9,'disk mass loss equals central accretion');
+  for(const r of [.3,1,3]) {
+    const dx=1e-4*r,dt=1e-4,surface=(x,t)=>dynamics.viscousDisk(x,t,gamma).surface;
+    const gradient=x=>Math.sqrt(x)*(((x+dx)**(gamma+.5)*surface(x+dx,2)-(x-dx)**(gamma+.5)*surface(x-dx,2))/(2*dx));
+    const rhs=(gradient(r+dx)-gradient(r-dx))/(2*dx)/(disk0.beta**2*r),lhs=(surface(r,2+dt)-surface(r,2-dt))/(2*dt);
+    close(lhs-rhs,0,Math.max(1e-8,Math.abs(lhs)*1e-4),'viscous similarity solves diffusion PDE with stated ts');
+  }
+}
+const diskFour=dynamics.viscousDisk(1,3,1);
+close(diskFour.mass,.5,1e-14,'gamma=1 disk question mass');
+close(diskFour.characteristicRadius,4,1e-14,'gamma=1 disk question radius');
+close(diskFour.rate/dynamics.viscousDisk(1,0,1).rate,.125,1e-14,'gamma=1 disk question accretion rate');
+const sis=dynamics.collapseRhs(2,0,.5);
+close(sis.dv,0,1e-14,'static singular isothermal sphere velocity');
+close(sis.dAlpha,-.5,1e-14,'static singular isothermal sphere density derivative');
+for(const branch of ['shu','lph']) {
+  const collapse=dynamics.collapseScales(branch,.2,30),hot=dynamics.collapseScales(branch,.4,30),x=1e-5;
+  close(hot.rate/collapse.rate,8,1e-13,'isothermal collapse sound-speed cubic rate');
+  close(hot.scale/collapse.scale,2,1e-13,'isothermal similarity length scaling');
+  close(x*x*collapse.innerAlpha(x)*(-collapse.innerV(x)),collapse.m0,1e-12,'free-fall asymptote carries specified central mass flux');
+  const rhs=dynamics.collapseRhs(x,collapse.innerV(x),collapse.innerAlpha(x));
+  close(rhs.dv/(.5*Math.sqrt(2*collapse.m0)*x**(-1.5)),1,1e-3,'inner free-fall velocity approaches similarity ODE');
+}
+assert.throws(()=>dynamics.collapseRhs(1,0,2),'critical points need a regular branch');
+const pulsar=dynamics.goldreichJulian(1,12),slowPulsar=dynamics.goldreichJulian(2,12);
+close(pulsar.numberCm3/1e10,6.94,.01,'GJ polar number scale in cm^-3');
+close(pulsar.lightCylinder/1000,47713.4515924,1e-6,'light cylinder in km');
+close(slowPulsar.numberCm3/pulsar.numberCm3,.5,1e-13,'GJ inverse-period scaling');
+close(slowPulsar.capRadius/pulsar.capRadius,1/Math.sqrt(2),1e-13,'dipolar polar-cap period scaling');
+close(dynamics.goldreichJulian(1,12,pulsar.nullAngle).charge/pulsar.charge,0,1e-13,'aligned dipole null surface');
+assert(pulsar.charge<0&&dynamics.goldreichJulian(1,12,90).charge>0,'GJ sign follows local Omega dot B');
+close((1e12/(dc.c*100*context.window.AstroNumbers.eGaussian))/pulsar.numberCm3,1,1e-8,'SI and Gaussian GJ charge conventions agree');
 const numbers = context.window.AstroNumbers;
 bilingual(numbers.title, 'Supplement title');
 bilingual(numbers.desc, 'Supplement description');

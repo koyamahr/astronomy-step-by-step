@@ -27,7 +27,7 @@
     return { sound, sonicRadius: C.G * C.solar / (2 * sound ** 2) };
   }
   function isothermalSphere(xmax = 12, step = .005) {
-    if (!(positive(xmax, step) && xmax >= .05 && xmax <= 20 && step <= .02)) throw new RangeError('Invalid isothermal-sphere range.');
+    if (!(positive(xmax, step) && xmax >= .05 && xmax <= 100 && step <= .02)) throw new RangeError('Invalid isothermal-sphere range.');
     const h0 = Math.min(step, xmax), x2 = h0 ** 2;
     let x = h0, y = [x2 / 6 - x2 ** 2 / 120 + x2 ** 3 / 1890, h0 ** 3 / 3 - h0 ** 5 / 30 + h0 ** 7 / 315];
     const sample = () => ({ x, psi: y[0], mass: y[1], density: Math.exp(-y[0]), contrast: Math.exp(y[0]), pressureMass: y[1] * Math.exp(-y[0] / 2) / Math.sqrt(4 * Math.PI) });
