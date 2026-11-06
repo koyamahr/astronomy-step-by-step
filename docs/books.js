@@ -25,6 +25,16 @@
       related: ['chapter/scattering', 'chapter/thermal', 'chapter/planck', 'advanced/synchrotron', 'advanced/sunyaev-zeldovich']
     },
     {
+      id: 'stellar-structure', kind: 'textbook', title: 'Stellar Structure and Evolution',
+      authors: 'Rudolf Kippenhahn, Alfred Weigert & Achim Weiss', publisher: 'Springer',
+      edition: ['第2版（2012）', 'Second edition (2012)'], subject: ['恒星の構造と進化', 'Stellar structure & evolution'],
+      url: 'https://link.springer.com/book/10.1007/978-3-642-30304-3',
+      learn: ['静水圧平衡、エネルギー生成、放射輸送と対流を組み合わせ、星の内部構造とH–R図上の進化を学ぶ。恒星を一つの塊で見積もる段階から、内部を解く段階への橋渡しになる。', 'Combine hydrostatic balance, energy generation, radiative transport and convection to study stellar interiors and evolution on the H–R diagram, moving from global estimates to structure calculations.'],
+      prep: ['熱力学、微積分と常微分方程式、放射と理想気体の基礎。', 'Thermodynamics, calculus and ordinary differential equations, and basic radiation and ideal-gas physics.'],
+      route: ['入門編のビリアル定理と質量–光度関係から、恒星構造の方程式へ。Lane–Emdenと林トラックを読んだ後に、対流・前主系列・主系列のつながりを調べる。', 'Move from virial balance and mass–luminosity scaling to the stellar structure equations. After Lane–Emden and Hayashi tracks, explore convection and the connection between pre-main-sequence and main-sequence evolution.'],
+      related: ['chapter/virial', 'chapter/structure', 'chapter/sun', 'advanced/lane-emden', 'advanced/hayashi']
+    },
+    {
       id: 'physical-cosmology', kind: 'textbook', title: 'Principles of Physical Cosmology',
       authors: 'P. J. E. Peebles', publisher: 'Princeton University Press',
       edition: ['宇宙論の基礎を広く学ぶ', 'A broad foundation in physical cosmology'], subject: ['膨張宇宙と観測', 'Expansion & cosmological observations'],
