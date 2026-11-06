@@ -25,6 +25,16 @@
       related: ['chapter/scattering', 'chapter/thermal', 'chapter/planck', 'advanced/synchrotron', 'advanced/sunyaev-zeldovich']
     },
     {
+      id: 'radiation-hydrodynamics', kind: 'textbook', title: 'Foundations of Radiation Hydrodynamics',
+      authors: 'Dimitri Mihalas & Barbara Weibel-Mihalas', publisher: 'Dover Publications',
+      edition: ['原著1984年・Dover再刊／発展的な専門書', 'Originally published in 1984; Dover reprint / advanced reference'], subject: ['放射と流体の保存則', 'Radiation & fluid conservation laws'],
+      url: 'https://store.doverpublications.com/products/9780486135885',
+      learn: ['流体の質量・運動量・エネルギーの保存則と、放射輸送を同じ枠組みで扱う。光がガスを押し、エネルギーを運ぶとき、流体の式がどう変わるかを学ぶ。', 'Bring fluid mass, momentum and energy conservation together with radiative transfer. Explore how the fluid equations change when radiation exerts forces and transports energy.'],
+      prep: ['流体力学、熱力学、放射輸送、偏微分方程式、相対論の基礎。', 'Fluid mechanics, thermodynamics, radiative transfer, partial differential equations and introductory relativity.'],
+      route: ['まず通常の流体の保存則を確認し、放射のエネルギー流束と放射圧を加える過程へ進む。平均自由行程・拡散・エディントン限界を足場に、必要な節を参照する発展的な一冊。', 'Review ordinary fluid conservation, then add radiation energy flux and pressure. Use mean free paths, diffusion and the Eddington limit as starting points for consulting this advanced reference.'],
+      related: ['chapter/thermal', 'chapter/planck', 'chapter/structure', 'chapter/eddington', 'advanced/sedov']
+    },
+    {
       id: 'stellar-structure', kind: 'textbook', title: 'Stellar Structure and Evolution',
       authors: 'Rudolf Kippenhahn, Alfred Weigert & Achim Weiss', publisher: 'Springer',
       edition: ['第2版（2012）', 'Second edition (2012)'], subject: ['恒星の構造と進化', 'Stellar structure & evolution'],

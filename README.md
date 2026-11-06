@@ -4,7 +4,7 @@
 
 A bilingual Japanese–English series: Foundations explores the universe through school algebra; Advanced covers equilibrium, instability, transport, and similarity solutions. All 16 foundation lessons are available. All 27 advanced worked chapters are also available, organized into a nine-area learning guide.
 
-[教科書・総説集ガイド](https://koyamahr.github.io/astronomy-step-by-step/#/books)では、標準教科書7冊と『Protostars and Planets III』を、予備知識・関連章・出版社のリンクとともに日英で紹介しています。PP IIIには出版社の無料公開版へのリンクもあります。
+[教科書・総説集ガイド](https://koyamahr.github.io/astronomy-step-by-step/#/books)では、教科書・専門書8冊と『Protostars and Planets III』を、予備知識・関連章・出版社のリンクとともに日英で紹介しています。PP IIIには出版社の無料公開版へのリンクもあります。
 
 ## ローカルで読む / Read locally
 
