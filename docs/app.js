@@ -5,6 +5,7 @@
   const advancedContent = window.AstroAdvanced;
   const worked = advancedContent.chapters;
   const numbers = window.AstroNumbers;
+  const books = window.AstroBooks;
   const storage = {
     get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } },
     set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* Reading still works without storage. */ } }
@@ -65,7 +66,7 @@
   function home(onlyContents = false) {
     document.title = onlyContents ? `${tr(series.volumes.foundations.title)} | ${tr(series.name)}` : tr(series.name);
     if (onlyContents) return `<div class="wrap" style="padding-top:48px">${contentsBlock()}${pathNote()}</div>`;
-    return `<div class="wrap"><section class="hero"><div><div class="eyebrow">AN OPEN NOTEBOOK OF ASTROPHYSICS</div><h1>${t('理論天文学の<br><em>道具箱。</em>', 'Theoretical<br>Astrophysics,<br><em>Step by Step.</em>')}</h1><p class="intro">${t('高校数学の式変形から、微分方程式で解く標準問題へ。<br>星と原子、宇宙の膨張、平衡とその破れをつなぐ、<br>日本語・英語の天文学シリーズ。', 'From school algebra to classical problems with differential equations.<br>A Japanese–English series connecting atoms, stars, cosmic expansion,<br>and the physics of equilibrium and change.')}</p><div class="actions"><a class="button" href="${chapterUrl('tools')}">${t('入門編を読み始める', 'Start the foundations')} <span aria-hidden="true">↗</span></a><a class="text-link" href="#/advanced">${t('発展編を読む', 'Explore the advanced volume')}</a></div><div class="hero-note"><span>${t('高校数学から', 'Starts with school algebra')}</span><span>${t('入門から発展へ', 'Foundations to advanced topics')}</span><span>日本語 / English</span></div></div>${cosmicFigure()}</section>${volumeCards()}<a class="appendix-link" href="#/appendix/numbers"><div><span class="eyebrow">${t('番外編 · 数字と単位', 'SUPPLEMENT · NUMBERS & UNITS')}</span><h2>${tr(numbers.title)}</h2><p>${tr(numbers.desc)}</p></div><span aria-hidden="true">↗</span></a>
+    return `<div class="wrap"><section class="hero"><div><div class="eyebrow">AN OPEN NOTEBOOK OF ASTROPHYSICS</div><h1>${t('理論天文学の<br><em>道具箱。</em>', 'Theoretical<br>Astrophysics,<br><em>Step by Step.</em>')}</h1><p class="intro">${t('高校数学の式変形から、微分方程式で解く標準問題へ。<br>星と原子、宇宙の膨張、平衡とその破れをつなぐ、<br>日本語・英語の天文学シリーズ。', 'From school algebra to classical problems with differential equations.<br>A Japanese–English series connecting atoms, stars, cosmic expansion,<br>and the physics of equilibrium and change.')}</p><div class="actions"><a class="button" href="${chapterUrl('tools')}">${t('入門編を読み始める', 'Start the foundations')} <span aria-hidden="true">↗</span></a><a class="text-link" href="#/advanced">${t('発展編を読む', 'Explore the advanced volume')}</a></div><div class="hero-note"><span>${t('高校数学から', 'Starts with school algebra')}</span><span>${t('入門から発展へ', 'Foundations to advanced topics')}</span><span>日本語 / English</span></div></div>${cosmicFigure()}</section>${volumeCards()}<a class="appendix-link book-guide-link" href="#/books"><div><span class="eyebrow">READING GUIDE</span><h2>${t('教科書・総説集ガイド', 'Textbooks & review volumes')}</h2><p>${t('標準書とPP IIIから、知りたい現象を深める。', 'Explore your next question with standard references and PP III.')}</p></div><span>↗</span></a><a class="appendix-link" href="#/appendix/numbers"><div><span class="eyebrow">${t('番外編 · 数字と単位', 'SUPPLEMENT · NUMBERS & UNITS')}</span><h2>${tr(numbers.title)}</h2><p>${tr(numbers.desc)}</p></div><span aria-hidden="true">↗</span></a>
       <div class="principles"><div><b>01</b><div><strong>${t('直感をつかむ', 'Build intuition')}</strong><p>${t('身近な問いから始める。', 'Start with a concrete question.')}</p></div></div><div><b>02</b><div><strong>${t('一行ずつ、式をつなぐ', 'Follow every algebraic step')}</strong><p>${t('途中の変形を飛ばさない。', 'See the steps between formulas.')}</p></div></div><div><b>03</b><div><strong>${t('近似の意味までわかる', 'Understand the assumptions')}</strong><p>${t('どこまで言えるかを確かめる。', 'Know what a model can explain.')}</p></div></div></div>
       <section><div class="section-heading"><div><div class="eyebrow">TWO LIMITS, TWO STORIES</div><h2>${t('星の「限界」を、式で読む。', 'Two limits. Two physical stories.')}</h2><p>${t('この教材が目指す、二つの到達点。', 'Two destinations for your journey through the physics.')}</p></div></div><div class="feature-grid"><a class="feature" href="${chapterUrl('chandra')}"><span class="tag">QUANTUM PHYSICS × RELATIVITY</span><h3>${t('白色矮星は、どこまで重くなれる？', 'How massive can a white dwarf be?')}</h3><p>${t('電子の圧力と重力。半径が式から消えるとき、限界質量が現れる。', 'Balance electron pressure against gravity. When radius cancels, a limiting mass emerges.')}</p><div class="feature-math">M<sub>Ch</sub> ≈ 1.4 M<sub>☉</sub></div><div class="feature-foot"><span>${t('チャンドラセカール質量', 'The Chandrasekhar mass')}</span><span class="arrow">↗</span></div></a><a class="feature" href="${chapterUrl('eddington')}"><span class="tag">ELECTROMAGNETISM × GRAVITY</span><h3>${t('光は、星を吹き飛ばせる？', 'Can light push a star apart?')}</h3><p>${t('電子を押す光の力を数えて、重力とつり合う明るさを求める。', 'Count the momentum light transfers to electrons, then find where it balances gravity.')}</p><div class="feature-math">L<sub>Edd</sub> = 4πGMc / κ</div><div class="feature-foot"><span>${t('エディントン限界', 'The Eddington limit')}</span><span class="arrow">↗</span></div></a></div></section>
       ${contentsBlock()}${pathNote()}</div>`;
@@ -119,6 +120,11 @@
     return `<div class="lesson-layout"><aside class="sidebar"><a class="back" href="#/">← ${t('ホームへ', 'Home')}</a><div class="side-title">${t('関連する章', 'RELATED CHAPTERS')}</div><nav class="side-links" aria-label="${t('関連する章', 'Related chapters')}">${['tools','distance','atom','scattering','expansion'].map(id => `<a href="${chapterUrl(id)}">${tr(chapters.find(c => c.id === id).title)}</a>`).join('')}</nav></aside><article class="lesson numbers-reference"><header class="lesson-head"><div class="eyebrow">${t('番外編 / NUMBERS & UNITS', 'SUPPLEMENT / NUMBERS & UNITS')}</div><h1>${tr(numbers.title)}</h1><p class="dek">${tr(numbers.desc)}</p></header>${numbers.renderBody(locale)}<div class="sources"><strong>${t('参考資料と数値の出典', 'REFERENCES & NUMERICAL SOURCES')}</strong><p>${t('基本定数の数値はCODATA 2022を使用。単位系の説明にはNRAO、定義と公称値にはIAUを参照しています。H₀＝70は換算例です。', 'Fundamental values use CODATA 2022. Unit conventions follow NRAO; definitions and nominal scales follow IAU. H₀ = 70 is illustrative.')}</p><ul>${numbers.refs.map(([label,url]) => `<li><a href="${url}" target="_blank" rel="noopener noreferrer">${label} ↗</a></li>`).join('')}</ul></div><div class="lesson-bottom"><a class="button" href="#/chapters">${t('入門編の目次へ', 'Foundations contents')} →</a></div></article></div>`;
   }
 
+  function readingGuide() {
+    document.title = `${tr(books.title)} | ${tr(series.name)}`;
+    return books.renderBody(locale);
+  }
+
   function about() {
     document.title = `${t('この教材について', 'About this series')} | ${tr(series.name)}`;
     return `<article class="about"><div class="eyebrow">ABOUT THE SERIES</div><h1>${tr(series.name)}</h1><p>${t('理論天文学の道具箱は、宇宙物理を学ぶための共通言語を、日本語と英語で身につける教材シリーズです。高校数学の式変形でたどる入門編と、微分方程式を使う発展編の二冊で構成します。', 'Theoretical Astrophysics, Step by Step is a Japanese–English series for learning the shared tools of astrophysics. It pairs foundations through school algebra with an advanced volume using differential equations.')}</p>
@@ -126,6 +132,7 @@
       <h2>${t('入門編：高校数学の式変形でたどる宇宙', 'Foundations: exploring the universe through school algebra')}</h2><p>${t('全16章の本文、確認問題、参考資料、四つの操作パネルを公開しています。微分方程式は解きません。エントロピー極大化の任意の発展欄では微分を使います。量子力学・一般相対論から借りる法則と、式変形で追える部分を区別します。', 'All 16 lessons, questions, references, and four interactive panels are available. No differential equations are solved. The optional entropy-maximization extension uses derivatives. Supplied laws from quantum mechanics and relativity are distinguished from the algebra developed here.')}</p>
       <h2>${t('発展編：平衡・不安定性・輸送・相似解', 'Advanced: equilibrium, instability, transport, and similarity solutions')}</h2><p>${t(`本文${worked.length}章と、全${series.groups.flatMap(g => g.topics).length}題材の学習ガイドを公開しています。雲の平衡・重力不安定性・宇宙構造、球対称の降着と風、円盤の輸送・MRI・Toomre Q、流体境界、衝撃波、放射と電離を扱います。各題材に本文の公開状況を表示しています。`, `${worked.length} worked chapters are available in a ${series.groups.flatMap(g => g.topics).length}-topic learning guide, covering cloud equilibrium, gravitational instability, cosmic structure, spherical accretion and winds, disk transport, MRI, Toomre Q, fluid interfaces, shocks, radiation, and ionization. Each topic shows its publication status.`)}</p>
       <h2>${t('番外編：宇宙物理の数字と単位', 'Supplement: numbers and units')}</h2><p>${t('pc、h・ℏ、電子の静止質量、太陽質量、H₀、微細構造定数、Gとcを参照できる番外編を用意しました。SIとCGS–Gauss系の対応を、数値と式の両方で確認できます。', 'The supplement covers pc, h and ℏ, electron rest mass, solar mass, H₀, the fine-structure constant, G, and c. Compare values and equations in SI and Gaussian CGS.')} <a href="#/appendix/numbers">${t('数字と単位を開く', 'Open numbers and units')} ↗</a></p>
+      <h2>${t('この教材の先の教科書', 'Further reading')}</h2><p>${t('銀河力学、放射、宇宙論、コンパクト天体、流体安定性の標準書と、星・惑星形成の総説集PP IIIを紹介しています。予備知識と、本サイトの章からの読み方を添えました。', 'Find standard references on galactic dynamics, radiation, cosmology, compact objects and fluid stability, plus PP III reviews on star and planet formation. Each entry includes preparation and connections to this site.')} <a href="#/books">${t('教科書・総説集ガイドを開く', 'Open the reading guide')} ↗</a></p>
       <h2>${t('この教材の約束', 'Teaching principles')}</h2><ul><li>${t('主役は天体現象です。状態方程式・不透明度・再結合係数などは意味と適用条件を示して使い、物性の微視的導出を独立の主題にはしません。', 'Astrophysical phenomena are the focus. Equations of state, opacities, and recombination coefficients are used with their meaning and validity stated; microscopic material-property derivations are not a separate theme.')}</li><li>${t('直感、仮定、式変形、確認問題をつなぎます。', 'Connect intuition, assumptions, algebra, and questions.')}</li><li>${t('近似、厳密な結果、既知の係数を区別し、適用条件を添えます。', 'Distinguish estimates, exact results, and supplied coefficients, stating their conditions.')}</li><li>${t('発展編は「現象をつかむ・方程式を作る・解いて確かめる」の三段階で組み立てます。', 'Build advanced chapters in three stages: understand the phenomenon, formulate the equations, and solve and check.')}</li></ul>
       <h2>${t('図の出典と検証', 'Plot provenance and validation')}</h2><p>${t('掲載図は、現象を描いた概念図や理論模型を計算し直した教材図です。既知の解・保存則との検証と、特定の論文の図を再現することは区別します。論文の図との照合には、図番号、物理条件、軸と規格化、元データの範囲を明記します。', 'The figures are conceptual illustrations or teaching plots recomputed from theoretical models. Checks against known solutions and conservation laws are distinct from reproducing a specific paper figure. A figure comparison requires its number, physical conditions, axes, normalization, and data scope.')}</p>
       <h2>${t('二つの言語で、同じ場所を', 'The same place in two languages')}</h2><p>${t('日本語／ENの切り替えでは現在の章や開いた学習ガイドの項目を保ちます。言語と各編の読了記録はブラウザだけに保存します。入門編と発展編は別々に読了を記録します。', 'Language switching keeps the current chapter and expanded syllabus entries. Language and completion records stay in your browser. Advanced chapters have separate progress from the foundations.')}</p>
@@ -140,6 +147,7 @@
     document.querySelector('#nav-chapters').textContent = t('入門編', 'Foundations');
     document.querySelector('#nav-advanced').textContent = t('発展編', 'Advanced');
     document.querySelector('#nav-numbers').textContent = t('番外編', 'Numbers');
+    document.querySelector('#nav-books').textContent = t('教科書', 'Books');
     document.querySelector('#nav-about').textContent = t('この教材について', 'About');
     document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === locale)));
     const route = location.hash.replace(/^#/, '') || '/';
@@ -149,13 +157,14 @@
     else if (route === '/advanced') main.innerHTML = advanced();
     else if (route.startsWith('/advanced/') && (c = worked.find(item => route === `/advanced/${item.id}`))) main.innerHTML = advancedLesson(c);
     else if (route === '/about') main.innerHTML = about();
+    else if (route === '/books') main.innerHTML = readingGuide();
     else if (route === '/appendix/numbers') main.innerHTML = numberAppendix();
     else if (route.startsWith('/chapter/') && (c = chapters.find(item => route === `/chapter/${item.id}`))) main.innerHTML = lesson(c);
     else {
       document.title = t('章が見つかりません | 天文学', 'Chapter not found | Astronomy');
       main.innerHTML = `<div class="about"><h1>${t('章が見つかりませんでした。', 'Chapter not found.')}</h1><p><a href="#/chapters">${t('目次へ戻る', 'Back to chapters')} →</a></p></div>`;
     }
-    document.querySelector('#footer').innerHTML = `<span>${t('理論天文学の道具箱', 'Theoretical Astrophysics, Step by Step')}<br>${t('宇宙を理解するための共通言語。', 'A shared language for understanding the universe.')}</span><span>${t('入門編・発展編 / 日本語・English', 'Foundations & advanced / Japanese & English')}<br><a href="#/about">${t('教材の方針と参考資料について', 'Teaching principles & references')} ↗</a></span>`;
+    document.querySelector('#footer').innerHTML = `<span>${t('理論天文学の道具箱', 'Theoretical Astrophysics, Step by Step')}<br>${t('宇宙を理解するための共通言語。', 'A shared language for understanding the universe.')}</span><span>${t('入門編・発展編 / 日本語・English', 'Foundations & advanced / Japanese & English')}<br><a href="#/books">${t('教科書・総説集ガイド', 'Textbooks & review volumes')} ↗</a> · <a href="#/about">${t('教材の方針', 'Teaching principles')} ↗</a></span>`;
     mountLabs();
     if (preserveScroll) window.scrollTo({ top: scrollY, behavior: 'instant' });
     else window.scrollTo({ top: 0, behavior: 'instant' });
@@ -278,6 +287,14 @@
   }
 
   document.addEventListener('click', event => {
+    const readingJump = event.target.closest('[data-reading-target]');
+    if (readingJump) {
+      event.preventDefault();
+      const section = document.getElementById(readingJump.dataset.readingTarget);
+      section?.scrollIntoView({ block: 'start' });
+      section?.focus({ preventScroll: true });
+      return;
+    }
     if (event.target.closest('.skip')) {
       event.preventDefault();
       main.focus({ preventScroll: true });

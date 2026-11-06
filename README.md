@@ -4,6 +4,8 @@
 
 A bilingual Japanese–English series: Foundations explores the universe through school algebra; Advanced covers equilibrium, instability, transport, and similarity solutions. All 16 foundation lessons are available. All 27 advanced worked chapters are also available, organized into a nine-area learning guide.
 
+[教科書・総説集ガイド](https://koyamahr.github.io/astronomy-step-by-step/#/books)では、標準教科書6冊と『Protostars and Planets III』を、予備知識・関連章・出版社のリンクとともに日英で紹介しています。PP IIIには出版社の無料公開版へのリンクもあります。
+
 ## ローカルで読む / Read locally
 
 追加のインストール・ビルドは不要です。Python 3のHTTPサーバーなどで `docs/` を開きます。
@@ -141,6 +143,7 @@ The included workflow validates and deploys `docs/` to [GitHub Pages](https://ko
 - `docs/advanced-content.js`: eight bilingual advanced worked chapters
 - `docs/advanced-math.js`: dimensionless Lane–Emden and Sedov ODE solvers
 - `docs/advanced-labs.js`: advanced numerical and scaling panels
+- `docs/books.js` and `docs/books.css`: bilingual textbook and review-volume guide with chapter connections
 - `docs/numbers.js`: bilingual constants reference, SI/Gaussian conventions, and unit-conversion panels
 - `docs/app.js`: navigation, language switching, search, separate completion records for each volume, foundation panels
 - `docs/style.css`: lesson layout, print styles, and reduced-motion support
