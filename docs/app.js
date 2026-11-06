@@ -78,7 +78,7 @@
   function advanced() {
     document.title = `${tr(series.volumes.advanced.title)} — ${t('本文と学習ガイド', 'Chapters and learning guide')} | ${tr(series.name)}`;
     const topicCount = series.groups.reduce((sum, group) => sum + group.topics.length, 0);
-    return `<article class="advanced-volume wrap"><header class="advanced-head"><div class="eyebrow">VOLUME II / ADVANCED</div><h1>${tr(series.volumes.advanced.title)}</h1><p class="advanced-subtitle">${tr(series.volumes.advanced.subtitle)}</p><span class="volume-state">${t(`本文${worked.length}章・学習ガイド`, `${worked.length} WORKED CHAPTERS & LEARNING GUIDE`)}</span><p>${t('入門編で見積もった現象を、微分方程式でさらに深く調べる姉妹編です。', 'A companion volume using differential equations to explore phenomena introduced in the foundations.')}</p><div class="callout"><strong>${t('このページで読めるもの', 'WHAT IS AVAILABLE HERE')}</strong>${t(`${series.groups.length}分野・${topicCount}題材のうち、${worked.length}章の本文を公開中です。雲の平衡と不安定性、球対称流、円盤の輸送と安定性、衝撃波と放射を日英で読めます。残り${topicCount - worked.length}題材は構成案です。各項目に公開状況を表示しています。`, `${worked.length} worked chapters are available among ${topicCount} topics in ${series.groups.length} areas, covering cloud equilibrium and instability, spherical flows, disk transport and stability, shocks, and radiation. The remaining ${topicCount - worked.length} entries are planned topics, with publication status shown for each.`)}</div></header>
+    return `<article class="advanced-volume wrap"><header class="advanced-head"><div class="eyebrow">VOLUME II / ADVANCED</div><h1>${tr(series.volumes.advanced.title)}</h1><p class="advanced-subtitle">${tr(series.volumes.advanced.subtitle)}</p><span class="volume-state">${t(`本文${worked.length}章・学習ガイド`, `${worked.length} WORKED CHAPTERS & LEARNING GUIDE`)}</span><p>${t('入門編で見積もった現象を、微分方程式でさらに深く調べる姉妹編です。', 'A companion volume using differential equations to explore phenomena introduced in the foundations.')}</p><div class="callout"><strong>${t('このページで読めるもの', 'WHAT IS AVAILABLE HERE')}</strong>${t(`${series.groups.length}分野・${topicCount}題材のうち、${worked.length}章の本文を公開中です。雲の平衡と不安定性、宇宙構造、球対称流、円盤の輸送と安定性、衝撃波と放射を日英で読めます。残り${topicCount - worked.length}題材は構成案です。各項目に公開状況を表示しています。`, `${worked.length} worked chapters are available among ${topicCount} topics in ${series.groups.length} areas, covering cloud equilibrium and instability, cosmic structure, spherical flows, disk transport and stability, shocks, and radiation. The remaining ${topicCount - worked.length} entries are planned topics, with publication status shown for each.`)}</div></header>
       <section class="available-lessons"><div class="section-heading"><div><div class="eyebrow">READ NOW</div><h2>${t('公開中の本文', 'Available chapters')}</h2><p>${t('発展編の読了：', 'Advanced progress: ')}${advancedCompleted.size} / ${worked.length}</p></div></div>${worked.map((c, i) => `<a class="chapter-row" href="${advancedUrl(c.id)}"><span class="number">${pad(i + 1)}</span><div><h3>${tr(c.title)}</h3><p>${tr(c.desc)}</p></div><span class="meta">${c.minutes}${t('分', ' min')}</span><span>${advancedCompleted.has(c.id) ? '✓' : '↗'}</span></a>`).join('')}</section>
       <div class="advanced-method"><div><b>01</b><strong>${t('現象をつかむ', 'Understand the phenomenon')}</strong><p>${t('図、保存則、次元解析で見通す。', 'Use diagrams, conservation, and dimensions.')}</p></div><div><b>02</b><strong>${t('方程式を作る', 'Formulate the equations')}</strong><p>${t('仮定、無次元化、境界条件を追う。', 'Track assumptions, scaling, and boundaries.')}</p></div><div><b>03</b><strong>${t('解いて確かめる', 'Solve and check')}</strong><p>${t('解析解と数値解で、適用範囲を調べる。', 'Explore solutions and their limits.')}</p></div></div>
       <section class="advanced-prep"><h2>${t('準備する数学', 'Mathematical preparation')}</h2><p>${t('微分・積分、常微分方程式の初歩、ベクトルと行列。偏微分方程式は保存則との関係から読み、線形化、無次元化、相似変換を順に導入する構成です。', 'Calculus, introductory ordinary differential equations, vectors, and matrices. The planned treatment introduces partial differential equations through conservation laws, followed by linearization, nondimensionalization, and similarity transformations.')}</p><p>${t('まず入門編のビリアル定理・星の構造・宇宙膨張を読むと、物理の見通しをつかみやすくなります。', 'The foundational chapters on the virial theorem, stellar structure, and cosmic expansion provide useful physical context.')}</p></section>
@@ -124,15 +124,17 @@
     return `<article class="about"><div class="eyebrow">ABOUT THE SERIES</div><h1>${tr(series.name)}</h1><p>${t('理論天文学の道具箱は、宇宙物理を学ぶための共通言語を、日本語と英語で身につける教材シリーズです。高校数学の式変形でたどる入門編と、微分方程式を使う発展編の二冊で構成します。', 'Theoretical Astrophysics, Step by Step is a Japanese–English series for learning the shared tools of astrophysics. It pairs foundations through school algebra with an advanced volume using differential equations.')}</p>
       ${volumeCards()}
       <h2>${t('入門編：高校数学の式変形でたどる宇宙', 'Foundations: exploring the universe through school algebra')}</h2><p>${t('全16章の本文、確認問題、参考資料、四つの操作パネルを公開しています。微分方程式は解きません。エントロピー極大化の任意の発展欄では微分を使います。量子力学・一般相対論から借りる法則と、式変形で追える部分を区別します。', 'All 16 lessons, questions, references, and four interactive panels are available. No differential equations are solved. The optional entropy-maximization extension uses derivatives. Supplied laws from quantum mechanics and relativity are distinguished from the algebra developed here.')}</p>
-      <h2>${t('発展編：平衡・不安定性・輸送・相似解', 'Advanced: equilibrium, instability, transport, and similarity solutions')}</h2><p>${t(`本文${worked.length}章と、全${series.groups.flatMap(g => g.topics).length}題材の学習ガイドを公開しています。雲の平衡・重力不安定性、球対称の降着と風、円盤の輸送・MRI・Toomre Q、流体境界、衝撃波、放射と電離を扱います。各題材に本文の公開状況を表示しています。`, `${worked.length} worked chapters are available in a ${series.groups.flatMap(g => g.topics).length}-topic learning guide, covering cloud equilibrium, gravitational instability, spherical accretion and winds, disk transport, MRI, Toomre Q, fluid interfaces, shocks, radiation, and ionization. Each topic shows its publication status.`)}</p>
+      <h2>${t('発展編：平衡・不安定性・輸送・相似解', 'Advanced: equilibrium, instability, transport, and similarity solutions')}</h2><p>${t(`本文${worked.length}章と、全${series.groups.flatMap(g => g.topics).length}題材の学習ガイドを公開しています。雲の平衡・重力不安定性・宇宙構造、球対称の降着と風、円盤の輸送・MRI・Toomre Q、流体境界、衝撃波、放射と電離を扱います。各題材に本文の公開状況を表示しています。`, `${worked.length} worked chapters are available in a ${series.groups.flatMap(g => g.topics).length}-topic learning guide, covering cloud equilibrium, gravitational instability, cosmic structure, spherical accretion and winds, disk transport, MRI, Toomre Q, fluid interfaces, shocks, radiation, and ionization. Each topic shows its publication status.`)}</p>
       <h2>${t('番外編：宇宙物理の数字と単位', 'Supplement: numbers and units')}</h2><p>${t('pc、h・ℏ、電子の静止質量、太陽質量、H₀、微細構造定数、Gとcを参照できる番外編を用意しました。SIとCGS–Gauss系の対応を、数値と式の両方で確認できます。', 'The supplement covers pc, h and ℏ, electron rest mass, solar mass, H₀, the fine-structure constant, G, and c. Compare values and equations in SI and Gaussian CGS.')} <a href="#/appendix/numbers">${t('数字と単位を開く', 'Open numbers and units')} ↗</a></p>
       <h2>${t('この教材の約束', 'Teaching principles')}</h2><ul><li>${t('主役は天体現象です。状態方程式・不透明度・再結合係数などは意味と適用条件を示して使い、物性の微視的導出を独立の主題にはしません。', 'Astrophysical phenomena are the focus. Equations of state, opacities, and recombination coefficients are used with their meaning and validity stated; microscopic material-property derivations are not a separate theme.')}</li><li>${t('直感、仮定、式変形、確認問題をつなぎます。', 'Connect intuition, assumptions, algebra, and questions.')}</li><li>${t('近似、厳密な結果、既知の係数を区別し、適用条件を添えます。', 'Distinguish estimates, exact results, and supplied coefficients, stating their conditions.')}</li><li>${t('発展編は「現象をつかむ・方程式を作る・解いて確かめる」の三段階で組み立てます。', 'Build advanced chapters in three stages: understand the phenomenon, formulate the equations, and solve and check.')}</li></ul>
+      <h2>${t('図の出典と検証', 'Plot provenance and validation')}</h2><p>${t('掲載図は、現象を描いた概念図や理論模型を計算し直した教材図です。既知の解・保存則との検証と、特定の論文の図を再現することは区別します。論文の図との照合には、図番号、物理条件、軸と規格化、元データの範囲を明記します。', 'The figures are conceptual illustrations or teaching plots recomputed from theoretical models. Checks against known solutions and conservation laws are distinct from reproducing a specific paper figure. A figure comparison requires its number, physical conditions, axes, normalization, and data scope.')}</p>
       <h2>${t('二つの言語で、同じ場所を', 'The same place in two languages')}</h2><p>${t('日本語／ENの切り替えでは現在の章や開いた構成案を保ちます。言語と各編の読了記録はブラウザだけに保存します。発展編の本文は入門編と別に記録し、準備中の題材は含めません。', 'Language switching keeps the current chapter and expanded syllabus entries. Language and completion records stay in your browser. The published advanced chapters have separate progress from the foundations; planned topics do not count.')}</p>
       <p><a class="button" href="#/chapters">${t('入門編の目次へ', 'Open the foundations')} ↗</a></p></article>`;
   }
 
   function render({ preserveScroll = false } = {}) {
     const scrollY = window.scrollY;
+    window.AstroAnimation.disposeAll();
     document.documentElement.lang = locale;
     document.querySelector('#brand-name').innerHTML = `${t('理論天文学の道具箱', 'Theoretical Astrophysics, Step by Step')}<small>${t('THEORETICAL ASTROPHYSICS, STEP BY STEP', 'FOUNDATIONS & ADVANCED')}</small>`;
     document.querySelector('#nav-chapters').textContent = t('入門編', 'Foundations');
@@ -168,6 +170,7 @@
       if (['number-converter', 'hubble-units'].includes(el.dataset.lab)) numbers.mount(el, locale);
       if (['lane-emden', 'sedov', 'acceleration', 'synchrotron', 'rayleigh-taylor', 'kelvin-helmholtz', 'sunyaev-zeldovich', 'angular-momentum'].includes(el.dataset.lab)) window.AstroAdvancedLabs.mount(el, locale);
       if (window.AstroGasLabs.supports(el.dataset.lab)) window.AstroGasLabs.mount(el, locale);
+      if (el.dataset.lab === 'press-schechter') window.AstroPressSchechter.mount(el, locale);
     });
   }
 
@@ -231,19 +234,20 @@
   function mountExpansion(el) {
     el.className = 'lab';
     el.innerHTML = `<h3>${t('動かして確かめる：どの銀河から見てもv＝HD', 'Explore: v = HD from any galaxy')}</h3>
+      <p class="animation-caption">${t('再生中はHを一定に保ち、a∝exp(Ht)で点の間隔を広げる模型です。画面の秒数は実際の宇宙時間ではありません。', 'Playback holds H fixed and expands the gaps with a ∝ exp(Ht). Screen seconds are not physical cosmic time.')}</p>
       <label for="exp-scale">${t('距離の倍率', 'Distance scale factor')} a = <output id="exp-scale-value" for="exp-scale"></output></label>
       <input id="exp-scale" type="range" min="0.5" max="2" step="0.01" value="1">
       <label for="exp-rate">H = <output id="exp-rate-value" for="exp-rate"></output> km s⁻¹ Mpc⁻¹</label>
       <input id="exp-rate" type="range" min="50" max="90" step="1" value="70">
       <label for="exp-observer">${t('観測者を置く点', 'Observer location')}</label>
       <select id="exp-observer"><option value="0">A</option><option value="1">B</option><option value="2" selected>C</option><option value="3">D</option><option value="4">E</option></select>
-      <svg viewBox="0 0 600 330" role="img" aria-labelledby="exp-chart-title"><title id="exp-chart-title">${t('上：一様に間隔が変わる5点。下：観測者からの距離と後退速度の比例関係。', 'Top: five points with uniformly scaled gaps. Bottom: recession rate versus distance from the chosen observer.')}</title>
+      <div class="gas-plot"><svg viewBox="0 0 600 330" role="img" aria-labelledby="exp-chart-title"><title id="exp-chart-title">${t('上：一様に間隔が変わる5点。下：観測者からの距離と後退速度の比例関係。', 'Top: five points with uniformly scaled gaps. Bottom: recession rate versus distance from the chosen observer.')}</title>
         <text x="25" y="25">${t('隣り合う点の間隔：10a Mpc', 'Adjacent separation: 10a Mpc')}</text><line x1="35" y1="65" x2="565" y2="65" stroke="#c5d1c5"/><g id="exp-galaxies"></g>
         <path d="M65 115V280H565" stroke="#9faea4" fill="none"/><text x="72" y="113">${t('後退速度 [km/s]', 'Recession rate [km/s]')}</text><text x="272" y="317">${t('距離 D [Mpc]', 'Distance D [Mpc]')}</text><text x="47" y="284">0</text><text x="35" y="131">7200</text><text x="62" y="298">0</text><text x="550" y="298">80</text>
         <path id="exp-law" stroke="#aabeb0" stroke-dasharray="5 4" fill="none"/><g id="exp-points"></g>
-      </svg><p id="exp-reading" class="lab-note" role="status"></p>
+      </svg></div><p id="exp-reading" class="lab-note" role="status"></p><p id="exp-elapsed" class="lab-note"></p>
       <p class="lab-note">${t('点は宇宙膨張に乗る銀河群の代表点です。色のついた点が観測者。横軸はその点からの距離、縦軸はHD。左右の点が同じ距離にあると、グラフでは重なります。', 'Points represent galaxy groups following the cosmic flow. The coloured point is the observer. The graph uses distance from that point and HD; equal-distance points on opposite sides overlap.')}</p>
-      <p class="lab-note">${t('aとHを独立に変え、異なる配置を比較するモデルです。スライダーの動き自体は時間発展の計算ではありません。銀河内部の大きさや固有運動は扱いません。', 'The controls independently vary a and H to compare configurations. Moving a slider is not a calculation of cosmic time evolution. Internal galaxy sizes and peculiar motions are omitted.')}</p>`;
+      <p class="lab-note">${t('手動操作ではaとHを独立に変えて配置を比べられます。再生ではH一定の近似を使い、実宇宙のH(t)やFriedmann方程式は解きません。銀河内部の大きさや固有運動も扱いません。', 'Manual controls compare configurations with independent a and H. Playback uses a constant-H approximation; it does not solve the Friedmann equations or the real history H(t). Internal galaxy sizes and peculiar motions are omitted.')}</p>`;
     const letters = ['A', 'B', 'C', 'D', 'E'];
     const update = () => {
       const scale = Number(el.querySelector('#exp-scale').value);
@@ -264,9 +268,12 @@
       }).join('');
       const distances = points.map(point => `${point.letter}: ${point.distance.toFixed(1)} Mpc → ${Math.round(rate * point.distance)} km/s`).join('; ');
       el.querySelector('#exp-reading').textContent = `${t('観測者', 'Observer')} ${letters[observer]}. ${distances}`;
+      const elapsed = Math.log(scale / .5) / (rate * 1000 / 3.085677581491367e22) / 31557600 / 1e9;
+      el.querySelector('#exp-elapsed').textContent = t(`H一定模型でa＝0.5からの経過時間：約${elapsed.toFixed(2)} Gyr（宇宙の年齢ではない）。`, `Elapsed since a = 0.5 in the constant-H model: about ${elapsed.toFixed(2)} Gyr (not the age of the universe).`);
     };
     el.querySelectorAll('input,select').forEach(input => input.addEventListener('input', update));
     update();
+    window.AstroAnimation.mount(el, { locale, min: Math.log(.5), max: Math.log(2), read: () => Math.log(Number(el.querySelector('#exp-scale').value)), write: logScale => { el.querySelector('#exp-scale').value = Math.exp(logScale).toFixed(3); update(); } });
   }
 
   document.addEventListener('click', event => {

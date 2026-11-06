@@ -12,3 +12,7 @@
 @media print{.concept-figure{break-inside:avoid;padding:10px;background:white}.figure-enlarge{display:none}}
 .gas-plot svg text{font-size:14px}.gas-plot{overflow-x:auto}
 @media(max-width:700px){.gas-plot svg{min-width:480px}.gas-plot{padding-bottom:5px}}
+.animation-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0 15px}.animation-controls button{padding:8px 15px;border:1px solid #8da795;background:var(--white);border-radius:3px;color:var(--ink);font:13px var(--sans);cursor:pointer}.animation-controls button[aria-pressed=true]{background:#365b4b;color:white}.animation-controls button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.animation-state{font-size:11px;color:var(--muted)}.lab .animation-caption{font-size:12px;line-height:1.9}.plot-scroll-hint{display:none}
+@media(max-width:700px){.plot-scroll-hint{display:block}}
+@media print{.animation-controls,.plot-scroll-hint{display:none}.gas-plot{overflow:visible}.gas-plot svg{min-width:0}}
+.animation-controls{position:sticky;top:10px;z-index:2;background:#ecf0e7;padding:8px 0;border-bottom:1px solid #b8c9bd}

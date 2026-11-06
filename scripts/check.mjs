@@ -6,7 +6,7 @@ import { runInNewContext } from 'node:vm';
 import { execFileSync } from 'node:child_process';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'advanced-gas-math.js', 'advanced-gas-content.js', 'advanced-gas-labs.js', 'numbers.js', 'illustrations.js']) {
+for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'advanced-gas-math.js', 'advanced-gas-content.js', 'advanced-gas-labs.js', 'numbers.js', 'illustrations.js', 'animation.js', 'press-schechter.js']) {
   execFileSync(process.execPath, ['--check', resolve(root, 'docs', name)]);
 }
 const context = { window: {} };
@@ -18,6 +18,7 @@ runInNewContext(readFileSync(resolve(root, 'docs/advanced-math.js'), 'utf8'), co
 runInNewContext(readFileSync(resolve(root, 'docs/numbers.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-gas-math.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-gas-content.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/press-schechter.js'), 'utf8'), context);
 const { chapters, sources, renderBody } = context.window.AstroContent;
 assert.equal(chapters.length, 16, 'Expected the complete 16-chapter curriculum.');
 assert.equal(new Set(chapters.map(c => c.id)).size, chapters.length, 'Duplicate chapter route.');
@@ -99,9 +100,9 @@ for (const group of series.groups) {
     assert(topic.reference[0] && topic.reference[1].startsWith('https://'), `${topic.id}: missing reference`);
   }
 }
-assert.equal(topicIds.size, 26, 'Expected the expanded 26-topic advanced syllabus');
+assert.equal(topicIds.size, 27, 'Expected the expanded 27-topic advanced syllabus');
 const advanced = context.window.AstroAdvanced;
-assert.equal(advanced.chapters.length, 16, 'Expected sixteen worked advanced chapters');
+assert.equal(advanced.chapters.length, 17, 'Expected seventeen worked advanced chapters');
 assert.equal(new Set(advanced.chapters.map(c => c.id)).size, advanced.chapters.length);
 for (const c of advanced.chapters) {
   assert(topicIds.has(c.id), `${c.id}: missing syllabus entry`);
@@ -287,6 +288,48 @@ for (const x of [0, .5, 1, 2, 4]) {
   close(gas.toomreMode(1, x).omegaSquared, (x - 1) ** 2, 1e-14, 'marginal Toomre dispersion');
   assert(gas.toomreMode(1.5, x).omegaSquared > 0, 'Q>1 gas disk axisymmetrically stable');
 }
+const ps = context.window.AstroPressSchechter;
+close(ps.threshold, 1.6864701998411453, 1e-14, 'EdS linear collapse threshold');
+const turnaround = ps.sphericalCollapse(Math.PI);
+close(turnaround.time, .5, 1e-14, 'turnaround at half the formal collapse time');
+close(turnaround.radius, 1, 1e-14, 'turnaround radius normalization');
+close(turnaround.nonlinear + 1, 9 * Math.PI ** 2 / 16, 1e-13, 'nonlinear turnaround density relative to background');
+close(ps.sphericalCollapse(.0001).nonlinear / ps.sphericalCollapse(.0001).linear, 1, 1e-8, 'early linear and nonlinear contrasts agree');
+for (const theta of [.001, .5, Math.PI, 5, 2 * Math.PI]) {
+  const collapse = ps.sphericalCollapse(theta);
+  close(collapse.linear / ps.threshold, collapse.time ** (2 / 3), 1e-14, 'EdS linear extrapolation follows time to the two-thirds power');
+}
+assert.equal(ps.sphericalCollapse(2 * Math.PI).nonlinear, Infinity, 'formal collapse singularity is not delta_c');
+// Independent normal-tail reference values (2 * normal survival probability).
+for (const [nu, reference] of [[0, 1], [1, .31731050786291415], [2, .04550026389635842], [3, .002699796063260189], [8, 1.2441921148543658e-15], [20, 5.507248237212663e-89]]) {
+  close(ps.collapsedFraction(nu) / reference, 1, 2e-9, `Gaussian tail at nu=${nu}`);
+  close(ps.collapsedFraction(nu, 4096) / ps.collapsedFraction(nu), 1, 2e-9, 'tail quadrature step convergence');
+}
+const integrate = (fn, a, b, n = 4000) => {
+  const h = (b - a) / n;
+  let sum = fn(a) + fn(b);
+  for (let i = 1; i < n; i++) sum += (i % 2 ? 4 : 2) * fn(a + i * h);
+  return h * sum / 3;
+};
+for (const index of [-2.5, -2, .5]) {
+  close(integrate(logM => ps.massShape(Math.exp(logM), index, .5).massPerLn, -240, 80, 64000), 1, 1e-8, 'PS total mass normalization over logarithmic mass');
+  for (const ratio of [.1, 1, 20]) {
+    const data = ps.massShape(ratio, index, .5), eps = 1e-4;
+    const tail = logM => ps.collapsedFraction(ps.massShape(Math.exp(logM), index, .5).nu);
+    close(-(tail(Math.log(ratio) + eps) - tail(Math.log(ratio) - eps)) / (2 * eps), data.massPerLn, 2e-9, 'cumulative/differential mass consistency');
+    close(data.numberPerDex * ratio, data.massPerDex, 1e-14, 'mass and number measures differ by halo mass');
+    const rescaled = ps.massShape(data.characteristicMass * ratio, index, .5);
+    close(rescaled.massPerLn, ps.massShape(ratio, index, 1).massPerLn, 1e-14, 'PS self-similar mass distribution');
+  }
+}
+const earlyPS = ps.massShape(1, -2, .5);
+close(earlyPS.characteristicMass, 1 / 64, 1e-14, 'n=-2 characteristic mass follows D to the sixth');
+close(earlyPS.nu, 2, 1e-14, 'halving growth doubles peak height at fixed mass');
+close(ps.collapsedFraction(earlyPS.nu), .04550026389635842, 1e-10, 'chapter question rare mass fraction');
+close(integrate(logM => ps.massShape(Math.exp(logM), -2, 1).massPerLn, Math.log(.1), Math.log(10)), ps.collapsedFraction(ps.massShape(.1).nu) - ps.collapsedFraction(ps.massShape(10).nu), 1e-10, 'integrated mass bin equals difference of cumulative fractions');
+assert.throws(() => ps.massShape(1, -3));
+assert.throws(() => ps.massShape(1, 1));
+assert.throws(() => ps.collapsedFraction(-1));
 const numbers = context.window.AstroNumbers;
 bilingual(numbers.title, 'Supplement title');
 bilingual(numbers.desc, 'Supplement description');

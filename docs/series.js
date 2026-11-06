@@ -72,6 +72,12 @@
           question: ['重力で集まる物質は、なぜ最初から球になるとは限らないのか。', 'Why does gravitational clustering not necessarily begin by forming spheres?'],
           method: ['ラグランジュ座標の写像と質量保存から密度を求め、一方向の圧縮を調べる。軌道交差で近似が破れる意味を説明する。', 'Use a Lagrangian map and mass conservation to obtain density and study one-axis compression. Explain the breakdown at shell crossing.'],
           reference: ['Zel’dovich (1970)', 'https://www.giss.nasa.gov/staff/mway/cluster/zeldovich.pdf']
+        },
+        {
+          id: 'press-schechter', title: ['Press–Schechter理論とハローの質量関数', 'Press–Schechter theory and the halo mass function'],
+          question: ['初期の密度ゆらぎから、質量ごとのハローの個数をどう予測するか。', 'How can initial density fluctuations predict halo abundances by mass?'],
+          method: ['球対称崩壊で線形しきい値δcを求め、Gaussianの裾を質量割合へ対応させる。cloud-in-cloud問題と係数2を区別し、質量関数・べき乗模型の相似性・銀河形成への適用範囲を調べる。', 'Derive the linear spherical-collapse threshold, relate Gaussian tails to mass fractions, and explain cloud-in-cloud accounting and the factor of two. Obtain the mass function and power-law self-similarity, with limits for galaxy formation.'],
+          reference: ['Press & Schechter (1974)', 'https://articles.adsabs.harvard.edu/pdf/1974ApJ...187..425P']
         }
       ]
     },

@@ -1,8 +1,8 @@
 # 理論天文学の道具箱 / Theoretical Astrophysics, Step by Step
 
-高校数学の式変形から、微分方程式を使う標準問題へ進む、日本語・英語の静的Web教材シリーズです。入門編16章と発展編16章を公開し、発展編全26題材の学習ガイドを整理しています。
+高校数学の式変形から、微分方程式を使う標準問題へ進む、日本語・英語の静的Web教材シリーズです。入門編16章と発展編17章を公開し、発展編全27題材の学習ガイドを整理しています。
 
-A bilingual Japanese–English series: Foundations explores the universe through school algebra; Advanced covers equilibrium, instability, transport, and similarity solutions. All 16 foundation lessons are available. Sixteen advanced worked chapters are also available within a 26-topic learning guide; the remaining 10 topics are planned.
+A bilingual Japanese–English series: Foundations explores the universe through school algebra; Advanced covers equilibrium, instability, transport, and similarity solutions. All 16 foundation lessons are available. Seventeen advanced worked chapters are also available within a 27-topic learning guide; the remaining 10 topics are planned.
 
 ## ローカルで読む / Read locally
 
@@ -37,7 +37,7 @@ No installation or build is needed. Serve `docs/` with any static HTTP server. A
 
 各章に学習目標、仮定、途中式、確認問題、参考資料を収録。黒体スペクトル、エディントン比、縮退圧の比例則、宇宙膨張と後退速度を試す操作パネルもあります。
 
-Each chapter includes learning goals, assumptions, worked algebra, a question with an expandable answer, and references. Four interactive panels explore blackbody spectra, Eddington ratios, pressure scaling, and cosmic expansion.
+Each chapter includes learning goals, assumptions, worked algebra, a question with an expandable answer, and references. Four interactive panels explore blackbody spectra, Eddington ratios, pressure scaling, and cosmic expansion. Cosmic expansion also has user-started playback for a constant-H model, including the elapsed model time; it does not solve the actual expansion history.
 
 現象の姿を思い浮かべる説明図10点を、関連する本文に収録しています。逆二乗則、年周視差、原子の遷移、トムソン散乱、ランダムウォーク、星の収縮と内部構造、白色矮星、光時計、宇宙膨張を図解。図中のラベル・代替テキスト・説明文は日英対応で、各図から拡大表示できます。
 
@@ -47,7 +47,7 @@ Ten original explanatory SVG diagrams accompany the relevant foundation lessons.
 
 **平衡・不安定性・輸送・相似解 / Equilibrium, instability, transport, and similarity solutions**
 
-[発展編](https://koyamahr.github.io/astronomy-step-by-step/#/advanced)は9分野・26題材。以下の16章は、導出・確認問題・操作パネル・参考資料を日英で公開しています。他の10題材は構成案です。
+[発展編](https://koyamahr.github.io/astronomy-step-by-step/#/advanced)は9分野・27題材。以下の17章は、導出・確認問題・操作パネル・参考資料を日英で公開しています。他の10題材は構成案です。
 
 1. [Lane–Emden方程式](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/lane-emden)：静水圧平衡、無次元化、中心級数、数値積分、チャンドラセカール質量の係数。
 2. [Rayleigh–Taylor不安定性](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/rayleigh-taylor)：ポテンシャル流、境界条件、Atwood数、成長時間と線形近似。
@@ -67,9 +67,11 @@ Ten original explanatory SVG diagrams accompany the relevant foundation lessons.
 15. [MRI](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/mri)：磁気張力、変位の連立方程式、四次分散関係、不安定帯と最大成長率。
 16. [Toomre Q](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/toomre-q)：薄いガス円盤の重力、分散関係、Qの導出、最速波長と冷却の役割。
 
+17. [Press–Schechter理論](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/press-schechter)：球対称崩壊、Gaussianの裾、cloud-in-cloud問題、質量関数、成長と相似性。
+
 - 球対称の平衡と恒星：Lane–Emden、Bonnor–Ebert球、林限界と林トラック
 - 回転と非球対称：楕円体ポテンシャル、テンソルビリアルとMaclaurin／Jacobi系列
-- 重力不安定性と宇宙構造：Jeans不安定性・Jeans swindle、Zel’dovichパンケーキ
+- 重力不安定性と宇宙構造：Jeans不安定性・Jeans swindle、Zel’dovichパンケーキ、Press–Schechter質量関数
 - 流体境界：Rayleigh–Taylor、Kelvin–Helmholtz
 - 流体・高エネルギー放射：Bondi降着、Parker風、Sedov–Taylor、Rankine–Hugoniot条件、Larson–Penston／Shu、粒子加速、シンクロトロン放射
 - 星団の統計力学：2体緩和、Fokker–Planck、グラボサーマル・カタストロフィー
@@ -77,7 +79,11 @@ Ten original explanatory SVG diagrams accompany the relevant foundation lessons.
 - 電離・散乱とガスの観測：Strömgren球、電離・再結合の釣り合い、逆コンプトン散乱とSZ効果
 - 中性子星：Goldreich–Julian密度と共回転
 
-The advanced volume covers 26 topics in nine areas, with 16 bilingual worked chapters and 10 planned topics. Each worked chapter includes equations, assumptions, a question, references, and an interactive panel. Lane–Emden, Bonnor–Ebert, and Sedov integrate ODEs with step refinement. Other panels explore spherical transonic branches, gravitational and interface instability, ionization growth, disk transport and MRI, spectra, cooling, and SZ. Hayashi tracks, ellipsoidal equilibria, Zel’dovich collapse, isothermal self-similar collapse, cluster relaxation, viscous-disk similarity, and Goldreich–Julian density remain planned.
+The advanced volume covers 27 topics in nine areas, with 17 bilingual worked chapters and 10 planned topics. Each worked chapter includes equations, assumptions, a question, references, and an interactive panel. Lane–Emden, Bonnor–Ebert, and Sedov integrate ODEs with step refinement. Other panels explore spherical transonic branches, gravitational and interface instability, ionization growth, disk transport and MRI, spectra, cooling, and SZ. Hayashi tracks, ellipsoidal equilibria, Zel’dovich collapse, isothermal self-similar collapse, cluster relaxation, viscous-disk similarity, and Goldreich–Julian density remain planned.
+
+宇宙膨張（入門編）とPress–Schechter（発展編）には、再生・一時停止・最初からの操作を用意しています。自動再生はせず、手動入力・言語変更・章移動・非表示時に停止します。前者はH一定、後者はEinstein–de Sitter宇宙の時間で、画面上の秒数と物理時間を区別します。
+
+Playback is opt-in, finite, and stops on manual input, language changes, route changes, or when hidden. The PS animation advances uniformly in EdS time and supports a self-similar M/M* view. Plot provenance identifies the analytic equation being recomputed; paper figures and simulation data have not been reproduced.
 
 ## 番外編 / Numerical supplement
 
@@ -146,7 +152,7 @@ node scripts/check.mjs
 
 ## 数値解の検算 / Numerical checks
 
-`node scripts/check.mjs` validates all 32 worked chapters in both languages, plus the 26-topic syllabus. New gas/disk checks cover the Bonnor–Ebert critical mass and step convergence, transonic branches and Bernoulli conservation, Jeans scaling, ionization photon balance, viscous transport scaling, and MRI/Toomre analytic thresholds. Numerical checks also compare Lane–Emden n = 1 with sin(ξ)/ξ and ξ₁ = π; n = 3 with standard structure constants and the ideal Chandrasekhar mass; and Sedov profiles with shock jumps, swept-up mass conservation, β ≈ 1.15167, and half-step convergence. RT/KH checks cover analytic growth rates, wavenumber scaling, stable density ordering, and gravity versus shear. SZ checks cover the Rayleigh–Jeans limit, thermal null, optical-depth units, pressure degeneracy, kinetic signs, photon conservation, and mean energy gain.
+`node scripts/check.mjs` validates all 33 worked chapters in both languages, plus the 27-topic syllabus. Press–Schechter checks cover the EdS collapse threshold, Gaussian-tail values and convergence, mass normalization, the cumulative/differential relation, self-similar scaling, and distinct mass/number measures. New gas/disk checks cover the Bonnor–Ebert critical mass and step convergence, transonic branches and Bernoulli conservation, Jeans scaling, ionization photon balance, viscous transport scaling, and MRI/Toomre analytic thresholds. Numerical checks also compare Lane–Emden n = 1 with sin(ξ)/ξ and ξ₁ = π; n = 3 with standard structure constants and the ideal Chandrasekhar mass; and Sedov profiles with shock jumps, swept-up mass conservation, β ≈ 1.15167, and half-step convergence. RT/KH checks cover analytic growth rates, wavenumber scaling, stable density ordering, and gravity versus shear. SZ checks cover the Rayleigh–Jeans limit, thermal null, optical-depth units, pressure degeneracy, kinetic signs, photon conservation, and mean energy gain.
 
 数値パネルは教育用の理想模型です。仮定、規格化、中心付近の処理、近似の範囲は各章に記載しています。言語と読了記録はブラウザ内に保存し、入門編・発展編で別々に管理します。
 
