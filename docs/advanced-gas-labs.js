@@ -2,7 +2,7 @@
 (() => {
   'use strict';
   const M = window.AstroAdvancedMath, C = M.gasConstants;
-  const types = new Set(['bonnor-ebert', 'jeans', 'bondi', 'parker-wind', 'stromgren', 'alpha-disk', 'mri', 'toomre-q']);
+  const types = new Set(['bonnor-ebert', 'isothermal-cylinder', 'jeans', 'bondi', 'parker-wind', 'stromgren', 'alpha-disk', 'mri', 'toomre-q']);
   function graph(id, title, xLabel, yLabel, xd, yd, curves, point, options = {}) {
     const scale = (value, domain, log, origin, size) => origin + size * ((log ? Math.log10(value) : value) - (log ? Math.log10(domain[0]) : domain[0])) / ((log ? Math.log10(domain[1]) : domain[1]) - (log ? Math.log10(domain[0]) : domain[0]));
     const X = x => scale(x, xd, options.logX, 68, 510), Y = y => scale(y, yd, options.logY, 238, -205);
@@ -31,6 +31,21 @@
       el.addEventListener('input', render); el.addEventListener('change', render); render();
     };
     el.className = 'lab advanced-lab';
+    if (el.dataset.lab === 'isothermal-cylinder') {
+      el.innerHTML=shell(t('確かめる：細さが変わっても、限界線密度は？','Explore: does a narrower cylinder change the limiting line mass?'),
+        range('cyl-temperature','T / K',5,30,.5,10)+range('cyl-density',t('log₁₀(nc / cm⁻³)：全粒子数密度','log₁₀(nc / cm⁻³): total particle number density'),3,6,.1,4)+range('cyl-fraction','f = λ(R) / λcrit',.05,.95,.01,.5),
+        [['cyl-critical','λcrit / (M☉ pc⁻¹)'],['cyl-line','λ(R) / (M☉ pc⁻¹)'],['cyl-radius','R / pc'],['cyl-contrast','ρc / ρ(R)']],
+        t('μ＝2.33、粒子1個の平均質量μmp。上図：緑が選んだ表面までの密度、灰色の破線は解析解を外側へ延ばした形。下図：半径a＝√8Hで規格化した線密度。赤点は選んだ表面。全て静止平衡で、時間発展の計算ではない。','μ = 2.33 with mean mass μmp per particle. Upper plot: green density inside the selected surface; dashed gray continues the analytic profile beyond it. Lower plot: enclosed line mass versus r/a, where a = √8H. Red marks the selected surface. These are static equilibria, not time evolution.'));
+      bind(()=>{
+        const d=M.isothermalCylinder(value('cyl-temperature'),10**value('cyl-density'),value('cyl-fraction')),units=C.pc/C.solar;
+        put('cyl-critical',fmt(d.criticalLineMass*units));put('cyl-line',fmt(d.lineMassAtEdge*units));put('cyl-radius',fmt(d.radius/C.pc));put('cyl-contrast',fmt(d.contrast));
+        const densityPoints=points(r=>d.density(r*C.pc)/1000,1e-4,10,300,true),edge={x:d.radius/C.pc,y:d.density(d.radius)/1000};
+        const inside=[...densityPoints.filter(p=>p.x<edge.x),edge],outside=[edge,...densityPoints.filter(p=>p.x>edge.x)];
+        draw(graph('cyl-density',t('Ostriker円柱の密度：両対数','Ostriker cylinder density: log–log'),'r / pc','ρ / (g cm⁻³)',[1e-4,10],[1e-27,1e-14],[{points:outside,color:'#89968c',dash:'5 4'},{points:inside}],edge,{logX:true,logY:true})+
+          graph('cyl-mass',t('内側の線密度と、その有限な極限','Enclosed line mass and its finite limit'),'r / a','λ(r) / λcrit',[.01,100],[0,1.05],[{points:points(x=>x*x/(1+x*x),.01,100,240,true)},{points:[{x:.01,y:1},{x:100,y:1}],color:'#89968c',dash:'5 4'}],{x:d.radius/d.a,y:d.fraction},{logX:true}));
+        status(t(`cₛ＝${fmt(d.sound/1000)} km/s、H＝${fmt(d.H/C.pc)} pc、半線密度半径a＝${fmt(d.a/C.pc)} pc。外圧Pext/kB＝${fmt(d.externalPressure/C.k/1e6)} K cm⁻³。温度を固定して中心密度を変えると、太さが変わってもλcritは同じ。fを変える操作では外圧も変わる。`,`cₛ = ${fmt(d.sound/1000)} km/s, H = ${fmt(d.H/C.pc)} pc, half-line-mass radius a = ${fmt(d.a/C.pc)} pc. External Pext/kB = ${fmt(d.externalPressure/C.k/1e6)} K cm⁻³. At fixed temperature, central density changes width while λcrit stays fixed. Changing f also changes external pressure.`));
+      });return;
+    }
     if (['bondi', 'parker-wind'].includes(el.dataset.lab)) {
       const wind = el.dataset.lab === 'parker-wind';
       const scaleControl = wind ? range('flow-temperature', 'T / 10⁶ K', .5, 3, .1, 1) : range('flow-sound', 'cₛ / (km s⁻¹)', .2, 10, .1, 1);

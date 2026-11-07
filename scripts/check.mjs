@@ -33,6 +33,7 @@ function checkMarkup(html, name) {
     const [, closing, raw] = tag;
     const element = raw.toLowerCase();
     if (['br', 'hr', 'input', 'img', 'link', 'meta'].includes(element)) continue;
+    if (stack.includes('svg') && /\/>$/.test(tag[0])) continue;
     if (closing) assert.equal(stack.pop(), element, `${name}: unbalanced ${element}`);
     else stack.push(element);
   }
@@ -115,9 +116,9 @@ for (const group of series.groups) {
     assert(topic.reference[0] && topic.reference[1].startsWith('https://'), `${topic.id}: missing reference`);
   }
 }
-assert.equal(topicIds.size, 27, 'Expected the expanded 27-topic advanced syllabus');
+assert.equal(topicIds.size, 28, 'Expected the expanded 28-topic advanced syllabus');
 const advanced = context.window.AstroAdvanced;
-assert.equal(advanced.chapters.length, 27, 'Expected all twenty-seven worked advanced chapters');
+assert.equal(advanced.chapters.length, 28, 'Expected all twenty-eight worked advanced chapters');
 assert.equal(new Set(advanced.chapters.map(c => c.id)).size, advanced.chapters.length);
 for (const c of advanced.chapters) {
   assert(topicIds.has(c.id), `${c.id}: missing syllabus entry`);
@@ -508,6 +509,46 @@ for(const time of [10,30,100]) {
 }
 assert(collapseModel.shell('shu',2000,.2,100).accreted,'shell crossing the central mass is accreted');
 assert.throws(()=>collapseModel.at(collapseModel.profile('shu'),0),'log-radius profile requires positive radius');
+const cylinderModel=context.window.AstroAdvancedMath.isothermalCylinder;
+for(const T of [5,10,30])for(const nc of [1e3,1e4,1e6])for(const f of [.05,.5,.95]) {
+  const d=cylinderModel(T,nc,f),r=d.radius;
+  close(d.lineMass(d.a)/d.criticalLineMass,.5,1e-13,'Ostriker half-line-mass radius, equation 61');
+  close(d.lineMass(1e6*d.a)/d.criticalLineMass,1,2e-12,'finite limiting cylinder line mass, equation 60');
+  close(d.density(r)/d.centralDensity,(1-f)**2,1e-13,'pressure-truncated cylinder density contrast');
+  close(d.externalPressure/context.window.AstroAdvancedMath.gasConstants.k/1e6,nc*T*(1-f)**2,1e-8,'cylinder boundary pressure in K cm^-3');
+  close(d.lineMassAtEdge/d.lineMass(r),1,1e-13,'selected edge agrees with enclosed line mass');
+  const virial=2*d.soundSquared*d.lineMassAtEdge-dc.G*d.lineMassAtEdge**2;
+  close(virial/(2*Math.PI*r*r*d.externalPressure),1,1e-12,'cylindrical virial balance includes external pressure');
+  const dense=cylinderModel(T,4*nc,f),hot=cylinderModel(4*T,nc,f);
+  close(dense.criticalLineMass/d.criticalLineMass,1,1e-13,'critical line mass independent of central density');
+  close(dense.a/d.a,.5,1e-13,'cylinder width scales as rho_c^-1/2');
+  close(hot.criticalLineMass/d.criticalLineMass,4,1e-13,'critical line mass scales as temperature');
+}
+const cylinder=cylinderModel(10,1e4);
+close(cylinder.criticalLineMass*dc.pc/dc.solar,16.5,.05,'10 K molecular cylinder critical line mass in solar masses per pc');
+assert.equal(cylinder.gravity(0),0,'regular cylinder gravity vanishes on axis');
+for(const q of [.01,.1,1,10,100]) {
+  const d=cylinder,r=q*d.a,h=r*1e-4;
+  const integrated=2*Math.PI*r*r*d.centralDensity*dynamics.integral(u=>u*d.density(r*u)/d.centralDensity,0,1,1e-12);
+  close(integrated/d.lineMass(r),1,1e-8,'cylinder enclosed line mass matches independent density integration');
+  const logDerivative=(Math.log(d.density(r+h))-Math.log(d.density(r-h)))/(2*h);
+  close((-d.soundSquared*logDerivative)/d.gravity(r),1,1e-6,'cylinder pressure gradient balances gravity');
+  close(d.gravity(r)/(2*dc.G*d.lineMass(r)/r),1,1e-13,'cylindrical Gauss law');
+  const poisson=((r+h)*d.gravity(r+h)-(r-h)*d.gravity(r-h))/(2*h*r);
+  close(poisson/(4*Math.PI*dc.G*d.density(r)),1,1e-6,'cylindrical gravitational field satisfies Poisson equation');
+}
+for(const q of [0,.5,1,5]) {
+  const d=cylinder;
+  // z = a tan(theta) makes the independent line-of-sight integral finite.
+  const integrated=2*d.centralDensity*d.a*dynamics.integral(theta=>{
+    const c=Math.cos(theta),s=Math.sin(theta);return c*c/(s*s+(1+q*q)*c*c)**2;
+  },0,Math.PI/2);
+  close(integrated/d.column(q*d.a),1,1e-8,'untruncated cylinder projected column matches line-of-sight integral');
+}
+close(cylinder.column(cylinder.columnFwhm/2)/cylinder.column(0),.5,1e-13,'untruncated projected FWHM');
+close(cylinder.density(1000*cylinder.a)/cylinder.density(2000*cylinder.a),16,.0001,'cylinder density has r^-4 envelope');
+close(cylinder.column(1000*cylinder.a)/cylinder.column(2000*cylinder.a),8,.0001,'projected column has b^-3 envelope');
+for(const bad of [[0,1e4,.5],[10,0,.5],[10,1e4,0],[10,1e4,1],[NaN,1e4,.5]])assert.throws(()=>cylinderModel(...bad),'invalid cylinder parameters are rejected');
 const pulsar=dynamics.goldreichJulian(1,12),slowPulsar=dynamics.goldreichJulian(2,12);
 close(pulsar.numberCm3/1e10,6.94,.01,'GJ polar number scale in cm^-3');
 close(pulsar.lightCylinder/1000,47713.4515924,1e-6,'light cylinder in km');

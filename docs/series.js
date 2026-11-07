@@ -13,8 +13,8 @@
   };
   const groups = [
     {
-      title: ['球対称の平衡と、その限界', 'Spherical equilibrium and its limits'],
-      intro: ['入門編のビリアル定理と白色矮星から、内部構造を解く段階へ。', 'From the foundational virial theorem and white dwarfs to solving internal structure.'],
+      title: ['星と雲の平衡、その限界', 'Equilibrium and limits of stars and clouds'],
+      intro: ['入門編のビリアル定理と白色矮星から、球とフィラメントの内部構造を解く段階へ。', 'From the foundational virial theorem and white dwarfs to the internal structure of spheres and filaments.'],
       bridge: 'virial',
       topics: [
         {
@@ -28,6 +28,12 @@
           question: ['同じ温度のガス雲を外から圧縮すると、どこで平衡が不安定になるか。', 'When does an externally compressed isothermal gas cloud become unstable?'],
           method: ['等温球の方程式を外圧で区切り、平衡系列をたどる。温度・外圧など、何を固定した安定性なのかを明示する。', 'Truncate an isothermal sphere at a specified external pressure and follow equilibrium sequences. State the quantities held fixed when assessing stability.'],
           reference: ['Bonnor (1956)', 'https://articles.adsabs.harvard.edu/pdf/1956MNRAS.116..351B']
+        },
+        {
+          id: 'isothermal-cylinder', title: ['Ostrikerの等温円柱と限界線密度', 'Ostriker’s isothermal cylinder and critical line mass'],
+          question: ['細長いガスのフィラメントは、単位長さあたりどれだけの質量を支えられるか。', 'How much mass per unit length can a long gaseous filament support?'],
+          method: ['円柱のGauss則と静水圧平衡から解析解を作る。平らな中心、外側のr⁻⁴、線密度2cₛ²/G、外圧で切り取る場合と柱密度を区別する。J. P. Ostrikerを追悼する章。', 'Derive an analytic equilibrium from cylindrical Gauss’s law and hydrostatic balance. Connect the flat centre, r⁻⁴ envelope and line mass 2cₛ²/G, distinguishing pressure truncation and projected column density. A chapter remembering J. P. Ostriker.'],
+          reference: ['Ostriker (1964), §III, equations (56)–(61)', 'https://articles.adsabs.harvard.edu/pdf/1964ApJ...140.1056O']
         },
         {
           id: 'hayashi', title: ['林限界と林トラック', 'Hayashi limit and Hayashi tracks'],

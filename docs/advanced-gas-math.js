@@ -3,6 +3,17 @@
   'use strict';
   const C = { G: 6.67430e-11, k: 1.380649e-23, mp: 1.67262192595e-27, solar: 1.988409870698051e30, au: 149597870700, pc: 3.085677581491367e16, year: 31557600, solarRadius: 6.957e8 };
   const positive = (...xs) => xs.every(x => Number.isFinite(x) && x > 0);
+  function isothermalCylinder(temperature, numberCm3, fraction = .5) {
+    if (!positive(temperature,numberCm3,fraction) || fraction>=1) throw new RangeError('Require T,n > 0 and 0 < line-mass fraction < 1.');
+    const mu=2.33,soundSquared=C.k*temperature/(mu*C.mp),sound=Math.sqrt(soundSquared),centralDensity=mu*C.mp*numberCm3*1e6;
+    const H=sound/Math.sqrt(4*Math.PI*C.G*centralDensity),a=Math.sqrt(8)*H,criticalLineMass=2*soundSquared/C.G;
+    const radius=a*Math.sqrt(fraction/(1-fraction));
+    const density=r=>centralDensity/(1+(r/a)**2)**2;
+    const lineMass=r=>criticalLineMass*(r/a)**2/(1+(r/a)**2);
+    const gravity=r=>4*soundSquared*r/(a*a+r*r);
+    const column=b=>Math.PI*centralDensity*a/2/(1+(b/a)**2)**1.5;
+    return {mu,temperature,numberCm3,sound,soundSquared,centralDensity,H,a,fraction,radius,criticalLineMass,lineMassAtEdge:fraction*criticalLineMass,contrast:1/(1-fraction)**2,externalPressure:soundSquared*density(radius),columnFwhm:2*a*Math.sqrt(2**(2/3)-1),density,lineMass,gravity,column};
+  }
   function sphericalMach(x, branch = 'wind') {
     if (!(positive(x) && x >= .02 && x <= 1000 && ['wind', 'bondi'].includes(branch))) throw new RangeError('Invalid transonic branch or radius.');
     if (Math.abs(x - 1) < 1e-10) return 1;
@@ -73,5 +84,5 @@
     const growthSquared = 2 * b * b * (2 * q - b * b) / (a + Math.sqrt(epicycleSquared ** 2 + 16 * b * b));
     return { epicycleSquared, growthSquared, growth: Math.sqrt(Math.max(0, growthSquared)), maximumGrowth: q / 2, fastestB: Math.sqrt(q * (4 - q) / 4), cutoffB: Math.sqrt(2 * q) };
   }
-  Object.assign(window.AstroAdvancedMath, { gasConstants: C, sphericalMach, bondiModel, parkerModel, isothermalSphere, jeansModel, stromgrenModel, alphaDisk, toomreMode, mriMode });
+  Object.assign(window.AstroAdvancedMath, { gasConstants: C, isothermalCylinder, sphericalMach, bondiModel, parkerModel, isothermalSphere, jeansModel, stromgrenModel, alphaDisk, toomreMode, mriMode });
 })();

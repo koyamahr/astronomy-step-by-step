@@ -10,6 +10,9 @@
   const s = (n, ja, en, ...body) => `<section><h2><span class="step-no">${String(n).padStart(2, '0')}</span>${t(ja, en)}</h2>${body.join('')}</section>`;
   const note = (ja, en) => `<aside class="callout">${t(ja, en)}</aside>`;
   Object.assign(advanced.sources, {
+    ostriker1964: ['Ostriker (1964) · The equilibrium of polytropic and isothermal cylinders, §III, equations (56)–(61)', 'https://articles.adsabs.harvard.edu/pdf/1964ApJ...140.1056O'],
+    ostrikerMemorial: ['Princeton University (14 April 2025) · Remembering Jeremiah P. Ostriker', 'https://www.princeton.edu/news/2025/04/14/astrophysicist-jeremiah-p-ostriker-pioneer-modern-cosmology-and-source-inspiration'],
+    filament2012: ['Fischera & Martin (2012) · Physical properties of interstellar filaments', 'https://doi.org/10.1051/0004-6361/201218961'],
     be1956: ['Bonnor (1956) · Boyle’s law and gravitational instability', 'https://articles.adsabs.harvard.edu/pdf/1956MNRAS.116..351B'],
     beStability: ['Sipilä, Harju & Juvela (2011) · Stability of Bonnor–Ebert spheres', 'https://arxiv.org/abs/1108.5275'],
     jeansSwindle: ['Falco et al. (2013) · Why does the Jeans swindle work?', 'https://arxiv.org/abs/1210.3363'],
@@ -24,6 +27,15 @@
     mri1991: ['Balbus & Hawley (1991) · A local shear instability in weakly magnetized disks', 'https://articles.adsabs.harvard.edu/pdf/1991ApJ...376..214B']
   });
   const chapters = [
+    {
+      id: 'isothermal-cylinder', title: ['Ostrikerの等温円柱と限界線密度', 'Ostriker’s isothermal cylinder and critical line mass'],
+      desc: ['J. P. Ostrikerを偲び、球とは異なる重力と、フィラメントを支える限界を解析解でたどる。', 'Remembering J. P. Ostriker through an analytic model of filament gravity and its limiting mass per length.'],
+      minutes: 30, prereq: ['静水圧平衡、Gaussの法則、微分と積分', 'Hydrostatic balance, Gauss’s law, differentiation and integration'],
+      goal: ['円柱の重力から密度プロファイルを導き、r⁻⁴の裾と有限の限界線密度を確かめ、球対称・投影量・外圧の違いを説明する。', 'Derive the cylindrical density profile, verify its r⁻⁴ envelope and finite limiting line mass, and distinguish spherical geometry, projection and external pressure.'],
+      question: ['温度を同じにして中心密度を4倍にすると、限界線密度と、全線密度の半分を含む半径は何倍になるか。', 'At fixed temperature, quadruple central density. How do the critical line mass and the radius enclosing half the full line mass change?'],
+      answer: ['限界線密度2cₛ²/Gは中心密度に依存しないので同じ。半線密度半径a＝√8Hはρ<sub>c</sub><sup>−1/2</sup>に比例して1/2倍になる。より細く濃い円柱になっても、無限半径まで積分した線密度は変わらない。', 'The critical line mass 2cₛ²/G is independent of central density and stays unchanged. The half-line-mass radius a = √8H scales as ρ<sub>c</sub><sup>−1/2</sup> and halves. A narrower, denser cylinder has the same line mass integrated to infinite radius.'],
+      refs: ['ostriker1964', 'filament2012', 'ostrikerMemorial'], bridge: 'virial'
+    },
     {
       id: 'bonnor-ebert', title: ['Bonnor–Ebert球と雲の限界質量', 'Bonnor–Ebert spheres and a cloud’s limiting mass'],
       desc: ['外圧で囲まれた等温の雲は、どこまで自重を支えられるか。', 'How much self-gravity can a pressure-confined isothermal cloud support?'],
@@ -99,6 +111,39 @@
   ];
   const bodies = {};
   // Lesson bodies are defined below before extending the common reader.
+  bodies['isothermal-cylinder'] = () => [
+    s(1, 'Jeremiah P. Ostrikerを偲んで', 'In memory of Jeremiah P. Ostriker',
+      note('Jeremiah P. Ostriker（1937–2025）は、2025年4月6日に87歳で亡くなった。ダークマター、銀河形成、星間物質の研究と、教育・共同研究に残した仕事を偲び、1964年の等温円柱解を自分の手で確かめる章を置く。', 'Jeremiah P. Ostriker (1937–2025) died on 6 April 2025, aged 87. We remember his work on dark matter, galaxy formation and the interstellar medium, and his contributions to teaching and collaboration, by working through his 1964 isothermal-cylinder solution.'),
+      p('長く細い分子雲のフィラメントを、軸方向に一様な円柱で近似する。重力と圧力の釣り合いという基本は星と同じだが、球から円柱へ形を変えるだけで、密度の裾と質量の限界は変わる。追悼は、著名な結果を名前だけ覚えるのではなく、その式をもう一度使ってみることから始めたい。', 'Approximate a long molecular filament by a cylinder uniform along its axis. Gravity still balances pressure, as in a star, but changing geometry alters the density envelope and mass limit. Here the tribute takes the form of deriving and using a result, rather than only remembering its name.'),
+      p('原論文の§IIIをたどる。Ostriker自身も脚注でStodółkiewicz (1963)による先行する同じ解を挙げており、Stodółkiewicz–Ostriker解とも呼ばれる。以下では記号と長さの規格化をこの教材用にそろえる。', 'We follow §III of the original paper. Ostriker’s footnote acknowledges the same solution obtained by Stodółkiewicz (1963); it is also called the Stodółkiewicz–Ostriker solution. Notation and length scales below are chosen for this guide.')),
+    s(2, '球の質量から、円柱の線密度へ', 'From spherical mass to cylindrical line mass',
+      p('軸からの距離をr、内側の単位長さあたりの質量をλ(r)と書く。ここでのλは体積密度でも、観測の柱密度でもなく、質量÷長さである。軸方向の端を無視できる長い円柱、等温、静止、非回転を仮定し、磁場と乱流による支えは含めない。', 'Let r measure distance from the axis, and λ(r) be the enclosed mass per unit length. Line mass is mass divided by length, distinct from volume density or projected column density. Assume a long, static, isothermal, nonrotating cylinder, neglecting ends, magnetic fields and turbulent support.'),
+      `<figure class="concept-figure"><svg viewBox="0 0 640 190" role="img" aria-label="${t('長い円柱の単位長さと、軸からの半径','Unit length along a cylinder and radius from its axis')}"><title>${t('円柱の形と線密度 λ = M/L','Cylindrical geometry and line mass λ = M/L')}</title><path d="M80 50H400V140H80Z" fill="#dce7d9" stroke="#48715c"/><ellipse cx="80" cy="95" rx="23" ry="45" fill="#eaf0e8" stroke="#48715c"/><ellipse cx="400" cy="95" rx="23" ry="45" fill="#c1d2bd" stroke="#48715c"/><path d="M50 95H440" stroke="#8c9c8e" stroke-dasharray="4 4"/><path d="M160 35V155M310 35V155" stroke="#b25930" stroke-dasharray="4 4"/><text x="235" y="175" text-anchor="middle">L · λ = M/L</text><circle cx="535" cy="95" r="52" fill="#eaf0e8" stroke="#48715c"/><circle cx="535" cy="95" r="3" fill="#b25930"/><path d="M535 95H587" stroke="#b25930"/><text x="558" y="86">r</text><text x="535" y="175" text-anchor="middle">${t('断面','Cross section')}</text></svg><figcaption>${t('長さLの部分に含まれる質量をLで割る。重力は軸に垂直な方向を向く。','Divide the mass in a segment by its length L. Gravity points toward the axis, perpendicular to it.')}</figcaption></figure>`,
+      eq(`λ(r)=∫<sub>0</sub><sup>r</sup>2πr′ρ(r′)dr′,　${f('dλ','dr')}=2πrρ<br>g<sub>r</sub>=−${f('2Gλ(r)','r')}`),
+      p('円柱のGauss面の側面積は2πrLだから、重力の大きさ×2πrL＝4πGλLとなる。球のGM/r²とは半径依存性が違う。中心ではλ∝r²なので、重力は発散せずrに比例して0へ近づく。', 'A cylindrical Gaussian surface has side area 2πrL, so gravity times 2πrL equals 4πGλL. This differs from spherical GM/r². Near a regular centre λ ∝ r², so gravity tends to zero linearly rather than diverging.')),
+    s(3, '等温の釣り合いを、一つの方程式へ', 'Reduce isothermal balance to one equation',
+      eq(`P=c<sub>s</sub>²ρ,　c<sub>s</sub>²${f('dlnρ','dr')}=−${f('2Gλ','r')}<br>${f('1','r')}${f('d','dr')}(r${f('dlnρ','dr')})=−${f('4πGρ','c<sub>s</sub>²')}`),
+      p('ρ＝ρ<sub>c</sub>e<sup>−ψ</sup>と書き、H＝cₛ/√(4πGρ<sub>c</sub>)、ξ＝r/Hを入れる。中心の条件はψ(0)＝ψ′(0)＝0。球の等温Lane–Emden方程式にあった2ψ′/ξが、円柱ではψ′/ξになる。', 'Write ρ = ρ<sub>c</sub>e<sup>−ψ</sup>, H = cₛ/√(4πGρ<sub>c</sub>), and ξ = r/H. Regular central conditions are ψ(0) = ψ′(0) = 0. The spherical isothermal Lane–Emden term 2ψ′/ξ becomes ψ′/ξ for a cylinder.'),
+      eq(`ψ″+${f('1','ξ')}ψ′=e<sup>−ψ</sup>`),
+      p('円柱の式は、球の解を半径だけ置き換えて流用したものではない。空間の形が面積の増え方を変え、その違いが微分方程式の係数に残っている。', 'This is not the spherical solution with a relabelled radius. Geometry changes the growth of Gaussian surface area, leaving a different coefficient in the differential equation.')),
+    s(4, '解析解を代入して、r⁻⁴を確かめる', 'Verify the analytic solution and its r⁻⁴ envelope',
+      eq(`ψ=2ln(1+${f('ξ²','8')}),　ρ(r)=ρ<sub>c</sub>(1+${f('r²','8H²')})<sup>−2</sup><br>a≡√8H,　ρ(r)=${f('ρ<sub>c</sub>','(1+r²/a²)²')}`),
+      eq(`ψ′=${f('4ξ','8+ξ²')},　ψ″+${f('ψ′','ξ')}=${f('64','(8+ξ²)²')}=(1+${f('ξ²','8')})<sup>−2</sup>`),
+      p('中心r≪aでは密度がほぼ一定で、r≫aではρ∝r⁻⁴になる。球の特異等温解のr⁻²とは異なる。aは「ここから突然傾きが変わる境界」ではなく、平らな中心から裾へ滑らかに移る尺度である。', 'Density is nearly constant for r ≪ a and falls as r⁻⁴ for r ≫ a, unlike the r⁻² singular isothermal sphere. The scale a marks a smooth transition rather than an abrupt density boundary.'),
+      p('微分方程式を数値積分して初めて形が得られる場合と違い、ここでは式を代入して恒等的に釣り合うことまで確かめられる。解析解が計算法の検算にもなる理由である。', 'Unlike a profile known only by numerical integration, this closed form can be substituted to verify the equation identically. This also makes it a useful numerical benchmark.')),
+    s(5, '半径を無限にしても、線密度は有限', 'Infinite radial extent but finite line mass',
+      eq(`λ(r)=2πρ<sub>c</sub>∫<sub>0</sub><sup>r</sup>${f('r′dr′','(1+r′²/a²)²')}=πρ<sub>c</sub>a²${f('r²','r²+a²')}<br>λ(r)=${f('2c<sub>s</sub>²','G')}${f('r²','r²+a²')},　λ<sub>crit</sub>≡λ(∞)=${f('2c<sub>s</sub>²','G')}`),
+      p('中心密度を上げると円柱が細くなるため、無限半径まで積分した線密度からρ<sub>c</sub>が消える。r＝aなら線密度の半分を含む。無限に長い円柱の総質量が有限という意味ではなく、有限なのは単位長さあたりの質量である。', 'Increasing central density narrows the cylinder, cancelling ρ<sub>c</sub> from its full line mass. Radius a encloses half that line mass. The total mass of an infinitely long cylinder is still infinite: the finite quantity is mass per unit length.'),
+      eq(`c<sub>s</sub>²=${f('k<sub>B</sub>T','μm<sub>p</sub>')},　λ<sub>crit</sub>≈16.5(${f('T','10 K')})(${f('2.33','μ')}) M<sub>☉</sub> pc<sup>−1</sup>`),
+      p('この熱圧力だけの静止円柱では、これを超える線密度を支える平衡はない。ただし、軸方向の分裂、有限の端からの収縮、磁場・回転・乱流による支えは別の問題であり、この式一つで実在のフィラメントの運命が決まるわけではない。', 'This static cylinder supported only by thermal pressure cannot support a larger line mass. Axial fragmentation, end-driven contraction and magnetic, rotational or turbulent support are separate questions; this one formula does not determine every real filament’s fate.')),
+    s(6, '外圧で切り取る、観測へ投影する', 'Pressure truncation and observational projection',
+      p('外圧で半径Rに切り取れば、線密度は極限より小さい。f＝λ(R)/λ<sub>crit</sub>と置くと、表面密度と中心密度の関係も式変形で求まる。', 'Truncating at radius R with external pressure gives a line mass below the limit. Set f = λ(R)/λ<sub>crit</sub> to obtain the surface-to-central density relation algebraically.'),
+      eq(`R=a√(${f('f','1−f')}),　${f('ρ(R)','ρ<sub>c</sub>')}=(1−f)²,　P<sub>ext</sub>=c<sub>s</sub>²ρ(R)`),
+      '<div data-lab="isothermal-cylinder"></div>',
+      p('横から見た柱密度Σは、体積密度ρを視線方向に積分した量である。半径を無限に延ばした上の解析解では、軸からの投影距離bに対して次式となり、裾はb⁻³であってr⁻⁴ではない。外圧で切った有限半径の円柱では、視線の積分区間も変わる。', 'The side-on projected column density Σ integrates volume density along the line of sight. For the radially unbounded analytic model, it follows the formula below at projected distance b and falls as b⁻³, not r⁻⁴. A pressure-truncated cylinder has a different, finite line-of-sight integration range.'),
+      eq(`Σ(b)=∫<sub>−∞</sub><sup>∞</sup>ρ(√(b²+z²))dz=${f('πρ<sub>c</sub>a','2')}(1+${f('b²','a²')})<sup>−3/2</sup>`),
+      note('パネルは異なる静止平衡を比較する。スライダーは時間ではなく、円柱が収縮する動画ではない。球との違いは<a href="#/advanced/bonnor-ebert">Bonnor–Ebert球</a>、時間発展との違いは<a href="#/advanced/isothermal-collapse">LPH・Shu崩壊</a>へ進むと確かめられる。', 'The panel compares static equilibria. Sliders are not time and do not animate physical contraction. Compare geometry with <a href="#/advanced/bonnor-ebert">Bonnor–Ebert spheres</a> and time evolution with <a href="#/advanced/isothermal-collapse">LPH/Shu collapse</a>.'))
+  ].join('');
   bodies['bonnor-ebert'] = () => [
     s(1, '雲の表面にも圧力がある', 'A cloud has pressure at its boundary',
       p('分子雲の中の小さな高密度領域を考える。星と違い、表面で圧力を0にするとは限らない。周囲の気体が外から押すため、外圧P<sub>ext</sub>と等しい圧力で雲を切り取る。球対称、静止、等温、非回転を仮定し、磁場と乱流の支えは含めない。', 'Consider a dense core inside a molecular cloud. Its surface need not have zero pressure: surrounding gas confines it. Truncate the cloud where its pressure equals an external pressure P<sub>ext</sub>. Assume a static, spherical, isothermal, nonrotating gas without magnetic or turbulent support.'),
