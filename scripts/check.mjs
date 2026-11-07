@@ -6,7 +6,7 @@ import { runInNewContext } from 'node:vm';
 import { execFileSync } from 'node:child_process';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'advanced-gas-math.js', 'advanced-gas-content.js', 'advanced-gas-labs.js', 'numbers.js', 'books.js', 'illustrations.js', 'animation.js', 'press-schechter.js', 'advanced-dynamics-math.js', 'advanced-dynamics-content.js', 'advanced-dynamics-labs.js', 'collapse-math.js', 'collapse-lab.js', 'nonequilibrium-math.js', 'nonequilibrium-content.js', 'nonequilibrium-labs.js']) {
+for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'advanced-gas-math.js', 'advanced-gas-content.js', 'advanced-gas-labs.js', 'numbers.js', 'books.js', 'illustrations.js', 'animation.js', 'press-schechter.js', 'advanced-dynamics-math.js', 'advanced-dynamics-content.js', 'advanced-dynamics-labs.js', 'collapse-math.js', 'collapse-lab.js', 'nonequilibrium-math.js', 'nonequilibrium-content.js', 'nonequilibrium-labs.js', 'schwarzschild.js', 'solutions.js']) {
   execFileSync(process.execPath, ['--check', resolve(root, 'docs', name)]);
 }
 const context = { window: {} };
@@ -24,6 +24,8 @@ runInNewContext(readFileSync(resolve(root, 'docs/collapse-math.js'), 'utf8'), co
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-dynamics-content.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/nonequilibrium-math.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/nonequilibrium-content.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/schwarzschild.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/solutions.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/books.js'), 'utf8'), context);
 const { chapters, sources, renderBody } = context.window.AstroContent;
 assert.equal(chapters.length, 16, 'Expected the complete 16-chapter curriculum.');
@@ -118,9 +120,9 @@ for (const group of series.groups) {
     assert(topic.reference[0] && topic.reference[1].startsWith('https://'), `${topic.id}: missing reference`);
   }
 }
-assert.equal(topicIds.size, 31, 'Expected the expanded 31-topic advanced syllabus');
+assert.equal(topicIds.size, 32, 'Expected the expanded 32-topic advanced syllabus');
 const advanced = context.window.AstroAdvanced;
-assert.equal(advanced.chapters.length, 31, 'Expected all thirty-one worked advanced chapters');
+assert.equal(advanced.chapters.length, 32, 'Expected all thirty-two worked advanced chapters');
 assert.equal(new Set(advanced.chapters.map(c => c.id)).size, advanced.chapters.length);
 for (const c of advanced.chapters) {
   assert(topicIds.has(c.id), `${c.id}: missing syllabus entry`);
@@ -672,6 +674,62 @@ for(const bad of [0,-1,NaN,Infinity]) {
 assert.throws(()=>plasma.at(-1));assert.throws(()=>ad.at(-1));assert.throws(()=>chem.at(-1));
 assert.throws(()=>NE.twoTemperature(2,1.1));
 
+
+// Library entries distinguish availability and refer to real chapters.
+const library=context.window.AstroSolutions;
+assert.equal(library.entries.length,17);
+assert.equal(library.entries.filter(e=>e.status==='ready').length,14);
+assert.equal(new Set(library.entries.map(e=>e.id)).size,17);
+for(const entry of library.entries) {
+  for(const key of ['title','kind','assumptions','boundary','parameters','limits'])bilingual(entry[key],entry.id+'.'+key);
+  assert(library.domains[entry.domain]);assert(entry.reference[1].startsWith('https://'));
+  if(entry.status==='ready')assert(advanced.chapters.some(c=>entry.route==='#/advanced/'+c.id));
+  else assert.equal(entry.route,undefined,'Planned entries must not link to missing lessons');
+}
+assert.equal(library.matching('Bondi').some(e=>e.id==='bondi'),true);
+assert.equal(library.matching('Ｂｏｎｄｉ').some(e=>e.id==='bondi'),true,'Normalize full-width search');
+assert.equal(library.matching('', 'relativity', 'ready').length,1);
+assert.equal(library.matching('', 'relativity', 'planned').length,2);
+assert.equal(library.matching('missing-solution-query').length,0);
+for(const language of ['ja','en']) {
+  const html=library.renderBody(language);checkMarkup(html,'solution library '+language);
+  assert.equal((html.match(/class="solution-card"/g)||[]).length,17);
+  if(language==='en')assert(!/[\u3040-\u30ff\u3400-\u9fff]/.test(html),'Fully translated solution catalogue');
+}
+// Schwarzschild checks use standard radii and independently differentiated potentials.
+const GR=context.window.AstroSchwarzschild;
+const gr=GR.model(10,6,100),doubleMass=GR.model(20,6,100);
+relative(gr.rate,Math.sqrt(2/3),1e-14,'Static clock at R=6');
+relative(gr.redshift,Math.sqrt(3/2)-1,1e-14,'Static gravitational redshift at R=6');
+relative(doubleMass.rg,2*gr.rg,1e-14,'Schwarzschild physical radius mass scaling');
+relative(doubleMass.proper,2*gr.proper,1e-14,'Gravitational time unit mass scaling');
+relative(doubleMass.rate,gr.rate,1e-14,'Clock fraction at fixed dimensionless radius');
+close(GR.model(1).horizon/1000,2.95325,.0001,'Solar-mass horizon in km');
+assert.equal(GR.potential(2,16),0,'Effective potential at horizon');
+close(GR.potential(1e8,16),1,3e-8,'Asymptotic unit rest energy');
+assert.equal(GR.circles(11.99).length,0);
+const marginal=GR.circles(12);assert.equal(marginal.length,1);assert.equal(marginal[0].radius,6);
+relative(marginal[0].energy,Math.sqrt(8/9),1e-14,'ISCO conserved energy');
+const fixedJ=GR.circles(16);assert.equal(fixedJ[0].radius,4);assert.equal(fixedJ[1].radius,12);
+for(const j of [12,12.25,16,25,1e5])for(const orbit of GR.circles(j)) {
+  const R=orbit.radius,h=R*1e-4;
+  const slope=(GR.potential(R+h,j)-GR.potential(R-h,j))/(2*h);
+  const second=(GR.potential(R+h,j)-2*GR.potential(R,j)+GR.potential(R-h,j))/(h*h);
+  close(slope/(1+j/R**2),0,5e-8,'Circular-orbit extremum relative to angular-energy scale');
+  const expected=2*(R-6)/(R**3*(R-3));
+  close(second,expected,Math.max(1e-8,Math.abs(expected)*2e-6),'Circular-orbit radial stability');
+  if(orbit.stability==='stable')assert(R>6&&second>0);
+  if(orbit.stability==='unstable')assert(R>3&&R<6&&second<0);
+}
+const lightPotential=R=>GR.potential(R,1,true),hLight=1e-4;
+close((lightPotential(3+hLight)-lightPotential(3-hLight))/(2*hLight),0,1e-9,'Photon circular extremum');
+assert(lightPotential(3)>lightPotential(2.9)&&lightPotential(3)>lightPotential(3.1),'Photon sphere is unstable');
+relative(1/Math.sqrt(lightPotential(3)),3*Math.sqrt(3),1e-14,'Photon capture impact parameter');
+const weakR=1e6;
+relative((1-GR.model(1,weakR).rate)*weakR,1,1e-6,'Weak-field clock limit');
+for(const invalid of [0,-1,NaN,Infinity])assert.throws(()=>GR.model(invalid));
+assert.throws(()=>GR.model(1,2));assert.throws(()=>GR.model(1,1.9));assert.throws(()=>GR.model(1,6,-1));
+assert.throws(()=>GR.circles(-1));
 const index = readFileSync(resolve(root, 'docs/index.html'), 'utf8');
 for (const asset of index.matchAll(/(?:src|href)="\.\/([^"#]+)"/g)) {
   assert(existsSync(resolve(root, 'docs', asset[1].split('?')[0])), `Missing local asset ${asset[1]}`);

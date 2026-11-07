@@ -9,7 +9,7 @@ const output = resolve(root, 'dist');
 const site = 'https://koyamahr.github.io/astronomy-step-by-step/';
 const sitemap = readFileSync(resolve(output, 'sitemap.xml'), 'utf8');
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
-assert.equal(urls.length, 106);
+assert.equal(urls.length, 110);
 assert.equal(new Set(urls).size, urls.length);
 for (const url of urls) {
   const relative = url.slice(site.length);

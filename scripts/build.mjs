@@ -14,7 +14,7 @@ const context = {
   location: new URL(site),
   document: { title: '', currentScript: { src: `${site}routing.js` }, querySelector: () => null }
 };
-const contentFiles = ['illustrations', 'content', 'series', 'advanced-content', 'advanced-math', 'advanced-gas-math', 'advanced-gas-content', 'press-schechter', 'advanced-dynamics-math', 'collapse-math', 'advanced-dynamics-content', 'nonequilibrium-math', 'nonequilibrium-content', 'numbers', 'books', 'routing', 'app'];
+const contentFiles = ['illustrations', 'content', 'series', 'advanced-content', 'advanced-math', 'advanced-gas-math', 'advanced-gas-content', 'press-schechter', 'advanced-dynamics-math', 'collapse-math', 'advanced-dynamics-content', 'nonequilibrium-math', 'nonequilibrium-content', 'schwarzschild', 'solutions', 'numbers', 'books', 'routing', 'app'];
 for (const file of contentFiles) runInNewContext(readFileSync(resolve(root, `docs/${file}.js`), 'utf8'), context, { filename: `${file}.js` });
 const { routes, render } = context.window.AstroPage;
 const { path, rewrite } = context.window.AstroRouting;
@@ -29,7 +29,7 @@ function pageHTML(route, language) {
     .replace('<footer id="footer"></footer>', `<footer id="footer"><span>${language === 'en' ? 'Theoretical Astrophysics, Step by Step' : '理論天文学の道具箱'}</span><span><a href="${path('/books', language)}">${language === 'en' ? 'Textbooks & review volumes' : '教科書・総説集ガイド'}</a> · <a href="${path('/about', language)}">${language === 'en' ? 'Teaching principles' : '教材の方針'}</a></span></footer>`);
   if (language === 'en') {
     html = html.replace(/(<span id="brand-name">)[\s\S]*?<\/span>/, '$1Theoretical Astrophysics, Step by Step<small>FOUNDATIONS & ADVANCED</small></span>');
-    for (const [id, label] of Object.entries({ chapters: 'Foundations', advanced: 'Advanced', numbers: 'Numbers', books: 'Books', about: 'About' })) html = html.replace(new RegExp(`(id="nav-${id}"[^>]*>)[^<]*`), `$1${label}`);
+    for (const [id, label] of Object.entries({ chapters: 'Foundations', advanced: 'Advanced', numbers: 'Numbers', books: 'Books', solutions: 'Solutions', about: 'About' })) html = html.replace(new RegExp(`(id="nav-${id}"[^>]*>)[^<]*`), `$1${label}`);
   }
   // Language navigation works before JavaScript loads, too.
   html = html.replace(/<button data-lang="(ja|en)" lang="\1" aria-pressed="(?:true|false)">([^<]*)<\/button>/g,

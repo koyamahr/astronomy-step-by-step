@@ -6,6 +6,7 @@
   const worked = advancedContent.chapters;
   const numbers = window.AstroNumbers;
   const books = window.AstroBooks;
+  const solutions = window.AstroSolutions;
   const storage = {
     get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } },
     set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* Reading still works without storage. */ } }
@@ -66,7 +67,7 @@
   function home(onlyContents = false) {
     document.title = onlyContents ? `${tr(series.volumes.foundations.title)} | ${tr(series.name)}` : tr(series.name);
     if (onlyContents) return `<div class="wrap" style="padding-top:48px">${contentsBlock().replace('<h2>', '<h1>').replace('</h2>', '</h1>')}${pathNote()}</div>`;
-    return `<div class="wrap"><section class="hero"><div><div class="eyebrow">AN OPEN NOTEBOOK OF ASTROPHYSICS</div><h1>${t('理論天文学の<br><em>道具箱。</em>', 'Theoretical<br>Astrophysics,<br><em>Step by Step.</em>')}</h1><p class="intro">${t('高校数学の式変形から、微分方程式で解く標準問題へ。<br>星と原子、宇宙の膨張、平衡とその破れをつなぐ、<br>日本語・英語の天文学シリーズ。', 'From school algebra to classical problems with differential equations.<br>A Japanese–English series connecting atoms, stars, cosmic expansion,<br>and the physics of equilibrium and change.')}</p><div class="actions"><a class="button" href="${chapterUrl('tools')}">${t('入門編を読み始める', 'Start the foundations')} <span aria-hidden="true">↗</span></a><a class="text-link" href="#/advanced">${t('発展編を読む', 'Explore the advanced volume')}</a></div><div class="hero-note"><span>${t('高校数学から', 'Starts with school algebra')}</span><span>${t('入門から発展へ', 'Foundations to advanced topics')}</span><span>日本語 / English</span></div></div>${cosmicFigure()}</section>${volumeCards()}<a class="appendix-link book-guide-link" href="#/books"><div><span class="eyebrow">READING GUIDE</span><h2>${t('教科書・総説集ガイド', 'Textbooks & review volumes')}</h2><p>${t('標準書とPP IIIから、知りたい現象を深める。', 'Explore your next question with standard references and PP III.')}</p></div><span>↗</span></a><a class="appendix-link" href="#/appendix/numbers"><div><span class="eyebrow">${t('番外編 · 数字と単位', 'SUPPLEMENT · NUMBERS & UNITS')}</span><h2>${tr(numbers.title)}</h2><p>${tr(numbers.desc)}</p></div><span aria-hidden="true">↗</span></a>
+    return `<div class="wrap"><section class="hero"><div><div class="eyebrow">AN OPEN NOTEBOOK OF ASTROPHYSICS</div><h1>${t('理論天文学の<br><em>道具箱。</em>', 'Theoretical<br>Astrophysics,<br><em>Step by Step.</em>')}</h1><p class="intro">${t('高校数学の式変形から、微分方程式で解く標準問題へ。<br>星と原子、宇宙の膨張、平衡とその破れをつなぐ、<br>日本語・英語の天文学シリーズ。', 'From school algebra to classical problems with differential equations.<br>A Japanese–English series connecting atoms, stars, cosmic expansion,<br>and the physics of equilibrium and change.')}</p><div class="actions"><a class="button" href="${chapterUrl('tools')}">${t('入門編を読み始める', 'Start the foundations')} <span aria-hidden="true">↗</span></a><a class="text-link" href="#/advanced">${t('発展編を読む', 'Explore the advanced volume')}</a></div><div class="hero-note"><span>${t('高校数学から', 'Starts with school algebra')}</span><span>${t('入門から発展へ', 'Foundations to advanced topics')}</span><span>日本語 / English</span></div></div>${cosmicFigure()}</section>${volumeCards()}<a class="appendix-link library-link" href="#/solutions"><div><span class="eyebrow">SOLUTION LIBRARY</span><h2>${tr(solutions.title)}</h2><p>${tr(solutions.desc)}</p></div><span aria-hidden="true">↗</span></a><a class="appendix-link book-guide-link" href="#/books"><div><span class="eyebrow">READING GUIDE</span><h2>${t('教科書・総説集ガイド', 'Textbooks & review volumes')}</h2><p>${t('標準書とPP IIIから、知りたい現象を深める。', 'Explore your next question with standard references and PP III.')}</p></div><span>↗</span></a><a class="appendix-link" href="#/appendix/numbers"><div><span class="eyebrow">${t('番外編 · 数字と単位', 'SUPPLEMENT · NUMBERS & UNITS')}</span><h2>${tr(numbers.title)}</h2><p>${tr(numbers.desc)}</p></div><span aria-hidden="true">↗</span></a>
       <div class="principles"><div><b>01</b><div><strong>${t('直感をつかむ', 'Build intuition')}</strong><p>${t('身近な問いから始める。', 'Start with a concrete question.')}</p></div></div><div><b>02</b><div><strong>${t('一行ずつ、式をつなぐ', 'Follow every algebraic step')}</strong><p>${t('途中の変形を飛ばさない。', 'See the steps between formulas.')}</p></div></div><div><b>03</b><div><strong>${t('近似の意味までわかる', 'Understand the assumptions')}</strong><p>${t('どこまで言えるかを確かめる。', 'Know what a model can explain.')}</p></div></div></div>
       <section><div class="section-heading"><div><div class="eyebrow">TWO LIMITS, TWO STORIES</div><h2>${t('星の「限界」を、式で読む。', 'Two limits. Two physical stories.')}</h2><p>${t('この教材が目指す、二つの到達点。', 'Two destinations for your journey through the physics.')}</p></div></div><div class="feature-grid"><a class="feature" href="${chapterUrl('chandra')}"><span class="tag">QUANTUM PHYSICS × RELATIVITY</span><h3>${t('白色矮星は、どこまで重くなれる？', 'How massive can a white dwarf be?')}</h3><p>${t('電子の圧力と重力。半径が式から消えるとき、限界質量が現れる。', 'Balance electron pressure against gravity. When radius cancels, a limiting mass emerges.')}</p><div class="feature-math">M<sub>Ch</sub> ≈ 1.4 M<sub>☉</sub></div><div class="feature-foot"><span>${t('チャンドラセカール質量', 'The Chandrasekhar mass')}</span><span class="arrow">↗</span></div></a><a class="feature" href="${chapterUrl('eddington')}"><span class="tag">ELECTROMAGNETISM × GRAVITY</span><h3>${t('光は、星を吹き飛ばせる？', 'Can light push a star apart?')}</h3><p>${t('電子を押す光の力を数えて、重力とつり合う明るさを求める。', 'Count the momentum light transfers to electrons, then find where it balances gravity.')}</p><div class="feature-math">L<sub>Edd</sub> = 4πGMc / κ</div><div class="feature-foot"><span>${t('エディントン限界', 'The Eddington limit')}</span><span class="arrow">↗</span></div></a></div></section>
       ${contentsBlock()}${pathNote()}</div>`;
@@ -105,7 +106,7 @@
     const i = worked.indexOf(c);
     document.title = `${tr(c.title)} | ${tr(series.name)}`;
     return `<div class="lesson-layout"><aside class="sidebar"><a class="back" href="#/advanced">← ${t('発展編の目次', 'Advanced contents')}</a><div class="side-title">${t('公開中の章', 'AVAILABLE CHAPTERS')}</div><nav class="side-links" aria-label="${t('発展編の章', 'Advanced chapters')}">${worked.map((other, n) => `<a href="${advancedUrl(other.id)}" ${other.id === c.id ? 'aria-current="page"' : ''}><span>${pad(n + 1)}</span>${tr(other.title)}</a>`).join('')}</nav></aside><article class="lesson"><header class="lesson-head"><div class="eyebrow">ADVANCED · ${pad(i + 1)}</div><h1>${tr(c.title)}</h1><p class="dek">${tr(c.desc)}</p><div class="lesson-meta"><span>${t('読む目安：', 'Reading time: ')}${c.minutes}${t('分', ' min')}</span><span>${t('使う道具：', 'Tools: ')}${tr(c.prereq)}</span></div></header><div class="goal"><strong>${t('この章でできるようになること', 'WHAT YOU WILL LEARN')}</strong>${tr(c.goal)}</div><p class="foundation-bridge"><a href="${chapterUrl(c.bridge)}">${t('つながる入門章：', 'Connect to foundations: ')}${tr(chapters.find(item => item.id === c.bridge).title)} ↗</a></p>
-      ${advancedContent.renderBody(c.id, locale)}
+      <p class="foundation-bridge"><a href="#/solutions">${t('解の仮定・境界条件を比べる：ソリューションライブラリー', 'Compare solution assumptions and boundary data in the solution library')} ↗</a></p>${advancedContent.renderBody(c.id, locale)}
       <aside class="quiz"><div class="eyebrow">CHECK YOUR UNDERSTANDING</div><h2>${t('式を使って、確かめよう。', 'Pause and work it out.')}</h2><p>${tr(c.question)}</p><details><summary>${t('答えと考え方を見る', 'Show the answer and reasoning')}</summary><p>${tr(c.answer)}</p></details></aside>
       <div class="sources"><strong>${t('参考資料・出発点にした法則', 'REFERENCES & PHYSICAL INPUTS')}</strong><p>${t('本文はこの教材向けの説明・導出です。参考資料とは記号や規格化が異なる場合があります。操作パネルの解法と近似は本文に明記しています。', 'Explanations and derivations are written for this guide. References may use different notation or normalization. Panel methods and approximations are stated in the text.')}</p><ul>${c.refs.map(id => `<li><a href="${advancedContent.sources[id][1]}" target="_blank" rel="noopener noreferrer">${advancedContent.sources[id][0]} ↗</a></li>`).join('')}</ul></div>
       <div class="lesson-bottom"><button class="complete-button" id="complete-chapter" data-volume="advanced" data-id="${c.id}" aria-pressed="${advancedCompleted.has(c.id)}">${completeLabel(c.id, advancedCompleted)}</button><p class="advanced-progress">${t('発展編の読了：', 'Advanced progress: ')}${advancedCompleted.size} / ${worked.length}</p><div class="prev-next">${i > 0 ? `<a href="${advancedUrl(worked[i - 1].id)}"><small>← ${t('前の章', 'Previous')}</small>${tr(worked[i - 1].title)}</a>` : ''}${i < worked.length - 1 ? `<a href="${advancedUrl(worked[i + 1].id)}"><small>${t('次の章', 'Next')} →</small>${tr(worked[i + 1].title)}</a>` : `<a href="#/advanced"><small>${t('目次へ', 'Back to contents')} →</small>${t('次の学習テーマを選ぶ', 'Choose your next topic')}</a>`}</div></div></article></div>`;
@@ -147,6 +148,7 @@
     else if (route.startsWith('/advanced/') && (c = worked.find(item => route === `/advanced/${item.id}`))) return advancedLesson(c);
     else if (route === '/about') return about();
     else if (route === '/books') return readingGuide();
+    else if (route === '/solutions') { document.title = `${tr(solutions.title)} | ${tr(series.name)}`; return solutions.renderBody(locale); }
     else if (route === '/appendix/numbers') return numberAppendix();
     else if (route.startsWith('/chapter/') && (c = chapters.find(item => route === `/chapter/${item.id}`))) return lesson(c);
     else {
@@ -164,9 +166,10 @@
     document.querySelector('#nav-advanced').textContent = t('発展編', 'Advanced');
     document.querySelector('#nav-numbers').textContent = t('番外編', 'Numbers');
     document.querySelector('#nav-books').textContent = t('教科書', 'Books');
+    document.querySelector('#nav-solutions').textContent = t('解ライブラリー', 'Solutions');
     document.querySelector('#nav-about').textContent = t('この教材について', 'About');
     document.querySelector('.brand').href = routing.path('/', locale);
-    for (const [id, route] of Object.entries({ chapters: '/chapters', advanced: '/advanced', numbers: '/appendix/numbers', books: '/books', about: '/about' })) document.querySelector(`#nav-${id}`).href = routing.path(route, locale);
+    for (const [id, route] of Object.entries({ chapters: '/chapters', advanced: '/advanced', numbers: '/appendix/numbers', books: '/books', solutions: '/solutions', about: '/about' })) document.querySelector(`#nav-${id}`).href = routing.path(route, locale);
     document.querySelectorAll('[data-lang]').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.lang === locale)); if (b.tagName === 'A') b.href = routing.path(routing.resolve(location).route, b.dataset.lang); });
     const { route } = routing.resolve(location, locale);
     const page = renderPage(route, locale);
@@ -175,6 +178,7 @@
     document.querySelector('#footer').innerHTML = `<span>${t('理論天文学の道具箱', 'Theoretical Astrophysics, Step by Step')}<br>${t('宇宙を理解するための共通言語。', 'A shared language for understanding the universe.')}</span><span>${t('入門編・発展編 / 日本語・English', 'Foundations & advanced / Japanese & English')}<br><a href="#/books">${t('教科書・総説集ガイド', 'Textbooks & review volumes')} ↗</a> · <a href="#/about">${t('教材の方針', 'Teaching principles')} ↗</a></span>`;
     document.querySelectorAll('a[href^="#/"]').forEach(link => { link.href = routing.path(link.getAttribute('href').slice(1), locale); });
     books.mount(main);
+    solutions.mount(main, locale);
     mountLabs();
     if (preserveScroll) window.scrollTo({ top: scrollY, behavior: 'instant' });
     else window.scrollTo({ top: 0, behavior: 'instant' });
@@ -189,6 +193,7 @@
       if (['number-converter', 'hubble-units'].includes(el.dataset.lab)) numbers.mount(el, locale);
       if (['lane-emden', 'sedov', 'acceleration', 'synchrotron', 'rayleigh-taylor', 'kelvin-helmholtz', 'sunyaev-zeldovich', 'angular-momentum'].includes(el.dataset.lab)) window.AstroAdvancedLabs.mount(el, locale);
       if (window.AstroGasLabs.supports(el.dataset.lab)) window.AstroGasLabs.mount(el, locale);
+      if (el.dataset.lab === 'schwarzschild') window.AstroSchwarzschild.mount(el, locale);
       if (el.dataset.lab === 'press-schechter') window.AstroPressSchechter.mount(el, locale);
       if (window.AstroDynamicsLabs.supports(el.dataset.lab)) window.AstroDynamicsLabs.mount(el, locale);
       if (window.AstroNonequilibriumLabs.supports(el.dataset.lab)) window.AstroNonequilibriumLabs.mount(el, locale);
@@ -297,7 +302,7 @@
     window.AstroAnimation.mount(el, { locale, min: Math.log(.5), max: Math.log(2), read: () => Math.log(Number(el.querySelector('#exp-scale').value)), write: logScale => { el.querySelector('#exp-scale').value = Math.exp(logScale).toFixed(3); update(); } });
   }
 
-  const routes = ['/', '/chapters', '/advanced', '/books', '/appendix/numbers', '/about',
+  const routes = ['/', '/chapters', '/advanced', '/books', '/appendix/numbers', '/about', '/solutions',
     ...chapters.map(c => `/chapter/${c.id}`), ...worked.map(c => `/advanced/${c.id}`)];
 
   function renderPage(route, language) {
@@ -309,6 +314,7 @@
       '/advanced': ['天体物理の発展編。平衡・不安定性・輸送・相似解を、微分方程式の導出と数値実験で学ぶ学習ガイド。', 'Advanced astrophysics: derive differential equations and explore numerical experiments in equilibrium, instability, transport and similarity solutions.'],
       '/about': ['理論天文学の道具箱の対象読者、教え方、近似と適用条件、日英の入門編と発展編について。', 'Audience and teaching principles for Theoretical Astrophysics, Step by Step: bilingual foundations and advanced lessons, assumptions and model limits.'],
       '/books': books.desc,
+      '/solutions': solutions.desc,
       '/appendix/numbers': numbers.desc
     };
     const html = routing.rewrite(pageContent(route), locale);
@@ -371,6 +377,7 @@
       if (url.hash.startsWith('#/')) url.hash = '';
       history.replaceState(null, '', url);
       const searchValue = document.querySelector('#chapter-search')?.value;
+      const solutionState = document.querySelector('#solution-search') ? { query: document.querySelector('#solution-search').value, domain: document.querySelector('#solution-domain').value, status: document.querySelector('#solution-status').value, expanded: [...main.querySelectorAll('.solution-card:has(details[open])')].map(card => card.id) } : null;
       const openDetails = [...main.querySelectorAll('details')].map(d => d.open);
       const labValues = [...main.querySelectorAll('.lab input,.lab select')].map(i => i.value);
       render({ preserveScroll: true });
@@ -378,6 +385,12 @@
       main.querySelectorAll('.lab input,.lab select').forEach((input, i) => {
         if (labValues[i] !== undefined) { input.value = labValues[i]; input.dispatchEvent(new Event('input', { bubbles: true })); }
       });
+      if (solutionState) {
+        document.querySelector('#solution-domain').value = solutionState.domain;
+        document.querySelector('#solution-status').value = solutionState.status;
+        const search = document.querySelector('#solution-search'); search.value = solutionState.query; search.dispatchEvent(new Event('input', { bubbles: true }));
+        main.querySelectorAll('.solution-card').forEach(card => { card.querySelector('details').open = solutionState.expanded.includes(card.id); });
+      }
       if (searchValue !== undefined) { document.querySelector('#chapter-search').value = searchValue; document.querySelector('#chapter-results').innerHTML = chapterRows(searchValue); }
       document.querySelector(`[data-lang="${locale}"]`).focus({ preventScroll: true });
     }

@@ -261,6 +261,15 @@
           method: ['H＋H＋H → H₂＋Hの粒子数を数え、原子核保存と反応率から分子化の解析解を導く。量子化学の係数は与え、反応時間と重力時間を比べる。', 'Count H + H + H → H₂ + H, conserve nuclei, and solve for the molecular fraction. Supply the quantum-chemical rate and compare reaction and gravitational times.'],
           reference: ['Forrey (2013), equation (6)', 'https://arxiv.org/abs/1306.5163'] }
       ]
+    },
+    {
+      title: ['相対論の時空と軌道', 'Relativistic spacetimes and orbits'],
+      intro: ['計量を出発点として、時計・光・粒子の運動を式で調べる。', 'Start from a metric and follow the clocks, light, and particle motion it predicts.'],
+      bridge: 'relativity',
+      topics: [{ id: 'schwarzschild', title: ['Schwarzschild解：時計・光子球・ISCO', 'Schwarzschild: clocks, the photon sphere, and the ISCO'],
+        question: ['同じ時空の中で、地平面・光子球・最内安定円軌道はどう違うか。', 'How do the horizon, photon sphere, and innermost stable circular orbit differ within one spacetime?'],
+        method: ['計量から静止時計の固有時を読み、保存量と規格化から有効ポテンシャルを導く。光子球3GM/c²とISCO 6GM/c²を微分と式変形で区別する。', 'Read static proper time from the metric, then combine conserved quantities and normalization into an effective potential. Use derivatives and algebra to distinguish the photon sphere at 3GM/c² from the ISCO at 6GM/c².'],
+        reference: ['Carroll · General Relativity, §7', 'https://preposterousuniverse.com/wp-content/uploads/grnotes-seven.pdf'] }]
     }
   ];
   window.AstroSeries = { name, volumes, groups };
