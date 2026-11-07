@@ -242,6 +242,25 @@
           reference: ['Goldreich & Julian (1969)', 'https://articles.adsabs.harvard.edu/pdf/1969ApJ...157..869G']
         }
       ]
+    },
+    {
+      title: ['非平衡・多成分の宇宙物理', 'Nonequilibrium and multicomponent astrophysics'],
+      intro: ['温度、磁場と中性ガス、化学組成が同じ速さで変わるとは限らない。緩和・拡散・反応の時間を天体の運動と比較する。', 'Temperatures, magnetic fields, neutrals, and chemical composition need not adjust together. Compare relaxation, diffusion, and reaction clocks with dynamics.'],
+      bridge: 'matter',
+      topics: [
+        { id: 'two-temperature', title: ['2温度プラズマと電子・イオンの緩和', 'Two-temperature plasmas and electron–ion relaxation'],
+          question: ['同じガスの電子とイオンが、違う温度を持てるのはなぜか。', 'How can electrons and ions in the same gas have different temperatures?'],
+          method: ['熱容量とエネルギー保存から温度交換を導く。Coulomb交換時間を入力して緩和を追い、流れの時間と比較する。', 'Derive temperature exchange from heat capacities and energy conservation. Supply a Coulomb exchange time, follow relaxation, and compare with a flow clock.'],
+          reference: ['Vink et al. (2015)', 'https://arxiv.org/abs/1407.4499'] },
+        { id: 'ambipolar-diffusion', title: ['両極性拡散：磁場と中性ガスのずれ', 'Ambipolar diffusion: magnetic fields and neutral gas'],
+          question: ['低電離の雲では、磁場とガスはいつ一緒に動かなくなるか。', 'When can a magnetic field slip relative to weakly ionized gas?'],
+          method: ['Lorentz力とイオン・中性粒子の摩擦をつり合わせ、拡散係数と時間を導く。線形の磁場の凹凸を減衰させ、重力の時間と比べる。', 'Balance Lorentz force and ion–neutral drag to derive a diffusivity and timescale. Smooth a linear magnetic perturbation and compare with a gravitational clock.'],
+          reference: ['Hillier (2024)', 'https://arxiv.org/abs/2403.16847'] },
+        { id: 'three-body-chemistry', title: ['3体化学反応と水素分子の形成', 'Three-body chemistry and molecular hydrogen formation'],
+          question: ['密度が高くなると、3体反応で水素分子が作られやすくなるのはなぜか。', 'Why does high density accelerate three-body formation of molecular hydrogen?'],
+          method: ['H＋H＋H → H₂＋Hの粒子数を数え、原子核保存と反応率から分子化の解析解を導く。量子化学の係数は与え、反応時間と重力時間を比べる。', 'Count H + H + H → H₂ + H, conserve nuclei, and solve for the molecular fraction. Supply the quantum-chemical rate and compare reaction and gravitational times.'],
+          reference: ['Forrey (2013), equation (6)', 'https://arxiv.org/abs/1306.5163'] }
+      ]
     }
   ];
   window.AstroSeries = { name, volumes, groups };

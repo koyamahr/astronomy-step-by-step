@@ -6,7 +6,7 @@ import { runInNewContext } from 'node:vm';
 import { execFileSync } from 'node:child_process';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'advanced-gas-math.js', 'advanced-gas-content.js', 'advanced-gas-labs.js', 'numbers.js', 'books.js', 'illustrations.js', 'animation.js', 'press-schechter.js', 'advanced-dynamics-math.js', 'advanced-dynamics-content.js', 'advanced-dynamics-labs.js', 'collapse-math.js', 'collapse-lab.js']) {
+for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'advanced-gas-math.js', 'advanced-gas-content.js', 'advanced-gas-labs.js', 'numbers.js', 'books.js', 'illustrations.js', 'animation.js', 'press-schechter.js', 'advanced-dynamics-math.js', 'advanced-dynamics-content.js', 'advanced-dynamics-labs.js', 'collapse-math.js', 'collapse-lab.js', 'nonequilibrium-math.js', 'nonequilibrium-content.js', 'nonequilibrium-labs.js']) {
   execFileSync(process.execPath, ['--check', resolve(root, 'docs', name)]);
 }
 const context = { window: {} };
@@ -22,6 +22,8 @@ runInNewContext(readFileSync(resolve(root, 'docs/press-schechter.js'), 'utf8'), 
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-dynamics-math.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/collapse-math.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/advanced-dynamics-content.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/nonequilibrium-math.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/nonequilibrium-content.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/books.js'), 'utf8'), context);
 const { chapters, sources, renderBody } = context.window.AstroContent;
 assert.equal(chapters.length, 16, 'Expected the complete 16-chapter curriculum.');
@@ -116,9 +118,9 @@ for (const group of series.groups) {
     assert(topic.reference[0] && topic.reference[1].startsWith('https://'), `${topic.id}: missing reference`);
   }
 }
-assert.equal(topicIds.size, 28, 'Expected the expanded 28-topic advanced syllabus');
+assert.equal(topicIds.size, 31, 'Expected the expanded 31-topic advanced syllabus');
 const advanced = context.window.AstroAdvanced;
-assert.equal(advanced.chapters.length, 28, 'Expected all twenty-eight worked advanced chapters');
+assert.equal(advanced.chapters.length, 31, 'Expected all thirty-one worked advanced chapters');
 assert.equal(new Set(advanced.chapters.map(c => c.id)).size, advanced.chapters.length);
 for (const c of advanced.chapters) {
   assert(topicIds.has(c.id), `${c.id}: missing syllabus entry`);
@@ -596,6 +598,80 @@ close(numbers.hubble(70).timeSeconds / numbers.hubble(140).timeSeconds, 2, 1e-14
 assert.throws(() => numbers.hubble(0));
 assert.throws(() => numbers.convert('pc', -1));
 assert.throws(() => numbers.convert('pc', NaN));
+
+// Nonequilibrium: conservation, independent rate scalings, and evolution residuals.
+const NE=context.window.AstroNonequilibrium,NC=NE.C;
+const relative=(a,b,tol,label)=>close(a/b,1,tol,label);
+const plasma=NE.twoTemperature(2,.1,.001),finePlasma=NE.twoTemperature(2,.1,.001,.01);
+let previousEntropy=-Infinity;
+for(const seconds of [0,1e8,1e10,1e11,1e12,1e13,1e15]) {
+  const q=plasma.at(seconds),fine=finePlasma.at(seconds);
+  close(q.te+q.ti,2.2,1e-14,'Two-temperature energy conservation');
+  assert(q.te>=.2-1e-14&&q.ti>=q.te&&q.ti<=2,'Positive non-overshooting temperature relaxation');
+  const entropy=Math.log(q.te)+Math.log(q.ti);
+  assert(entropy>=previousEntropy-1e-13,'Total ideal-gas entropy increases during exchange');previousEntropy=entropy;
+  close(q.te,fine.te,3e-8,'Coulomb integration half-step convergence');
+}
+for(const beta of [.01,.2,.99,1]) {
+  const equilibrium=NE.twoTemperature(2,beta,.001);
+  const q=equilibrium.at(1e18);
+  close(q.te,q.ti,1e-12,'Late-time mutual equilibrium');
+}
+assert.equal(NE.twoTemperature(2,1,.001).at(123).te,2,'Equal temperatures remain fixed');
+relative(NE.exchangeTime(1,1,.002),NE.exchangeTime(1,1,.001)/2,1e-14,'Coulomb density inverse scaling');
+// Independent cgs evaluation: e in statcoulomb, mass in g, energy in erg.
+const meCGS=9.1093837139e-28,mpCGS=1.67262192595e-24,eCGS=4.80320471e-10;
+const tauCGS=3*meCGS*mpCGS/(8*Math.sqrt(2*Math.PI)*.001*eCGS**4*30)*(1.602176634e-9/meCGS+1.602176634e-9/mpCGS)**1.5;
+relative(NE.exchangeTime(1,1,.001),tauCGS,2e-8,'Coulomb SI/Gaussian exchange time');
+for(const seconds of [1e10,1e11,1e12]) {
+  const h=1e7,q=plasma.at(seconds),derivative=(plasma.at(seconds+h).te-plasma.at(seconds-h).te)/(2*h);
+  relative(derivative,(q.ti-q.te)/NE.exchangeTime(q.te,q.ti,.001),3e-5,'Temperature-exchange ODE residual');
+  const dense=NE.twoTemperature(2,.1,.002).at(seconds/2);
+  close(dense.te,q.te,2e-10,'Full trajectory inverse-density clock');
+}
+const ad=NE.ambipolar(),mu0=1/(NC.epsilon0*NC.c**2);
+const etaSI=(ad.B*1e-4)**2/(mu0*(ad.gamma*.001)*(ad.rhoi*1000)*(ad.rhon*1000));
+relative(ad.eta*1e-4,etaSI,1e-9,'Ambipolar SI/Gaussian diffusivity (measured SI mu0)');
+relative(NE.ambipolar(1e4,1e-7,.1,60).eta,4*ad.eta,1e-14,'Ambipolar B squared scaling');
+relative(NE.ambipolar(2e4).eta,ad.eta/4,1e-14,'Ambipolar density squared scaling');
+relative(NE.ambipolar(1e4,2e-7).eta,ad.eta/2,1e-14,'Ambipolar ion-fraction scaling');
+relative(NE.ambipolar(1e4,1e-7,.2).tAD,4*ad.tAD,1e-14,'Ambipolar length squared clock');
+relative(ad.at(ad.tAD).amplitude,.1/Math.E,1e-14,'Fourier-mode amplitude decay');
+for(const phase of [.4,1,2]) {
+  const time=.7*ad.tAD,h=.001,dt=.0001*ad.tAD;
+  const ddt=(ad.at(time+dt,phase).field-ad.at(time-dt,phase).field)/(2*dt);
+  const dxx=(ad.at(time,phase+h).field-2*ad.at(time,phase).field+ad.at(time,phase-h).field)/(h*h*ad.L**2);
+  relative(ddt,ad.eta*dxx,2e-6,'Ambipolar Fourier diffusion PDE residual');
+}
+const heat=ad.at(ad.tAD),dh=.0001*ad.tAD;
+relative(-(ad.at(ad.tAD+dh).energy-ad.at(ad.tAD-dh).energy)/(2*dh),heat.heating,1e-7,'Perturbation energy loss equals drag heating');
+const averageDrag=Array.from({length:512},(_,i)=>ad.gamma*ad.rhoi*ad.rhon*ad.at(ad.tAD,2*Math.PI*i/512).drift**2).reduce((a,b)=>a+b,0)/512;
+relative(averageDrag,heat.heating,1e-14,'Independently averaged drift-heating budget');
+const chem=NE.chemistry();
+close(chem.k3/1e-32,1.699423178,1e-8,'Forrey fit at 1000 K');
+assert.equal(chem.at(0).x,0,'Initially atomic chemistry');
+close(chem.at(chem.t50).x,.5,1e-14,'Exact half-conversion time');
+let lastFraction=0;
+for(const time of [1e-8,1,1e8,chem.t50,1e12,1e20]) {
+  const q=chem.at(time);
+  relative(q.nH+2*q.nH2,1e11,1e-14,'Hydrogen-nucleus conservation');
+  assert(q.x>=lastFraction&&q.x<=1,'Bounded monotonic molecular fraction');lastFraction=q.x;
+  close(q.bindingPerNucleus,4.48*q.x/2,1e-14,'Binding-energy count per nucleus');
+}
+for(const time of [.1,.5,2].map(x=>x*chem.t50)) {
+  const h=1e-4*chem.t50,q=chem.at(time),dx=(chem.at(time+h).x-chem.at(time-h).x)/(2*h);
+  relative(dx,2*chem.k3*1e22*(1-q.x)**3,2e-7,'Three-body chemistry ODE residual');
+}
+const denserChem=NE.chemistry(1000,1e12);
+relative(denserChem.t50/denserChem.tff,chem.t50/chem.tff*10**(-1.5),1e-14,'Chemical/gravity clock density scaling');
+relative(NE.chemistry(1000,2e11).t50,chem.t50/4,1e-14,'Three-body half-time inverse density squared');
+assert(chem.at(1e-8).x>0,'Tiny-time molecular fraction avoids cancellation');
+for(const bad of [0,-1,NaN,Infinity]) {
+  assert.throws(()=>NE.exchangeTime(1,1,bad));assert.throws(()=>NE.ambipolar(bad));assert.throws(()=>NE.chemistry(bad));
+}
+assert.throws(()=>plasma.at(-1));assert.throws(()=>ad.at(-1));assert.throws(()=>chem.at(-1));
+assert.throws(()=>NE.twoTemperature(2,1.1));
+
 const index = readFileSync(resolve(root, 'docs/index.html'), 'utf8');
 for (const asset of index.matchAll(/(?:src|href)="\.\/([^"#]+)"/g)) {
   assert(existsSync(resolve(root, 'docs', asset[1].split('?')[0])), `Missing local asset ${asset[1]}`);
