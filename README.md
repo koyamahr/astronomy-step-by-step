@@ -8,15 +8,19 @@ A bilingual Japanese–English series: Foundations explores the universe through
 
 ## ローカルで読む / Read locally
 
-追加のインストール・ビルドは不要です。Python 3のHTTPサーバーなどで `docs/` を開きます。
+Node.js 22で本文入りの静的HTMLを生成します。公開用出力は `dist/` です。元の `docs/` は編集用ソースで、旧ハッシュURLも引き続き利用できます。
 
 ```sh
-python3 -m http.server 4173 --bind 127.0.0.1 --directory docs
+node scripts/build.mjs
+node scripts/check-static.mjs
+mkdir -p .preview
+ln -s ../dist .preview/astronomy-step-by-step
+python3 -m http.server 4173 --bind 127.0.0.1 --directory .preview
 ```
 
-ブラウザで <http://127.0.0.1:4173/> を開きます。`docs/index.html` を直接開く方法でも基本機能は動作しますが、読了・言語設定の保存はブラウザによって制限されます。
+ブラウザで <http://127.0.0.1:4173/astronomy-step-by-step/> を開きます。`docs/index.html` を直接開く方法でも基本機能は動作しますが、読了・言語設定の保存はブラウザによって制限されます。
 
-No installation or build is needed. Serve `docs/` with any static HTTP server. All fonts, equations, illustrations, and application assets work without a CDN. Reference links require internet access.
+No package installation is needed. Run `node scripts/build.mjs` with Node.js 22 to generate the static edition. Serve the generated `dist/` at `/astronomy-step-by-step/` as shown above. All fonts, equations, illustrations, and application assets work without a CDN. Reference links require internet access.
 
 ## 入門編 / Foundations
 
@@ -134,9 +138,9 @@ No differential equations are solved in Foundations. Its optional entropy-maximi
 2. GitHubの **Settings → Pages → Build and deployment → Source** を **GitHub Actions** に設定します。
 3. **Actions** で **Deploy astronomy textbook to GitHub Pages** を実行します。以後 `main` へのpushで自動反映されます。
 
-ワークフローは `docs/` のみを公開します。ルート配下・リポジトリ名配下のどちらでも動く相対パスとハッシュルーティングを使っています。公開URLはGitHubのPages画面とデプロイ結果で確認できます。
+ワークフローは本文入りのHTMLを生成し、検証済みの `dist/` を公開します。各章は `/ja/chapter/chandra/`、`/en/advanced/lane-emden/` など日英別の独立したURLを持ちます。旧 `?lang=en#/chapter/chandra` は同じ章の新URLに引き継がれます。各ページのタイトル・説明文・canonical・日英のhreflangと、全106ページの `sitemap.xml` を生成します。公開URLはGitHubのPages画面とデプロイ結果で確認できます。
 
-The included workflow validates and deploys `docs/` to [GitHub Pages](https://koyamahr.github.io/astronomy-step-by-step/). The source is maintained in [koyamahr/astronomy-step-by-step](https://github.com/koyamahr/astronomy-step-by-step). Further pushes to `main` update the site automatically.
+The included workflow validates the content, generates and checks 106 static bilingual pages, and deploys `dist/` to [GitHub Pages](https://koyamahr.github.io/astronomy-step-by-step/). The source is maintained in [koyamahr/astronomy-step-by-step](https://github.com/koyamahr/astronomy-step-by-step). Further pushes to `main` update the site automatically.
 
 設定の詳細は[GitHub公式のPagesワークフロー案内](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)も参照できます。
 
@@ -157,6 +161,9 @@ The included workflow validates and deploys `docs/` to [GitHub Pages](https://ko
 - `docs/style.css`: lesson layout, print styles, and reduced-motion support
 - `docs/series.css`: volume cards, syllabus layout, and responsive series navigation
 - `scripts/check.mjs`: dependency-free content integrity checks
+- `scripts/build.mjs`: generate full-text static HTML and the bilingual sitemap
+- `scripts/check-static.mjs`: verify generated text, assets, links, metadata, alternates, and legacy routing
+- `docs/routing.js`: shared static-path and legacy-hash URL handling
 - `scripts/illustrations.json` and `scripts/export-illustrations.py`: figure captions and label translations; regenerate English assets with Python 3
 - `.github/workflows/pages.yml`: GitHub Pages deployment
 

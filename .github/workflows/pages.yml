@@ -28,10 +28,14 @@ jobs:
           node-version: '22'
       - name: Check educational content and local assets
         run: node scripts/check.mjs
+      - name: Build crawlable bilingual pages
+        run: node scripts/build.mjs
+      - name: Check generated pages and SEO metadata
+        run: node scripts/check-static.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: docs
+          path: dist
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
