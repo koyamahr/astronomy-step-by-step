@@ -1,8 +1,8 @@
 # 理論天文学の道具箱 / Theoretical Astrophysics, Step by Step
 
-高校数学の式変形から、微分方程式を使う標準問題へ進む、日本語・英語の静的Web教材シリーズです。入門編16章と発展編32章を公開し、発展編全32題材の学習ガイドを整理しています。
+高校数学の式変形から、微分方程式を使う標準問題へ進む、日本語・英語の静的Web教材シリーズです。入門編16章と発展編35章を公開し、発展編全35題材の学習ガイドを整理しています。
 
-A bilingual Japanese–English series: Foundations explores the universe through school algebra; Advanced covers equilibrium, instability, transport, and similarity solutions. All 16 foundation lessons are available. All 32 advanced worked chapters are also available, organized into a eleven-area learning guide.
+A bilingual Japanese–English series: Foundations explores the universe through school algebra; Advanced covers equilibrium, instability, transport, and similarity solutions. All 16 foundation lessons are available. All 35 advanced worked chapters are also available, organized into a eleven-area learning guide.
 
 [教科書・総説集ガイド](https://koyamahr.github.io/astronomy-step-by-step/#/books)では、教科書・専門書8冊と『Protostars and Planets III』を、予備知識・関連章・出版社のリンクとともに日英で紹介しています。PP IIIには出版社の無料公開版へのリンクもあります。 各本に参照版のISBN、AmazonのISBN検索、出版社へのリンクを掲載。Open Libraryの版レコードと表紙を照合し、表紙が未収録または読み込めない場合は書名・著者名の代替表示を使います。
 
@@ -53,7 +53,7 @@ Ten original explanatory SVG diagrams accompany the relevant foundation lessons.
 
 **平衡・不安定性・輸送・相似解 / Equilibrium, instability, transport, and similarity solutions**
 
-[発展編](https://koyamahr.github.io/astronomy-step-by-step/#/advanced)は11分野・32題材。以下の32章は、導出・確認問題・操作パネル・参考資料を日英で公開しています。全題材の本文を公開しています。
+[発展編](https://koyamahr.github.io/astronomy-step-by-step/#/advanced)は11分野・35題材。以下の35章は、導出・確認問題・操作パネル・参考資料を日英で公開しています。全題材の本文を公開しています。
 
 1. [Lane–Emden方程式](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/lane-emden)：静水圧平衡、無次元化、中心級数、数値積分、チャンドラセカール質量の係数。
 2. [Rayleigh–Taylor不安定性](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/rayleigh-taylor)：ポテンシャル流、境界条件、Atwood数、成長時間と線形近似。
@@ -93,6 +93,10 @@ Ten original explanatory SVG diagrams accompany the relevant foundation lessons.
 
 32. [Schwarzschild解](https://koyamahr.github.io/astronomy-step-by-step/ja/advanced/schwarzschild/)：計量、静止時計、保存量、有効ポテンシャル、光子球、ISCO。
 
+33. [Kerr解](https://koyamahr.github.io/astronomy-step-by-step/ja/advanced/kerr/)：静止限界、角速度の許容範囲、順行・逆行のISCO。
+34. [富松–佐藤解](https://koyamahr.github.io/astronomy-step-by-step/ja/advanced/tomimatsu-sato/)：δ＝2のErnstポテンシャル、軸上展開、四重極、環状特異点。
+35. [Lin–Mestel–Shu崩壊](https://koyamahr.github.io/astronomy-step-by-step/ja/advanced/lin-mestel-shu/)：非回転・圧力なし一様楕円体の半軸ODE、球の解析解、エネルギー検算、有限の時間再生。
+
 - 球対称の平衡と恒星：Lane–Emden、Bonnor–Ebert球、林限界と林トラック
 - 回転と非球対称：楕円体ポテンシャル、テンソルビリアルとMaclaurin／Jacobi系列
 - 重力不安定性と宇宙構造：Jeans不安定性・Jeans swindle、Zel’dovichパンケーキ、Press–Schechter質量関数
@@ -106,17 +110,17 @@ Ten original explanatory SVG diagrams accompany the relevant foundation lessons.
 - 相対論の時空：Schwarzschild計量、静止時計、光と質量を持つ粒子の円軌道
 - 非平衡・多成分：2温度プラズマ、両極性拡散、3体化学反応。微視的な係数は適用条件つきの入力として使う。
 
-The advanced volume now publishes all 32 bilingual worked chapters in eleven areas. Each includes assumptions, equations, a question, references, and an interactive panel. Models are checked against analytic limits, reference tables, conservation laws and PDE residuals. The Shu/LPH panel integrates full post-formation similarity profiles, checks Shu (1977) Table 2 and mass conservation, and animates shells at fixed enclosed mass. The rounded LPH outer coefficients are explicit inputs, not independently derived eigenvalues. Rotating-figure and gravothermal stability thresholds are supplied perturbation results, distinct from the computed equilibria.
+The advanced volume now publishes all 35 bilingual worked chapters in eleven areas. Each includes assumptions, equations, a question, references, and an interactive panel. Models are checked against analytic limits, reference tables, conservation laws and PDE residuals. The Shu/LPH panel integrates full post-formation similarity profiles, checks Shu (1977) Table 2 and mass conservation, and animates shells at fixed enclosed mass. The rounded LPH outer coefficients are explicit inputs, not independently derived eigenvalues. Rotating-figure and gravothermal stability thresholds are supplied perturbation results, distinct from the computed equilibria.
 
-宇宙膨張、Press–Schechter、林トラック、Zel’dovich、Fokker–Planck、粘性円盤、Shu・LPH等温崩壊、2温度緩和、両極性拡散、3体化学反応、Schwarzschild時空の静止時計に、再生・一時停止・最初からの操作があります。自動再生はせず、手動入力・言語変更・章移動・非表示時に停止します。平衡系列を時間発展のようには再生しません。図の出典、規格化、原図や実データとの違いを明記します。
+宇宙膨張、Press–Schechter、林トラック、Zel’dovich、Fokker–Planck、粘性円盤、Shu・LPH等温崩壊、2温度緩和、両極性拡散、3体化学反応、Schwarzschild時空の静止時計、Lin–Mestel–Shu崩壊に、再生・一時停止・最初からの操作があります。自動再生はせず、手動入力・言語変更・章移動・非表示時に停止します。平衡系列を時間発展のようには再生しません。図の出典、規格化、原図や実データとの違いを明記します。
 
-Eleven panels have finite, opt-in playback. Each states the time variable or comparison parameter used; equilibrium sequences are not animated as physical evolution. Plot provenance distinguishes recomputed theoretical models from reproductions of published figures or simulation data.
+Twelve panels have finite, opt-in playback. Each states the time variable or comparison parameter used; equilibrium sequences are not animated as physical evolution. Plot provenance distinguishes recomputed theoretical models from reproductions of published figures or simulation data.
 
 ## ソリューションライブラリー / Solution library
 
-[解ライブラリー](https://koyamahr.github.io/astronomy-step-by-step/ja/solutions/)は17項目を6分野に整理し、14項目を本文へ接続。各項目で解の種類・仮定・境界条件・自由なパラメーター・適用範囲を比較できます。検索・分野・公開状況で絞り込めます。Kerr、富松–佐藤、Lin–Mestel–Shuの3項目は構想として明示し、本文未公開です。
+[解ライブラリー](https://koyamahr.github.io/astronomy-step-by-step/ja/solutions/)は17項目を6分野に整理し、全項目を日英の本文・操作図へ接続。各項目で解の種類・仮定・境界条件・自由なパラメーター・適用範囲を比較できます。検索・分野・公開状況で絞り込めます。Kerr、富松–佐藤（δ＝2）、Lin–Mestel–Shuの3章を追加し、構想だけの項目を解消しました。
 
-The bilingual solution library compares 17 entries, linking 14 to worked chapters and marking three as planned. Filters and expanded cards persist across language switches. Exact, numerical, similarity and approximate solutions are distinguished without treating them as mutually exclusive categories.
+The bilingual solution library compares 17 entries, linking all 17 to bilingual worked chapters and interactive panels. Filters and expanded cards persist across language switches. Exact, numerical, similarity and approximate solutions are distinguished without treating them as mutually exclusive categories.
 
 ## 番外編 / Numerical supplement
 
@@ -147,9 +151,9 @@ No differential equations are solved in Foundations. Its optional entropy-maximi
 2. GitHubの **Settings → Pages → Build and deployment → Source** を **GitHub Actions** に設定します。
 3. **Actions** で **Deploy astronomy textbook to GitHub Pages** を実行します。以後 `main` へのpushで自動反映されます。
 
-ワークフローは本文入りのHTMLを生成し、検証済みの `dist/` を公開します。各章は `/ja/chapter/chandra/`、`/en/advanced/lane-emden/` など日英別の独立したURLを持ちます。旧 `?lang=en#/chapter/chandra` は同じ章の新URLに引き継がれます。各ページのタイトル・説明文・canonical・日英のhreflangと、全110ページの `sitemap.xml` を生成します。公開URLはGitHubのPages画面とデプロイ結果で確認できます。
+ワークフローは本文入りのHTMLを生成し、検証済みの `dist/` を公開します。各章は `/ja/chapter/chandra/`、`/en/advanced/lane-emden/` など日英別の独立したURLを持ちます。旧 `?lang=en#/chapter/chandra` は同じ章の新URLに引き継がれます。各ページのタイトル・説明文・canonical・日英のhreflangと、全116ページの `sitemap.xml` を生成します。公開URLはGitHubのPages画面とデプロイ結果で確認できます。
 
-The included workflow validates the content, generates and checks 110 static bilingual pages, and deploys `dist/` to [GitHub Pages](https://koyamahr.github.io/astronomy-step-by-step/). The source is maintained in [koyamahr/astronomy-step-by-step](https://github.com/koyamahr/astronomy-step-by-step). Further pushes to `main` update the site automatically.
+The included workflow validates the content, generates and checks 116 static bilingual pages, and deploys `dist/` to [GitHub Pages](https://koyamahr.github.io/astronomy-step-by-step/). The source is maintained in [koyamahr/astronomy-step-by-step](https://github.com/koyamahr/astronomy-step-by-step). Further pushes to `main` update the site automatically.
 
 設定の詳細は[GitHub公式のPagesワークフロー案内](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)も参照できます。
 
@@ -198,7 +202,7 @@ Nonequilibrium checks cover conserved electron–ion energy and increasing entro
 
 Ostriker cylinder checks cover hydrostatic and cylindrical virial balance, Gauss’s law, integrated line mass, density scaling, boundary pressure, and projected column density.
 
-`node scripts/check.mjs` validates all 48 worked chapters in both languages, plus the 32-topic syllabus. Press–Schechter checks cover the EdS collapse threshold, Gaussian-tail values and convergence, mass normalization, the cumulative/differential relation, self-similar scaling, and distinct mass/number measures. The final ten chapters add checks of ellipsoidal Poisson sums and Jacobi table values, the Lagrangian mass Jacobian, contraction energy, relaxation scaling, OU normalization and PDE residuals, boxed-sphere turning points, viscous-disk mass/angular momentum/PDE budgets, collapse asymptotes and integrated ODEs, Shu’s Table 2, half-step and A → 2⁺ convergence, shell mass conservation and dr/dt = u, and SI/Gaussian pulsar-charge consistency. New gas/disk checks cover the Bonnor–Ebert critical mass and step convergence, transonic branches and Bernoulli conservation, Jeans scaling, ionization photon balance, viscous transport scaling, and MRI/Toomre analytic thresholds. Numerical checks also compare Lane–Emden n = 1 with sin(ξ)/ξ and ξ₁ = π; n = 3 with standard structure constants and the ideal Chandrasekhar mass; and Sedov profiles with shock jumps, swept-up mass conservation, β ≈ 1.15167, and half-step convergence. RT/KH checks cover analytic growth rates, wavenumber scaling, stable density ordering, and gravity versus shear. SZ checks cover the Rayleigh–Jeans limit, thermal null, optical-depth units, pressure degeneracy, kinetic signs, photon conservation, and mean energy gain.
+`node scripts/check.mjs` validates all 51 worked chapters in both languages, plus the 35-topic syllabus. Press–Schechter checks cover the EdS collapse threshold, Gaussian-tail values and convergence, mass normalization, the cumulative/differential relation, self-similar scaling, and distinct mass/number measures. The final ten chapters add checks of ellipsoidal Poisson sums and Jacobi table values, the Lagrangian mass Jacobian, contraction energy, relaxation scaling, OU normalization and PDE residuals, boxed-sphere turning points, viscous-disk mass/angular momentum/PDE budgets, collapse asymptotes and integrated ODEs, Shu’s Table 2, half-step and A → 2⁺ convergence, shell mass conservation and dr/dt = u, and SI/Gaussian pulsar-charge consistency. New gas/disk checks cover the Bonnor–Ebert critical mass and step convergence, transonic branches and Bernoulli conservation, Jeans scaling, ionization photon balance, viscous transport scaling, and MRI/Toomre analytic thresholds. Numerical checks also compare Lane–Emden n = 1 with sin(ξ)/ξ and ξ₁ = π; n = 3 with standard structure constants and the ideal Chandrasekhar mass; and Sedov profiles with shock jumps, swept-up mass conservation, β ≈ 1.15167, and half-step convergence. RT/KH checks cover analytic growth rates, wavenumber scaling, stable density ordering, and gravity versus shear. SZ checks cover the Rayleigh–Jeans limit, thermal null, optical-depth units, pressure degeneracy, kinetic signs, photon conservation, and mean energy gain.
 
 数値パネルは教育用の理想模型です。仮定、規格化、中心付近の処理、近似の範囲は各章に記載しています。言語と読了記録はブラウザ内に保存し、入門編・発展編で別々に管理します。
 
@@ -207,3 +211,5 @@ The angular-momentum chapter opens the disk area. It distinguishes specific angu
 Supplement checks cover parsec and nominal solar-mass conversions, electron rest energy, the Gaussian charge relation to α, dimensional factors for G, eV-to-K scales, Hubble units and inverse scaling, invalid inputs, and SI/Gaussian magnetic energy-density agreement.
 
 [Ostrikerの等温円柱と限界線密度](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/isothermal-cylinder) は、Jeremiah P. Ostriker（1937–2025）を追悼する新しい本文です。原論文§IIIの解析解を、導出・図・検算とともに紹介します。
+
+The three completed solution entries add Kerr metric and ISCO checks, TS2 Ernst-equation residuals and multipoles, and homogeneous-spheroid ODE/energy/analytic-sphere checks. All 17 solution entries now have lessons; the advanced volume contains 35 chapters.

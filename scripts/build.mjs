@@ -14,7 +14,7 @@ const context = {
   location: new URL(site),
   document: { title: '', currentScript: { src: `${site}routing.js` }, querySelector: () => null }
 };
-const contentFiles = ['illustrations', 'content', 'series', 'advanced-content', 'advanced-math', 'advanced-gas-math', 'advanced-gas-content', 'press-schechter', 'advanced-dynamics-math', 'collapse-math', 'advanced-dynamics-content', 'nonequilibrium-math', 'nonequilibrium-content', 'schwarzschild', 'solutions', 'numbers', 'books', 'routing', 'app'];
+const contentFiles = ['illustrations', 'content', 'series', 'advanced-content', 'advanced-math', 'advanced-gas-math', 'advanced-gas-content', 'press-schechter', 'advanced-dynamics-math', 'collapse-math', 'advanced-dynamics-content', 'nonequilibrium-math', 'nonequilibrium-content', 'schwarzschild', 'solution-extensions-math', 'solution-extensions-content', 'solutions', 'numbers', 'books', 'routing', 'app'];
 for (const file of contentFiles) runInNewContext(readFileSync(resolve(root, `docs/${file}.js`), 'utf8'), context, { filename: `${file}.js` });
 const { routes, render } = context.window.AstroPage;
 const { path, rewrite } = context.window.AstroRouting;

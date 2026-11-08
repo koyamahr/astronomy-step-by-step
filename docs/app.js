@@ -193,6 +193,7 @@
       if (['number-converter', 'hubble-units'].includes(el.dataset.lab)) numbers.mount(el, locale);
       if (['lane-emden', 'sedov', 'acceleration', 'synchrotron', 'rayleigh-taylor', 'kelvin-helmholtz', 'sunyaev-zeldovich', 'angular-momentum'].includes(el.dataset.lab)) window.AstroAdvancedLabs.mount(el, locale);
       if (window.AstroGasLabs.supports(el.dataset.lab)) window.AstroGasLabs.mount(el, locale);
+      if (window.AstroSolutionLabs.supports(el.dataset.lab)) window.AstroSolutionLabs.mount(el, locale);
       if (el.dataset.lab === 'schwarzschild') window.AstroSchwarzschild.mount(el, locale);
       if (el.dataset.lab === 'press-schechter') window.AstroPressSchechter.mount(el, locale);
       if (window.AstroDynamicsLabs.supports(el.dataset.lab)) window.AstroDynamicsLabs.mount(el, locale);

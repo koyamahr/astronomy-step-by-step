@@ -6,7 +6,7 @@ import { runInNewContext } from 'node:vm';
 import { execFileSync } from 'node:child_process';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'advanced-gas-math.js', 'advanced-gas-content.js', 'advanced-gas-labs.js', 'numbers.js', 'books.js', 'illustrations.js', 'animation.js', 'press-schechter.js', 'advanced-dynamics-math.js', 'advanced-dynamics-content.js', 'advanced-dynamics-labs.js', 'collapse-math.js', 'collapse-lab.js', 'nonequilibrium-math.js', 'nonequilibrium-content.js', 'nonequilibrium-labs.js', 'schwarzschild.js', 'solutions.js']) {
+for (const name of ['app.js', 'content.js', 'series.js', 'advanced-content.js', 'advanced-math.js', 'advanced-labs.js', 'advanced-gas-math.js', 'advanced-gas-content.js', 'advanced-gas-labs.js', 'numbers.js', 'books.js', 'illustrations.js', 'animation.js', 'press-schechter.js', 'advanced-dynamics-math.js', 'advanced-dynamics-content.js', 'advanced-dynamics-labs.js', 'collapse-math.js', 'collapse-lab.js', 'nonequilibrium-math.js', 'nonequilibrium-content.js', 'nonequilibrium-labs.js', 'schwarzschild.js', 'solution-extensions-math.js', 'solution-extensions-content.js', 'solution-extensions-labs.js', 'solutions.js']) {
   execFileSync(process.execPath, ['--check', resolve(root, 'docs', name)]);
 }
 const context = { window: {} };
@@ -25,6 +25,8 @@ runInNewContext(readFileSync(resolve(root, 'docs/advanced-dynamics-content.js'),
 runInNewContext(readFileSync(resolve(root, 'docs/nonequilibrium-math.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/nonequilibrium-content.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/schwarzschild.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/solution-extensions-math.js'), 'utf8'), context);
+runInNewContext(readFileSync(resolve(root, 'docs/solution-extensions-content.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/solutions.js'), 'utf8'), context);
 runInNewContext(readFileSync(resolve(root, 'docs/books.js'), 'utf8'), context);
 const { chapters, sources, renderBody } = context.window.AstroContent;
@@ -120,9 +122,9 @@ for (const group of series.groups) {
     assert(topic.reference[0] && topic.reference[1].startsWith('https://'), `${topic.id}: missing reference`);
   }
 }
-assert.equal(topicIds.size, 32, 'Expected the expanded 32-topic advanced syllabus');
+assert.equal(topicIds.size, 35, 'Expected the expanded 35-topic advanced syllabus');
 const advanced = context.window.AstroAdvanced;
-assert.equal(advanced.chapters.length, 32, 'Expected all thirty-two worked advanced chapters');
+assert.equal(advanced.chapters.length, 35, 'Expected all thirty-five worked advanced chapters');
 assert.equal(new Set(advanced.chapters.map(c => c.id)).size, advanced.chapters.length);
 for (const c of advanced.chapters) {
   assert(topicIds.has(c.id), `${c.id}: missing syllabus entry`);
@@ -678,7 +680,7 @@ assert.throws(()=>NE.twoTemperature(2,1.1));
 // Library entries distinguish availability and refer to real chapters.
 const library=context.window.AstroSolutions;
 assert.equal(library.entries.length,17);
-assert.equal(library.entries.filter(e=>e.status==='ready').length,14);
+assert.equal(library.entries.filter(e=>e.status==='ready').length,17);
 assert.equal(new Set(library.entries.map(e=>e.id)).size,17);
 for(const entry of library.entries) {
   for(const key of ['title','kind','assumptions','boundary','parameters','limits'])bilingual(entry[key],entry.id+'.'+key);
@@ -688,8 +690,8 @@ for(const entry of library.entries) {
 }
 assert.equal(library.matching('Bondi').some(e=>e.id==='bondi'),true);
 assert.equal(library.matching('Ｂｏｎｄｉ').some(e=>e.id==='bondi'),true,'Normalize full-width search');
-assert.equal(library.matching('', 'relativity', 'ready').length,1);
-assert.equal(library.matching('', 'relativity', 'planned').length,2);
+assert.equal(library.matching('', 'relativity', 'ready').length,3);
+assert.equal(library.matching('', 'relativity', 'planned').length,0);
 assert.equal(library.matching('missing-solution-query').length,0);
 for(const language of ['ja','en']) {
   const html=library.renderBody(language);checkMarkup(html,'solution library '+language);
@@ -730,6 +732,66 @@ relative((1-GR.model(1,weakR).rate)*weakR,1,1e-6,'Weak-field clock limit');
 for(const invalid of [0,-1,NaN,Infinity])assert.throws(()=>GR.model(invalid));
 assert.throws(()=>GR.model(1,2));assert.throws(()=>GR.model(1,1.9));assert.throws(()=>GR.model(1,6,-1));
 assert.throws(()=>GR.circles(-1));
+// New solutions: independent limits, field-equation residuals and conserved quantities.
+const SX=context.window.AstroSolutionMath;
+close(SX.isco(0),6,1e-14,'Kerr nonrotating ISCO');
+close(SX.isco(1),1,1e-14,'Prograde extremal limit');
+close(SX.isco(1,-1),9,1e-14,'Retrograde extremal limit');
+close(SX.isco(.5),4.233002529530826,1e-12,'BPT prograde reference at spin 0.5');
+close(SX.isco(.5,-1),7.554584714512358,1e-12,'BPT retrograde reference at spin 0.5');
+for(const chi of [0,.2,.5,.8,.998])for(const direction of [-1,1]){
+  const R=SX.isco(chi,direction);
+  close(R*R-6*R+8*direction*chi*Math.sqrt(R)-3*chi*chi,0,2e-12,'Independent ISCO marginal-stability equation');
+}
+for(const chi of [0,.5,.95])for(const theta of [.2,.7,Math.PI/2]){
+  const d=SX.kerr(chi,theta,4),Delta=16-8+chi*chi;
+  close(d.gtphi*d.gtphi-d.gtt*d.gphiphi,Delta*Math.sin(theta)**2,1e-13,'Kerr metric determinant identity');
+  for(const omega of [d.omegaMin,d.omegaMax])close(d.gtt+2*d.gtphi*omega+d.gphiphi*omega*omega,0,1e-13,'Null stationary angular-velocity bounds');
+  assert(d.gtt+2*d.gtphi*d.omega+d.gphiphi*d.omega*d.omega<0,'ZAMO timelike outside horizon');
+}
+const dragged=SX.kerr(.8,Math.PI/2,1.8);
+assert.equal(dragged.staticRate,null);assert(dragged.omegaMin>0,'Ergoregion forces co-rotation');
+close(SX.kerr(0,Math.PI/2,6).staticRate,Math.sqrt(2/3),1e-14,'Schwarzschild clock limit');
+const nearH=SX.kerr(.8,Math.PI/2,1.6000001);
+close(nearH.omega,.8/(2*1.6),1e-7,'Horizon angular-velocity limit');
+for(const delta of [1,2])for(const x of [1.5,2.7,5]){
+  close(SX.ernst(x,.3,0,delta).re,((x-1)/(x+1))**delta,1e-14,'Static Ernst limit');
+  for(const q of [.2,.6,.95])for(const y of [-.4,.2,.7]){
+    assert(SX.ernstResidual(x,y,q,delta,5e-5)<2e-6,'Complex vacuum Ernst equation residual');
+    const a=SX.ernst(x,y,q,delta),b=SX.ernst(x,y,-q,delta);
+    close(a.re,b.re,1e-14,'Spin reflection real potential');close(a.im,-b.im,1e-14,'Spin reflection twist');
+    if(delta===2)close(a.re,SX.ts2Metric(x,y,q).f,3e-13,'Ernst versus independent metric representation');
+    else {const R=1+Math.sqrt(1-q*q)*x;close(a.re,1-2*R/(R*R+q*q*y*y),1e-14,'Kerr Ernst versus Boyer-Lindquist metric');}
+  }
+}
+assert(SX.ernstResidual(1.5,.2,.95,2,1e-4)<SX.ernstResidual(1.5,.2,.95,2,2e-4)/3,'Ernst finite-difference refinement near steep field');
+close(SX.quadrupole(0),-.25,1e-14,'TS2 static quadrupole');
+close(SX.quadrupole(.6)-SX.quadrupole(.6,1),-.16,1e-14,'Quadrupole excess at equal mass and spin');
+assert.equal(SX.ring(0),null);
+for(const q of [.1,.5,.9,.98]){const r=SX.ring(q),p=Math.sqrt(1-q*q);assert(r.x>1&&r.rhoOverM>0);close(p*p*r.x**4+2*p*r.x*(r.x*r.x-1)-1,0,3e-14,'Ring singularity polynomial');}
+for(const q of [.4,.7,.999999,1,1.000001,1.5,2.5]){
+  const a=SX.spheroid(q),ref=dynamics.ellipsoid(1,1,q);
+  close(a.equatorial,ref.A[0],3e-9,'Spheroid coefficient versus independent quadrature');
+  close(a.polar,ref.A[2],3e-9,'Polar coefficient versus independent quadrature');
+  close(a.potentialIntegral,ref.potentialIntegral,3e-9,'Energy integral versus independent quadrature');
+}
+for(const q of [.4,.7,1,1.5,2.5]){
+  const r=SX.collapse(q),last=r.points.at(-1);
+  assert(r.energyError<1e-6,'Homogeneous collapse energy conservation');
+  assert(r.points.every(p=>p.a>0&&p.c>0&&p.density>=1),'Stop before caustic');
+  if(q<1)assert(last.c/last.a<q,'Oblate collapse accentuates flattening');
+  if(q>1)assert(last.c/last.a>q,'Prolate collapse accentuates elongation');
+  if(q===1)for(const p of r.points.filter((_,i)=>i%40===0)){
+    let lo=0,hi=Math.PI;for(let i=0;i<70;i++){const eta=(lo+hi)/2;if(Math.sqrt(3)*(eta+Math.sin(eta))/4<p.time)lo=eta;else hi=eta;}
+    close(p.a,(1+Math.cos((lo+hi)/2))/2,3e-8,'Spherical collapse parametric analytic solution');
+    close(p.c,p.a,1e-13,'Spherical symmetry');
+  }
+}
+const at=(r,time)=>{const j=r.points.findIndex(p=>p.time>=time),a=r.points[j-1],b=r.points[j],w=(time-a.time)/(b.time-a.time);return{a:a.a+(b.a-a.a)*w,c:a.c+(b.c-a.c)*w};};
+for(const q of [.7,1.5]){const coarse=at(SX.collapse(q,.004),1),fine=at(SX.collapse(q,.002),1);close(coarse.a,fine.a,2e-7,'Axis time-step refinement');close(coarse.c,fine.c,2e-7,'Polar time-step refinement');}
+for(const invalid of [-1,NaN,Infinity])assert.throws(()=>SX.isco(invalid));
+assert.throws(()=>SX.kerr(.8,Math.PI/2,1.5));assert.throws(()=>SX.ernst(1,0));assert.throws(()=>SX.ernst(2,0,1));assert.throws(()=>SX.collapse(.1));
+
 const index = readFileSync(resolve(root, 'docs/index.html'), 'utf8');
 for (const asset of index.matchAll(/(?:src|href)="\.\/([^"#]+)"/g)) {
   assert(existsSync(resolve(root, 'docs', asset[1].split('?')[0])), `Missing local asset ${asset[1]}`);
