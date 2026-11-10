@@ -55,3 +55,6 @@ writeFileSync(resolve(output, '.nojekyll'), '');
 const entries = routes.flatMap(route => ['ja', 'en'].map(language => `<url><loc>${origin}${path(route, language)}</loc>${['ja', 'en'].map(lang => `<xhtml:link rel="alternate" hreflang="${lang}" href="${origin}${path(route, lang)}"/>`).join('')}</url>`));
 writeFileSync(resolve(output, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${entries.join('\n')}\n</urlset>\n`);
 console.log(`Built ${routes.length * 2} bilingual static pages and sitemap in dist/.`);
+
+// Publish the exact implementation-code license and its scope.
+for (const file of ["LICENSE", "LICENSING.md", "THIRD_PARTY_NOTICES.md"]) cpSync(resolve(root, file), resolve(output, file === "LICENSE" ? "MIT-LICENSE.txt" : file));

@@ -213,3 +213,8 @@ Supplement checks cover parsec and nominal solar-mass conversions, electron rest
 [Ostrikerの等温円柱と限界線密度](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/isothermal-cylinder) は、Jeremiah P. Ostriker（1937–2025）を追悼する新しい本文です。原論文§IIIの解析解を、導出・図・検算とともに紹介します。
 
 The three completed solution entries add Kerr metric and ISCO checks, TS2 Ernst-equation residuals and multipoles, and homogeneous-spheroid ODE/energy/analytic-sphere checks. All 17 solution entries now have lessons; the advanced volume contains 35 chapters.
+
+
+## Licensing / ライセンス
+
+Original implementation code: **MIT** ([LICENSE](LICENSE)). Text, figures, photographs, book material and data are **excluded** and follow separate terms; see [LICENSING.md](LICENSING.md) and [third-party notices](THIRD_PARTY_NOTICES.md). Public guide: https://koyamahr.github.io/rights/ .
