@@ -4,7 +4,7 @@
 
 A bilingual Japanese–English series: Foundations explores the universe through school algebra; Advanced covers equilibrium, instability, transport, and similarity solutions. All 16 foundation lessons are available. All 35 advanced worked chapters are also available, organized into a eleven-area learning guide.
 
-[教科書・総説集ガイド](https://koyamahr.github.io/astronomy-step-by-step/#/books)では、教科書・専門書8冊と『Protostars and Planets III』を、予備知識・関連章・出版社のリンクとともに日英で紹介しています。PP IIIには出版社の無料公開版へのリンクもあります。 各本に参照版のISBN、AmazonのISBN検索、出版社へのリンクを掲載。Open Libraryの版レコードと表紙を照合し、表紙が未収録または読み込めない場合は書名・著者名の代替表示を使います。
+[教科書・総説集ガイド](https://koyamarium.github.io/astronomy-step-by-step/#/books)では、教科書・専門書8冊と『Protostars and Planets III』を、予備知識・関連章・出版社のリンクとともに日英で紹介しています。PP IIIには出版社の無料公開版へのリンクもあります。 各本に参照版のISBN、AmazonのISBN検索、出版社へのリンクを掲載。Open Libraryの版レコードと表紙を照合し、表紙が未収録または読み込めない場合は書名・著者名の代替表示を使います。
 
 ## ローカルで読む / Read locally
 
@@ -53,49 +53,49 @@ Ten original explanatory SVG diagrams accompany the relevant foundation lessons.
 
 **平衡・不安定性・輸送・相似解 / Equilibrium, instability, transport, and similarity solutions**
 
-[発展編](https://koyamahr.github.io/astronomy-step-by-step/#/advanced)は11分野・35題材。以下の35章は、導出・確認問題・操作パネル・参考資料を日英で公開しています。全題材の本文を公開しています。
+[発展編](https://koyamarium.github.io/astronomy-step-by-step/#/advanced)は11分野・35題材。以下の35章は、導出・確認問題・操作パネル・参考資料を日英で公開しています。全題材の本文を公開しています。
 
-1. [Lane–Emden方程式](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/lane-emden)：静水圧平衡、無次元化、中心級数、数値積分、チャンドラセカール質量の係数。
-2. [Rayleigh–Taylor不安定性](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/rayleigh-taylor)：ポテンシャル流、境界条件、Atwood数、成長時間と線形近似。
-3. [Kelvin–Helmholtz不安定性](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/kelvin-helmholtz)：移流、速度差、分散関係、重力による安定化と非線形混合の区別。
-4. [Sedov–Taylor爆風解](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/sedov)：Rankine–Hugoniot条件、次元解析、相似方程式、内部構造、エネルギー規格化。
-5. [衝撃波と粒子加速](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/shock-acceleration)：一次Fermi加速、逃走確率、べき乗指数、加速時間と限界。
-6. [シンクロトロン放射](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/synchrotron)：臨界周波数、放射パワー、電子と光の指数、冷却方程式と継続注入。
-7. [逆コンプトン散乱とSZ効果](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/sunyaev-zeldovich)：Compton y、電子圧力、CMBスペクトルの変化、約217 GHzの零点、運動学的SZ。
-8. [角運動量輸送と降着](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/angular-momentum)：円軌道、環の間の交換、解放エネルギー、トルク収支、円盤風、α・MRIへの接続。
+1. [Lane–Emden方程式](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/lane-emden)：静水圧平衡、無次元化、中心級数、数値積分、チャンドラセカール質量の係数。
+2. [Rayleigh–Taylor不安定性](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/rayleigh-taylor)：ポテンシャル流、境界条件、Atwood数、成長時間と線形近似。
+3. [Kelvin–Helmholtz不安定性](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/kelvin-helmholtz)：移流、速度差、分散関係、重力による安定化と非線形混合の区別。
+4. [Sedov–Taylor爆風解](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/sedov)：Rankine–Hugoniot条件、次元解析、相似方程式、内部構造、エネルギー規格化。
+5. [衝撃波と粒子加速](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/shock-acceleration)：一次Fermi加速、逃走確率、べき乗指数、加速時間と限界。
+6. [シンクロトロン放射](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/synchrotron)：臨界周波数、放射パワー、電子と光の指数、冷却方程式と継続注入。
+7. [逆コンプトン散乱とSZ効果](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/sunyaev-zeldovich)：Compton y、電子圧力、CMBスペクトルの変化、約217 GHzの零点、運動学的SZ。
+8. [角運動量輸送と降着](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/angular-momentum)：円軌道、環の間の交換、解放エネルギー、トルク収支、円盤風、α・MRIへの接続。
 
-9. [Bonnor–Ebert球](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/bonnor-ebert)：等温球、固定外圧の質量極大、中心級数と数値積分、安定性の条件。
-10. [Jeans不安定性](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/jeans)：背景重力の扱い、線形化、分散関係、Jeans長・質量・成長時間。
-11. [Bondi降着](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/bondi)：等温球対称流、音速点、Bernoulli積分、降着率と断熱流への接続。
-12. [Parker風](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/parker-wind)：臨界流出解、境界条件、加熱と密度の規格化。
-13. [Strömgren球](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/stromgren)：Case B、光子数の保存、電離半径と再結合時間、静止ガス中の前線成長。
-14. [α円盤](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/alpha-disk)：厚さ、応力と粘性の規約、定常降着、粘性時間と放射エネルギー。
-15. [MRI](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/mri)：磁気張力、変位の連立方程式、四次分散関係、不安定帯と最大成長率。
-16. [Toomre Q](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/toomre-q)：薄いガス円盤の重力、分散関係、Qの導出、最速波長と冷却の役割。
+9. [Bonnor–Ebert球](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/bonnor-ebert)：等温球、固定外圧の質量極大、中心級数と数値積分、安定性の条件。
+10. [Jeans不安定性](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/jeans)：背景重力の扱い、線形化、分散関係、Jeans長・質量・成長時間。
+11. [Bondi降着](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/bondi)：等温球対称流、音速点、Bernoulli積分、降着率と断熱流への接続。
+12. [Parker風](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/parker-wind)：臨界流出解、境界条件、加熱と密度の規格化。
+13. [Strömgren球](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/stromgren)：Case B、光子数の保存、電離半径と再結合時間、静止ガス中の前線成長。
+14. [α円盤](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/alpha-disk)：厚さ、応力と粘性の規約、定常降着、粘性時間と放射エネルギー。
+15. [MRI](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/mri)：磁気張力、変位の連立方程式、四次分散関係、不安定帯と最大成長率。
+16. [Toomre Q](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/toomre-q)：薄いガス円盤の重力、分散関係、Qの導出、最速波長と冷却の役割。
 
-17. [Press–Schechter理論](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/press-schechter)：球対称崩壊、Gaussianの裾、cloud-in-cloud問題、質量関数、成長と相似性。
+17. [Press–Schechter理論](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/press-schechter)：球対称崩壊、Gaussianの裾、cloud-in-cloud問題、質量関数、成長と相似性。
 
-18. [林限界と林トラック](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/hayashi)：光球条件、対流、不透明度の近似、収縮エネルギーとH–R図。
-19. [楕円体の重力ポテンシャル](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/ellipsoids)：均質楕円体の係数積分、Poisson方程式、自己重力エネルギー。
-20. [テンソルビリアルとMaclaurin／Jacobi系列](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/tensor-virial)：回転系と慣性系、表面の平衡条件、分岐と安定性。
-21. [Zel’dovich近似とパンケーキ](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/zeldovich)：ラグランジュ写像、体積の行列式、軌道交差前の密度と質量保存。
-22. [Larson–Penston／Shuの等温崩壊](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/isothermal-collapse)：相似方程式、音速点、初期・境界条件、数値積分した密度・速度の両対数プロファイルとガス殻のアニメーション。
-23. [2体緩和と重力散乱](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/relaxation)：弱い散乱、Coulomb対数、交差時間と半質量緩和時間。
-24. [Fokker–Planck方程式](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/fokker-planck)：ドリフト、拡散、確率流、OU解析解と星団の適用条件。
-25. [グラボサーマル・カタストロフィー](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/gravothermal)：負の熱容量、箱の等温球、熱力学的条件による32.1・709の違い。
-26. [粘性円盤相似解](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/viscous-disk)：面密度のPDE、降着と広がり、質量と角運動量の収支。
-27. [Goldreich–Julian密度](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/goldreich-julian)：共回転、正味電荷、単位系、光円柱と極冠。
-28. [Ostrikerの等温円柱と限界線密度](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/isothermal-cylinder)：解析解、限界線密度、外圧、柱密度。
+18. [林限界と林トラック](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/hayashi)：光球条件、対流、不透明度の近似、収縮エネルギーとH–R図。
+19. [楕円体の重力ポテンシャル](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/ellipsoids)：均質楕円体の係数積分、Poisson方程式、自己重力エネルギー。
+20. [テンソルビリアルとMaclaurin／Jacobi系列](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/tensor-virial)：回転系と慣性系、表面の平衡条件、分岐と安定性。
+21. [Zel’dovich近似とパンケーキ](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/zeldovich)：ラグランジュ写像、体積の行列式、軌道交差前の密度と質量保存。
+22. [Larson–Penston／Shuの等温崩壊](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/isothermal-collapse)：相似方程式、音速点、初期・境界条件、数値積分した密度・速度の両対数プロファイルとガス殻のアニメーション。
+23. [2体緩和と重力散乱](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/relaxation)：弱い散乱、Coulomb対数、交差時間と半質量緩和時間。
+24. [Fokker–Planck方程式](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/fokker-planck)：ドリフト、拡散、確率流、OU解析解と星団の適用条件。
+25. [グラボサーマル・カタストロフィー](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/gravothermal)：負の熱容量、箱の等温球、熱力学的条件による32.1・709の違い。
+26. [粘性円盤相似解](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/viscous-disk)：面密度のPDE、降着と広がり、質量と角運動量の収支。
+27. [Goldreich–Julian密度](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/goldreich-julian)：共回転、正味電荷、単位系、光円柱と極冠。
+28. [Ostrikerの等温円柱と限界線密度](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/isothermal-cylinder)：解析解、限界線密度、外圧、柱密度。
 
-29. [2温度プラズマと電子・イオンの緩和](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/two-temperature)：熱容量、Coulomb交換、温度差の減衰、流れの時間。
-30. [両極性拡散](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/ambipolar-diffusion)：イオン・中性粒子の摩擦、磁場の線形拡散、強結合と近似の条件。
-31. [3体化学反応と水素分子の形成](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/three-body-chemistry)：H＋H＋H、原子核保存、解析解、化学と重力の時計。
+29. [2温度プラズマと電子・イオンの緩和](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/two-temperature)：熱容量、Coulomb交換、温度差の減衰、流れの時間。
+30. [両極性拡散](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/ambipolar-diffusion)：イオン・中性粒子の摩擦、磁場の線形拡散、強結合と近似の条件。
+31. [3体化学反応と水素分子の形成](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/three-body-chemistry)：H＋H＋H、原子核保存、解析解、化学と重力の時計。
 
-32. [Schwarzschild解](https://koyamahr.github.io/astronomy-step-by-step/ja/advanced/schwarzschild/)：計量、静止時計、保存量、有効ポテンシャル、光子球、ISCO。
+32. [Schwarzschild解](https://koyamarium.github.io/astronomy-step-by-step/ja/advanced/schwarzschild/)：計量、静止時計、保存量、有効ポテンシャル、光子球、ISCO。
 
-33. [Kerr解](https://koyamahr.github.io/astronomy-step-by-step/ja/advanced/kerr/)：静止限界、角速度の許容範囲、順行・逆行のISCO。
-34. [富松–佐藤解](https://koyamahr.github.io/astronomy-step-by-step/ja/advanced/tomimatsu-sato/)：δ＝2のErnstポテンシャル、軸上展開、四重極、環状特異点。
-35. [Lin–Mestel–Shu崩壊](https://koyamahr.github.io/astronomy-step-by-step/ja/advanced/lin-mestel-shu/)：非回転・圧力なし一様楕円体の半軸ODE、球の解析解、エネルギー検算、有限の時間再生。
+33. [Kerr解](https://koyamarium.github.io/astronomy-step-by-step/ja/advanced/kerr/)：静止限界、角速度の許容範囲、順行・逆行のISCO。
+34. [富松–佐藤解](https://koyamarium.github.io/astronomy-step-by-step/ja/advanced/tomimatsu-sato/)：δ＝2のErnstポテンシャル、軸上展開、四重極、環状特異点。
+35. [Lin–Mestel–Shu崩壊](https://koyamarium.github.io/astronomy-step-by-step/ja/advanced/lin-mestel-shu/)：非回転・圧力なし一様楕円体の半軸ODE、球の解析解、エネルギー検算、有限の時間再生。
 
 - 球対称の平衡と恒星：Lane–Emden、Bonnor–Ebert球、林限界と林トラック
 - 回転と非球対称：楕円体ポテンシャル、テンソルビリアルとMaclaurin／Jacobi系列
@@ -118,13 +118,13 @@ Twelve panels have finite, opt-in playback. Each states the time variable or com
 
 ## ソリューションライブラリー / Solution library
 
-[解ライブラリー](https://koyamahr.github.io/astronomy-step-by-step/ja/solutions/)は17項目を6分野に整理し、全項目を日英の本文・操作図へ接続。各項目で解の種類・仮定・境界条件・自由なパラメーター・適用範囲を比較できます。検索・分野・公開状況で絞り込めます。Kerr、富松–佐藤（δ＝2）、Lin–Mestel–Shuの3章を追加し、構想だけの項目を解消しました。
+[解ライブラリー](https://koyamarium.github.io/astronomy-step-by-step/ja/solutions/)は17項目を6分野に整理し、全項目を日英の本文・操作図へ接続。各項目で解の種類・仮定・境界条件・自由なパラメーター・適用範囲を比較できます。検索・分野・公開状況で絞り込めます。Kerr、富松–佐藤（δ＝2）、Lin–Mestel–Shuの3章を追加し、構想だけの項目を解消しました。
 
 The bilingual solution library compares 17 entries, linking all 17 to bilingual worked chapters and interactive panels. Filters and expanded cards persist across language switches. Exact, numerical, similarity and approximate solutions are distinguished without treating them as mutually exclusive categories.
 
 ## 番外編 / Numerical supplement
 
-[宇宙物理の数字と単位](https://koyamahr.github.io/astronomy-step-by-step/?lang=ja#/appendix/numbers)を日英で公開。光速c、重力定数G、pc、h・ℏ、電子の静止質量とエネルギー、太陽質量、H₀、微細構造定数などの参照値を収録します。SIから機械的CGSへの次元による換算と、CGS–Gauss系で電磁気の式も変わる理由を説明します。
+[宇宙物理の数字と単位](https://koyamarium.github.io/astronomy-step-by-step/?lang=ja#/appendix/numbers)を日英で公開。光速c、重力定数G、pc、h・ℏ、電子の静止質量とエネルギー、太陽質量、H₀、微細構造定数などの参照値を収録します。SIから機械的CGSへの次元による換算と、CGS–Gauss系で電磁気の式も変わる理由を説明します。
 
 The bilingual supplement provides 12 reference cards, dimensional conversions, SI/Gaussian electromagnetic formulas, a Hubble-time slider, and converters for distance, mass, energy, and magnetic field. CODATA 2022 values, exact definitions, nominal solar scales, and illustrative H₀ values are distinguished. The supplement does not affect chapter-completion counts.
 
@@ -145,7 +145,7 @@ No differential equations are solved in Foundations. Its optional entropy-maximi
 
 ## GitHub Pagesで公開 / Deploy to GitHub Pages
 
-公開先：[教材サイト](https://koyamahr.github.io/astronomy-step-by-step/) · [GitHubリポジトリ](https://github.com/koyamahr/astronomy-step-by-step)
+公開先：[教材サイト](https://koyamarium.github.io/astronomy-step-by-step/) · [GitHubリポジトリ](https://github.com/koyamarium/astronomy-step-by-step)
 
 1. このフォルダの内容をGitHubリポジトリの `main` ブランチへpushします。
 2. GitHubの **Settings → Pages → Build and deployment → Source** を **GitHub Actions** に設定します。
@@ -153,7 +153,7 @@ No differential equations are solved in Foundations. Its optional entropy-maximi
 
 ワークフローは本文入りのHTMLを生成し、検証済みの `dist/` を公開します。各章は `/ja/chapter/chandra/`、`/en/advanced/lane-emden/` など日英別の独立したURLを持ちます。旧 `?lang=en#/chapter/chandra` は同じ章の新URLに引き継がれます。各ページのタイトル・説明文・canonical・日英のhreflangと、全116ページの `sitemap.xml` を生成します。公開URLはGitHubのPages画面とデプロイ結果で確認できます。
 
-The included workflow validates the content, generates and checks 116 static bilingual pages, and deploys `dist/` to [GitHub Pages](https://koyamahr.github.io/astronomy-step-by-step/). The source is maintained in [koyamahr/astronomy-step-by-step](https://github.com/koyamahr/astronomy-step-by-step). Further pushes to `main` update the site automatically.
+The included workflow validates the content, generates and checks 116 static bilingual pages, and deploys `dist/` to [GitHub Pages](https://koyamarium.github.io/astronomy-step-by-step/). The source is maintained in [koyamarium/astronomy-step-by-step](https://github.com/koyamarium/astronomy-step-by-step). Further pushes to `main` update the site automatically.
 
 設定の詳細は[GitHub公式のPagesワークフロー案内](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)も参照できます。
 
@@ -210,11 +210,11 @@ The angular-momentum chapter opens the disk area. It distinguishes specific angu
 
 Supplement checks cover parsec and nominal solar-mass conversions, electron rest energy, the Gaussian charge relation to α, dimensional factors for G, eV-to-K scales, Hubble units and inverse scaling, invalid inputs, and SI/Gaussian magnetic energy-density agreement.
 
-[Ostrikerの等温円柱と限界線密度](https://koyamahr.github.io/astronomy-step-by-step/#/advanced/isothermal-cylinder) は、Jeremiah P. Ostriker（1937–2025）を追悼する新しい本文です。原論文§IIIの解析解を、導出・図・検算とともに紹介します。
+[Ostrikerの等温円柱と限界線密度](https://koyamarium.github.io/astronomy-step-by-step/#/advanced/isothermal-cylinder) は、Jeremiah P. Ostriker（1937–2025）を追悼する新しい本文です。原論文§IIIの解析解を、導出・図・検算とともに紹介します。
 
 The three completed solution entries add Kerr metric and ISCO checks, TS2 Ernst-equation residuals and multipoles, and homogeneous-spheroid ODE/energy/analytic-sphere checks. All 17 solution entries now have lessons; the advanced volume contains 35 chapters.
 
 
 ## Licensing / ライセンス
 
-Original implementation code: **MIT** ([LICENSE](LICENSE)). Text, figures, photographs, book material and data are **excluded** and follow separate terms; see [LICENSING.md](LICENSING.md) and [third-party notices](THIRD_PARTY_NOTICES.md). Public guide: https://koyamahr.github.io/rights/ .
+Original implementation code: **MIT** ([LICENSE](LICENSE)). Text, figures, photographs, book material and data are **excluded** and follow separate terms; see [LICENSING.md](LICENSING.md) and [third-party notices](THIRD_PARTY_NOTICES.md). Public guide: https://koyamarium.github.io/rights/ .

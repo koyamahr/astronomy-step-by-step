@@ -41,9 +41,9 @@ GitHub Pagesの公開手順はREADMEを参照してください。
 
 ## GitHub Pages初回公開の確認
 
-2026年11月5日（日本時間）に、公開リポジトリ [koyamahr/astronomy-step-by-step](https://github.com/koyamahr/astronomy-step-by-step) と [教材サイト](https://koyamahr.github.io/astronomy-step-by-step/) を作成しました。
+2026年11月5日（日本時間）に、公開リポジトリ [koyamarium/astronomy-step-by-step](https://github.com/koyamarium/astronomy-step-by-step) と [教材サイト](https://koyamarium.github.io/astronomy-step-by-step/) を作成しました。
 
-- `1653611` の [GitHub Actions実行](https://github.com/koyamahr/astronomy-step-by-step/actions/runs/41997965962) が成功。
+- `1653611` の [GitHub Actions実行](https://github.com/koyamarium/astronomy-step-by-step/actions/runs/41997965962) が成功。
 - 公開設定はGitHub Actionsによるビルド、HTTPS強制。
 - 公開URLで日本語ホーム、トムソン散乱章の英語切り替え、チャンドラセカール章の直接再読み込みと圧縮パネルを確認。
 - 公開URLでのブラウザ警告・エラーログなし。

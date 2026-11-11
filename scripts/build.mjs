@@ -5,7 +5,7 @@ import { runInNewContext } from 'node:vm';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const output = resolve(root, 'dist');
-const origin = 'https://koyamahr.github.io';
+const origin = 'https://koyamarium.github.io';
 const site = `${origin}/astronomy-step-by-step/`;
 const template = readFileSync(resolve(root, 'docs/index.html'), 'utf8');
 const escape = text => String(text).replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');

@@ -324,7 +324,7 @@
   }
 
   function updateMetadata(page, route) {
-    const canonical = `https://koyamahr.github.io${routing.path(route, locale)}`;
+    const canonical = `https://koyamarium.github.io${routing.path(route, locale)}`;
     function set(tag, selector, attributes) {
       let element = document.head.querySelector(selector);
       if (!element) { element = document.createElement(tag); document.head.append(element); }
@@ -332,7 +332,7 @@
     }
     set('meta', 'meta[name="description"]', { name: 'description', content: page.description });
     set('link', 'link[rel="canonical"]', { rel: 'canonical', href: canonical });
-    for (const language of ['ja', 'en']) set('link', `link[hreflang="${language}"]`, { rel: 'alternate', hreflang: language, href: `https://koyamahr.github.io${routing.path(route, language)}` });
+    for (const language of ['ja', 'en']) set('link', `link[hreflang="${language}"]`, { rel: 'alternate', hreflang: language, href: `https://koyamarium.github.io${routing.path(route, language)}` });
     for (const [property, content] of Object.entries({ 'og:title': page.title, 'og:description': page.description, 'og:url': canonical, 'og:type': 'website' })) set('meta', `meta[property="${property}"]`, { property, content });
   }
 

@@ -6,7 +6,7 @@ import { runInNewContext } from 'node:vm';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const output = resolve(root, 'dist');
-const site = 'https://koyamahr.github.io/astronomy-step-by-step/';
+const site = 'https://koyamarium.github.io/astronomy-step-by-step/';
 const sitemap = readFileSync(resolve(output, 'sitemap.xml'), 'utf8');
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
 assert.equal(urls.length, 116);
